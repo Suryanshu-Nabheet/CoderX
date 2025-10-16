@@ -320,7 +320,7 @@ export const Menu = () => {
       >
         <div className="h-12 flex items-center justify-between px-4 border-b border-gray-800 bg-gray-900 rounded-tr-2xl">
           <div className="flex items-center gap-2">
-            <img src="/logo.png" alt="CoderX Logo" className="w-6 h-6 object-contain" />
+            <img src="/logo.png" alt="CoderX Logo" className="w-8 h-8 object-contain" />
           </div>
           <div className="flex items-center gap-3">
             <span className="font-medium text-sm text-white truncate">{profile?.username || 'Guest User'}</span>
