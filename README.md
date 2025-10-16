@@ -1,8 +1,27 @@
-# CoderX
+[![CoderX: AI-Powered Development Platform](./public/social_preview_index.jpg)](https://github.com/Suryanshu-Nabheet/CoderX)
 
-[![CoderX: AI-Powered Full-Stack Web Development Platform](./public/social_preview_index.jpg)](https://github.com/Suryanshu-Nabheet/CoderX)
+<div align="center">
+
+# CoderX
+### AI-Powered Development Platform
+
+[![GitHub stars](https://img.shields.io/github/stars/Suryanshu-Nabheet/CoderX?style=social)](https://github.com/Suryanshu-Nabheet/CoderX)
+[![GitHub forks](https://img.shields.io/github/forks/Suryanshu-Nabheet/CoderX?style=social)](https://github.com/Suryanshu-Nabheet/CoderX)
+[![GitHub issues](https://img.shields.io/github/issues/Suryanshu-Nabheet/CoderX)](https://github.com/Suryanshu-Nabheet/CoderX/issues)
+[![GitHub license](https://img.shields.io/github/license/Suryanshu-Nabheet/CoderX)](https://github.com/Suryanshu-Nabheet/CoderX/blob/main/LICENSE)
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![React](https://img.shields.io/badge/React-20232A?logo=react&logoColor=61DAFB)](https://reactjs.org/)
+[![Remix](https://img.shields.io/badge/Remix-000000?logo=remix&logoColor=white)](https://remix.run/)
+[![AI Powered](https://img.shields.io/badge/AI-Powered-blue?logo=openai&logoColor=white)](https://github.com/Suryanshu-Nabheet/CoderX)
+
+</div>
 
 Welcome to CoderX, the AI-powered development platform that allows you to choose the LLM that you use for each prompt! Currently, you can use OpenAI, Anthropic, Ollama, OpenRouter, Gemini, LMStudio, Mistral, xAI, HuggingFace, DeepSeek, Groq, Cohere, Together, Perplexity, Moonshot (Kimi), Hyperbolic, GitHub Models, Amazon Bedrock, and OpenAI-like providers - and it is easily extended to use any other model supported by the Vercel AI SDK! See the instructions below for running this locally and extending it to include more models.
+
+> **⭐ If you find CoderX useful, please give it a star on GitHub!**  
+> **🐛 Found a bug? [Report it here](https://github.com/Suryanshu-Nabheet/CoderX/issues)**  
+> **💡 Have an idea? [Start a discussion](https://github.com/Suryanshu-Nabheet/CoderX/discussions)**  
+> **🤝 Want to contribute? [Check our contributing guide](https://github.com/Suryanshu-Nabheet/CoderX/blob/main/CONTRIBUTING.md)**
 
 -----
 Check the [CoderX Documentation](https://github.com/Suryanshu-Nabheet/CoderX#readme) for more installation instructions and additional information.
