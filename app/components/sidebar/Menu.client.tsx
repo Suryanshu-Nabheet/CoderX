@@ -318,31 +318,15 @@ export const Menu = () => {
           isSettingsOpen ? 'z-40' : 'z-sidebar',
         )}
       >
-        <div className="h-12 flex items-center justify-between px-4 border-b border-gray-800 bg-gray-900 rounded-tr-2xl">
+        <div className="h-16 flex items-center justify-center px-4 border-b border-blue-600 bg-black rounded-tr-2xl">
           <div className="flex items-center gap-2">
             <a href="/" className="cursor-pointer">
               <img
                 src="/logo.png"
                 alt="CoderX Logo"
-                className="w-24 h-24 object-contain drop-shadow-md hover:scale-105 transition-transform duration-200"
+                className="w-32 h-32 object-contain drop-shadow-md hover:scale-105 transition-transform duration-200"
               />
             </a>
-          </div>
-          <div className="flex items-center gap-3">
-            <span className="font-medium text-sm text-white truncate">{profile?.username || 'Guest User'}</span>
-            <div className="flex items-center justify-center w-[32px] h-[32px] overflow-hidden bg-gray-800 text-gray-200 rounded-full shrink-0">
-              {profile?.avatar ? (
-                <img
-                  src={profile.avatar}
-                  alt={profile?.username || 'User'}
-                  className="w-full h-full object-cover"
-                  loading="eager"
-                  decoding="sync"
-                />
-              ) : (
-                <div className="i-ph:user-fill text-lg" />
-              )}
-            </div>
           </div>
         </div>
         <div className="flex-1 flex flex-col h-full w-full overflow-hidden">
@@ -381,7 +365,7 @@ export const Menu = () => {
               />
             </div>
           </div>
-          <div className="flex items-center justify-between text-sm px-4 py-2">
+          <div className="flex items-center justify-between text-sm px-4 py-2 border-b border-blue-600">
             <div className="font-medium text-gray-300">Your Chats</div>
             {selectionMode && (
               <div className="flex items-center gap-2">
@@ -408,7 +392,7 @@ export const Menu = () => {
             <DialogRoot open={dialogContent !== null}>
               {binDates(filteredList).map(({ category, items }) => (
                 <div key={category} className="mt-2 first:mt-0 space-y-1">
-                  <div className="text-xs font-medium text-gray-500 dark:text-gray-400 sticky top-0 z-1 bg-white dark:bg-gray-950 px-4 py-1">
+                  <div className="text-xs font-medium text-gray-500 dark:text-gray-400 sticky top-0 z-1 bg-black px-4 py-1 border-b border-blue-600">
                     {category}
                   </div>
                   <div className="space-y-0.5 pr-1">
@@ -510,8 +494,31 @@ export const Menu = () => {
               </Dialog>
             </DialogRoot>
           </div>
-          <div className="flex items-center justify-center border-t border-gray-800 px-4 py-3">
-            <SettingsButton onClick={handleSettingsClick} />
+          <div className="flex flex-col border-t border-blue-600 px-4 py-3 space-y-3">
+            {/* Guest User Section */}
+            <div className="flex items-center justify-center px-3 py-2 bg-gray-800 rounded-lg">
+              <div className="flex items-center gap-3">
+                <div className="flex items-center justify-center w-[32px] h-[32px] overflow-hidden bg-gray-700 text-gray-200 rounded-full shrink-0">
+                  {profile?.avatar ? (
+                    <img
+                      src={profile.avatar}
+                      alt={profile?.username || 'User'}
+                      className="w-full h-full object-cover"
+                      loading="eager"
+                      decoding="sync"
+                    />
+                  ) : (
+                    <div className="i-ph:user-fill text-lg" />
+                  )}
+                </div>
+                <span className="font-medium text-sm text-white truncate">{profile?.username || 'Guest User'}</span>
+              </div>
+            </div>
+
+            {/* Settings Button */}
+            <div className="flex items-center justify-center">
+              <SettingsButton onClick={handleSettingsClick} />
+            </div>
           </div>
         </div>
       </motion.div>
