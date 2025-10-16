@@ -10,10 +10,14 @@ export function Header() {
 
   return (
     <header
-      className={classNames('flex items-center px-4 border-b h-[var(--header-height)]', {
-        'border-transparent': !chat.started,
-        'border-bolt-elements-borderColor': chat.started,
-      })}
+      className={classNames(
+        'flex items-center px-4 border-b h-[var(--header-height)] bg-transparent backdrop-blur-none',
+        {
+          'border-transparent': !chat.started,
+          'border-bolt-elements-borderColor': chat.started,
+        },
+      )}
+      style={{ position: 'relative', zIndex: 1 }}
     >
       <div className="flex items-center gap-3 z-logo text-bolt-elements-textPrimary cursor-pointer">
         <div className="flex items-center gap-2">
