@@ -1,19 +1,19 @@
 $zIndexMax: 999;
 
 .z-logo {
-  z-index: $zIndexMax - 1;
-}
-
-.z-sidebar {
-  z-index: $zIndexMax - 2;
-}
-
-.z-port-dropdown {
   z-index: $zIndexMax - 3;
 }
 
-.z-iframe-overlay {
+.z-sidebar {
+  z-index: $zIndexMax - 1;
+}
+
+.z-port-dropdown {
   z-index: $zIndexMax - 4;
+}
+
+.z-iframe-overlay {
+  z-index: $zIndexMax - 5;
 }
 
 .z-prompt {
@@ -25,7 +25,7 @@ $zIndexMax: 999;
 }
 
 .z-file-tree-breadcrumb {
-  z-index: $zIndexMax - 1;
+  z-index: $zIndexMax - 2;
 }
 
 .z-max {
