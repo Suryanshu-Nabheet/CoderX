@@ -241,6 +241,7 @@ export default defineConfig({
       warn: true,
       collections: {
         ...customIconCollection,
+        ph: () => import('@iconify-json/ph').then(i => i.icons),
       },
       unit: 'em',
     }),
