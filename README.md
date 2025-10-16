@@ -1,4 +1,4 @@
-[![CoderX: AI-Powered Development Platform](./public/social_preview_index.jpg)](https://github.com/Suryanshu-Nabheet/CoderX)
+[![CoderX: AI-Powered Development Platform](./public/social_preview_index.jpg?v=2)](https://github.com/Suryanshu-Nabheet/CoderX)
 
 <div align="center">
 
