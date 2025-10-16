@@ -84,7 +84,7 @@ async function fetchRepoContentsCloudflare(repo: string, githubToken?: string) {
         const contentResponse = await fetch(`${baseUrl}/repos/${repo}/contents/${file.path}`, {
           headers: {
             Accept: 'application/vnd.github.v3+json',
-            'User-Agent': 'bolt.diy-app',
+            'User-Agent': 'coderx-app',
             ...(githubToken ? { Authorization: `Bearer ${githubToken}` } : {}),
           },
         });
