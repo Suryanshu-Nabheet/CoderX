@@ -68,8 +68,8 @@ export function HistoryItem({
   return (
     <div
       className={classNames(
-        'group rounded-lg text-sm text-blue-200 hover:text-white hover:bg-blue-800/30 overflow-hidden flex justify-between items-center px-3 py-2 transition-colors',
-        { 'text-white bg-blue-800/30': isActiveChat },
+        'group rounded-lg text-sm text-gray-300 hover:text-white hover:bg-gray-800/30 overflow-hidden flex justify-between items-center px-3 py-2 transition-colors',
+        { 'text-white bg-gray-800/30': isActiveChat },
         { 'cursor-pointer': selectionMode },
       )}
       onClick={selectionMode ? handleItemClick : undefined}
@@ -89,7 +89,7 @@ export function HistoryItem({
         <form onSubmit={handleSubmit} className="flex-1 flex items-center gap-2">
           <input
             type="text"
-            className="flex-1 bg-blue-900/50 text-white rounded-md px-3 py-1.5 text-sm border border-blue-800 focus:outline-none focus:ring-1 focus:ring-blue-400/50"
+            className="flex-1 bg-gray-900 text-white rounded-md px-3 py-1.5 text-sm border border-gray-800 focus:outline-none focus:ring-1 focus:ring-blue-400/50"
             autoFocus
             value={currentDescription}
             onChange={handleChange}
@@ -98,7 +98,7 @@ export function HistoryItem({
           />
           <button
             type="submit"
-            className="i-ph:check h-4 w-4 text-blue-300 hover:text-blue-100 transition-colors"
+            className="i-ph:check h-4 w-4 text-gray-400 hover:text-blue-400 transition-colors"
             onMouseDown={handleSubmit}
           />
         </form>
@@ -178,7 +178,7 @@ const ChatActionButton = forwardRef(
         <button
           ref={ref}
           type="button"
-          className={`text-blue-300 hover:text-blue-100 transition-colors ${icon} ${className ? className : ''}`}
+          className={`text-gray-400 hover:text-blue-400 transition-colors ${icon} ${className ? className : ''}`}
           onClick={onClick}
         />
       </WithTooltip>

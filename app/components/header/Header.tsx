@@ -15,11 +15,16 @@ export function Header() {
         'border-bolt-elements-borderColor': chat.started,
       })}
     >
-      <div className="flex items-center gap-2 z-logo text-bolt-elements-textPrimary cursor-pointer">
-        <a href="/" className="text-2xl font-semibold text-accent flex items-center">
-          <span className="text-white font-bold">Coder</span>
-          <span className="text-blue-400 font-bold">X</span>
-        </a>
+      <div className="flex items-center gap-3 z-logo text-bolt-elements-textPrimary cursor-pointer">
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-700 rounded-lg flex items-center justify-center">
+            <span className="text-white font-bold text-lg">C</span>
+          </div>
+          <a href="/" className="text-2xl font-semibold text-accent flex items-center">
+            <span className="text-white font-bold">Coder</span>
+            <span className="text-blue-400 font-bold">X</span>
+          </a>
+        </div>
       </div>
       {chat.started && ( // Display ChatDescription and HeaderActionButtons only when the chat has started.
         <>

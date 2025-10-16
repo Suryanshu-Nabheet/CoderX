@@ -309,16 +309,21 @@ export const Menu = () => {
         style={{ width: '340px' }}
         className={classNames(
           'flex selection-accent flex-col side-menu fixed top-0 h-full rounded-r-2xl',
-          'bg-blue-950 dark:bg-blue-950 border-r border-blue-800',
+          'bg-black dark:bg-black border-r border-gray-800',
           'shadow-sm text-sm',
           isSettingsOpen ? 'z-40' : 'z-sidebar',
         )}
       >
-        <div className="h-12 flex items-center justify-between px-4 border-b border-blue-800 bg-blue-900/50 rounded-tr-2xl">
-          <div className="text-white font-medium"></div>
+        <div className="h-12 flex items-center justify-between px-4 border-b border-gray-800 bg-gray-900 rounded-tr-2xl">
+          <div className="flex items-center gap-2">
+            <div className="w-6 h-6 bg-gradient-to-br from-blue-500 to-blue-700 rounded-md flex items-center justify-center">
+              <span className="text-white font-bold text-sm">C</span>
+            </div>
+            <span className="text-white font-medium text-sm">CoderX</span>
+          </div>
           <div className="flex items-center gap-3">
             <span className="font-medium text-sm text-white truncate">{profile?.username || 'Guest User'}</span>
-            <div className="flex items-center justify-center w-[32px] h-[32px] overflow-hidden bg-blue-800 text-blue-200 rounded-full shrink-0">
+            <div className="flex items-center justify-center w-[32px] h-[32px] overflow-hidden bg-gray-800 text-gray-200 rounded-full shrink-0">
               {profile?.avatar ? (
                 <img
                   src={profile.avatar}
@@ -358,10 +363,10 @@ export const Menu = () => {
             </div>
             <div className="relative w-full">
               <div className="absolute left-3 top-1/2 -translate-y-1/2">
-                <span className="i-ph:magnifying-glass h-4 w-4 text-blue-300" />
+                <span className="i-ph:magnifying-glass h-4 w-4 text-gray-400" />
               </div>
               <input
-                className="w-full bg-blue-900/50 relative pl-9 pr-3 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-400/50 text-sm text-white placeholder-blue-300 border border-blue-800"
+                className="w-full bg-gray-900 relative pl-9 pr-3 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-400/50 text-sm text-white placeholder-gray-400 border border-gray-800"
                 type="search"
                 placeholder="Search chats..."
                 onChange={handleSearchChange}
@@ -370,7 +375,7 @@ export const Menu = () => {
             </div>
           </div>
           <div className="flex items-center justify-between text-sm px-4 py-2">
-            <div className="font-medium text-blue-200">Your Chats</div>
+            <div className="font-medium text-gray-300">Your Chats</div>
             {selectionMode && (
               <div className="flex items-center gap-2">
                 <Button variant="ghost" size="sm" onClick={selectAll}>
@@ -498,7 +503,7 @@ export const Menu = () => {
               </Dialog>
             </DialogRoot>
           </div>
-          <div className="flex items-center justify-center border-t border-blue-800 px-4 py-3">
+          <div className="flex items-center justify-center border-t border-gray-800 px-4 py-3">
             <SettingsButton onClick={handleSettingsClick} />
           </div>
         </div>
