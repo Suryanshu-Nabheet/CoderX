@@ -1,18 +1,16 @@
 # CoderX
 
-[![CoderX: AI-Powered Full-Stack Web Development in the Browser](./public/social_preview_index.jpg)](https://coderx.dev)
+[![CoderX: AI-Powered Full-Stack Web Development Platform](./public/social_preview_index.jpg)](https://github.com/Suryanshu-Nabheet/CoderX)
 
 Welcome to CoderX, the AI-powered development platform that allows you to choose the LLM that you use for each prompt! Currently, you can use OpenAI, Anthropic, Ollama, OpenRouter, Gemini, LMStudio, Mistral, xAI, HuggingFace, DeepSeek, Groq, Cohere, Together, Perplexity, Moonshot (Kimi), Hyperbolic, GitHub Models, Amazon Bedrock, and OpenAI-like providers - and it is easily extended to use any other model supported by the Vercel AI SDK! See the instructions below for running this locally and extending it to include more models.
 
 -----
-Check the [CoderX Docs](https://docs.coderx.dev/) for more official installation instructions and additional information.
+Check the [CoderX Documentation](https://github.com/Suryanshu-Nabheet/CoderX#readme) for more installation instructions and additional information.
 
 -----
-Also [this pinned post in our community](https://community.coderx.dev/t/videos-tutorial-helpful-content/3243) has a bunch of incredible resources for running and deploying CoderX yourself!
+Join our community discussions on [GitHub Discussions](https://github.com/Suryanshu-Nabheet/CoderX/discussions) for support, feature requests, and sharing your projects!
 
-We have also launched an experimental agent called the "CoderX Expert" that can answer common questions about CoderX. Find it here on the [CoderX Live Agent Studio](https://studio.coderx.dev/).
-
-CoderX was originally inspired by bolt.diy but has evolved into a comprehensive AI-powered development platform created by [Suryanshu Nabheet](https://github.com/Suryanshu-Nabheet)!
+CoderX is an AI-powered development platform created by [Suryanshu Nabheet](https://github.com/Suryanshu-Nabheet)!
 
 ## About the Creator
 
@@ -40,7 +38,7 @@ CoderX was originally inspired by bolt.diy but has evolved into a comprehensive 
 
 ## Join the community
 
-[Join the CoderX community here!](https://community.coderx.dev)
+[Join the CoderX community on GitHub Discussions!](https://github.com/Suryanshu-Nabheet/CoderX/discussions)
 
 ## Project management
 
@@ -105,7 +103,7 @@ Let's get you up and running with the stable version of CoderX!
 
 ## Quick Installation
 
-[![Download Latest Release](https://img.shields.io/github/v/release/coderx-dev/coderx?label=Download%20CoderX&sort=semver)](https://github.com/coderx-dev/coderx/releases/latest) ← Click here to go to the latest release version!
+[![Download Latest Release](https://img.shields.io/github/v/release/Suryanshu-Nabheet/CoderX?label=Download%20CoderX&sort=semver)](https://github.com/Suryanshu-Nabheet/CoderX/releases/latest) ← Click here to go to the latest release version!
 
 - Download the binary for your platform (available for Windows, macOS, and Linux)
 - **Note**: For macOS, if you get the error "This app is damaged", run:
@@ -191,7 +189,7 @@ This option requires some familiarity with Docker but provides a more isolated e
 For users who prefer a native desktop experience, CoderX is also available as an Electron desktop application:
 
 1. **Download the Desktop App**:
-   - Visit the [latest release](https://github.com/stackblitz-labs/bolt.diy/releases/latest)
+   - Visit the [latest release](https://github.com/Suryanshu-Nabheet/CoderX/releases/latest)
    - Download the appropriate binary for your operating system
    - For macOS: Extract and run the `.dmg` file
    - For Windows: Run the `.exe` installer
@@ -358,13 +356,13 @@ This method is recommended for developers who want to:
 1. **Clone the Repository**:
 
    ```bash
-   git clone -b stable https://github.com/coderx-dev/coderx.git
+   git clone https://github.com/Suryanshu-Nabheet/CoderX.git
    ```
 
 2. **Navigate to Project Directory**:
 
    ```bash
-   cd coderx
+   cd CoderX
    ```
 
 3. **Install Dependencies**:

@@ -32,24 +32,21 @@ theme:
   # logo: assets/logo.png
   # favicon: assets/logo.png
 repo_name: coderx
-repo_url: https://github.com/coderx-dev/coderx
+repo_url: https://github.com/Suryanshu-Nabheet/CoderX
 edit_uri: ''
 
 extra:
   generator: false
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/coderx-dev/coderx
+      link: https://github.com/Suryanshu-Nabheet/CoderX
       name: CoderX
-    - icon: fontawesome/brands/discourse
-      link: https://community.coderx.dev/
-      name: CoderX Community
-    - icon: fontawesome/brands/x-twitter
-      link: https://x.com/coderx_dev
-      name: CoderX on X
-    - icon: fontawesome/brands/bluesky
-      link: https://bsky.app/profile/coderx.dev
-      name: CoderX on Bluesky
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/in/suryanshu-nabheet/
+      name: LinkedIn
+    - icon: fontawesome/brands/twitter
+      link: https://x.com/suryanshuxdev
+      name: Twitter
 
 markdown_extensions:
   - pymdownx.highlight:
