@@ -150,7 +150,14 @@ export function HistoryItem({
                 onClick={handleDeleteClick}
               >
                 <svg className="h-8 w-8" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M3 6h18l-2 13H5L3 6zm5-4h8l-1 2H9L8 2zm2 5v8h2V7h-2zm4 0v8h2V7h-2z" />
+                  <path
+                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    fill="none"
+                  />
                 </svg>
               </ChatActionButton>
             </div>
