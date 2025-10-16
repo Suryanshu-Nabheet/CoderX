@@ -15,22 +15,21 @@ export function HeaderActionButtons({ chatStarted: _chatStarted }: HeaderActionB
   const shouldShowButtons = activePreview;
 
   return (
-    <div className="flex items-center gap-1">
+    <div className="flex items-center gap-3">
       {/* Deploy Button */}
       {shouldShowButtons && <DeployButton />}
 
       {/* Debug Tools */}
       {shouldShowButtons && (
-        <div className="flex border border-bolt-elements-borderColor rounded-md overflow-hidden text-sm">
+        <div className="flex border border-gray-600 rounded-lg overflow-hidden text-sm bg-gray-800/50 backdrop-blur-sm">
           <button
             onClick={() => window.open('https://github.com/Suryanshu-Nabheet/CoderX/issues/new', '_blank')}
-            className="rounded-l-md items-center justify-center [&:is(:disabled,.disabled)]:cursor-not-allowed [&:is(:disabled,.disabled)]:opacity-60 px-3 py-1.5 text-xs bg-accent-500 text-white hover:text-bolt-elements-item-contentAccent [&:not(:disabled,.disabled)]:hover:bg-bolt-elements-button-primary-backgroundHover outline-accent-500 flex gap-1.5"
+            className="rounded-l-lg items-center justify-center px-4 py-2 text-sm bg-gray-700/50 text-gray-200 hover:bg-gray-600/70 hover:text-white transition-all duration-200 flex gap-2 border-r border-gray-600"
             title="Report Bug"
           >
-            <div className="i-ph:bug" />
+            <div className="i-ph:bug w-4 h-4" />
             <span>Report Bug</span>
           </button>
-          <div className="w-px bg-bolt-elements-borderColor" />
           <button
             onClick={async () => {
               try {
@@ -40,10 +39,10 @@ export function HeaderActionButtons({ chatStarted: _chatStarted }: HeaderActionB
                 console.error('Failed to download debug log:', error);
               }
             }}
-            className="rounded-r-md items-center justify-center [&:is(:disabled,.disabled)]:cursor-not-allowed [&:is(:disabled,.disabled)]:opacity-60 px-3 py-1.5 text-xs bg-accent-500 text-white hover:text-bolt-elements-item-contentAccent [&:not(:disabled,.disabled)]:hover:bg-bolt-elements-button-primary-backgroundHover outline-accent-500 flex gap-1.5"
+            className="rounded-r-lg items-center justify-center px-4 py-2 text-sm bg-gray-700/50 text-gray-200 hover:bg-gray-600/70 hover:text-white transition-all duration-200 flex gap-2"
             title="Download Debug Log"
           >
-            <div className="i-ph:download" />
+            <div className="i-ph:download w-4 h-4" />
             <span>Debug Log</span>
           </button>
         </div>

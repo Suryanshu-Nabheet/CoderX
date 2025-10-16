@@ -127,30 +127,31 @@ export const DeployButton = ({
 
   return (
     <>
-      <div className="flex border border-bolt-elements-borderColor rounded-md overflow-hidden text-sm">
+      <div className="flex border border-gray-600 rounded-lg overflow-hidden text-sm bg-gray-800/50 backdrop-blur-sm">
         <DropdownMenu.Root>
           <DropdownMenu.Trigger
             disabled={isDeploying || !activePreview || isStreaming}
-            className="rounded-md items-center justify-center [&:is(:disabled,.disabled)]:cursor-not-allowed [&:is(:disabled,.disabled)]:opacity-60 px-3 py-1.5 text-xs bg-accent-500 text-white hover:text-bolt-elements-item-contentAccent [&:not(:disabled,.disabled)]:hover:bg-bolt-elements-button-primary-backgroundHover outline-accent-500 flex gap-1.7"
+            className="rounded-lg items-center justify-center px-4 py-2 text-sm bg-gray-700/50 text-gray-200 hover:bg-gray-600/70 hover:text-white transition-all duration-200 flex gap-2 [&:is(:disabled,.disabled)]:cursor-not-allowed [&:is(:disabled,.disabled)]:opacity-60"
           >
             {isDeploying ? `Deploying to ${deployingTo}...` : 'Deploy'}
-            <span className={classNames('i-ph:caret-down transition-transform')} />
+            <span className={classNames('i-ph:caret-down transition-transform w-4 h-4')} />
           </DropdownMenu.Trigger>
           <DropdownMenu.Content
             className={classNames(
               'z-[250]',
-              'bg-bolt-elements-background-depth-2',
+              'bg-gray-800/95',
               'rounded-lg shadow-lg',
-              'border border-bolt-elements-borderColor',
+              'border border-gray-600',
               'animate-in fade-in-0 zoom-in-95',
               'py-1',
+              'backdrop-blur-sm',
             )}
             sideOffset={5}
             align="end"
           >
             <DropdownMenu.Item
               className={classNames(
-                'cursor-pointer flex items-center w-full px-4 py-2 text-sm text-bolt-elements-textPrimary hover:bg-bolt-elements-item-backgroundActive gap-2 rounded-md group relative',
+                'cursor-pointer flex items-center w-full px-4 py-2 text-sm text-gray-200 hover:bg-gray-700/70 hover:text-white gap-2 rounded-md group relative transition-all duration-200',
                 {
                   'opacity-60 cursor-not-allowed': isDeploying || !activePreview || !netlifyConn.user,
                 },
@@ -173,7 +174,7 @@ export const DeployButton = ({
 
             <DropdownMenu.Item
               className={classNames(
-                'cursor-pointer flex items-center w-full px-4 py-2 text-sm text-bolt-elements-textPrimary hover:bg-bolt-elements-item-backgroundActive gap-2 rounded-md group relative',
+                'cursor-pointer flex items-center w-full px-4 py-2 text-sm text-gray-200 hover:bg-gray-700/70 hover:text-white gap-2 rounded-md group relative transition-all duration-200',
                 {
                   'opacity-60 cursor-not-allowed': isDeploying || !activePreview || !vercelConn.user,
                 },
@@ -195,7 +196,7 @@ export const DeployButton = ({
 
             <DropdownMenu.Item
               className={classNames(
-                'cursor-pointer flex items-center w-full px-4 py-2 text-sm text-bolt-elements-textPrimary hover:bg-bolt-elements-item-backgroundActive gap-2 rounded-md group relative',
+                'cursor-pointer flex items-center w-full px-4 py-2 text-sm text-gray-200 hover:bg-gray-700/70 hover:text-white gap-2 rounded-md group relative transition-all duration-200',
                 {
                   'opacity-60 cursor-not-allowed': isDeploying || !activePreview,
                 },
@@ -216,7 +217,7 @@ export const DeployButton = ({
 
             <DropdownMenu.Item
               className={classNames(
-                'cursor-pointer flex items-center w-full px-4 py-2 text-sm text-bolt-elements-textPrimary hover:bg-bolt-elements-item-backgroundActive gap-2 rounded-md group relative',
+                'cursor-pointer flex items-center w-full px-4 py-2 text-sm text-gray-200 hover:bg-gray-700/70 hover:text-white gap-2 rounded-md group relative transition-all duration-200',
                 {
                   'opacity-60 cursor-not-allowed': isDeploying || !activePreview || !gitlabIsConnected,
                 },
@@ -237,7 +238,7 @@ export const DeployButton = ({
 
             <DropdownMenu.Item
               disabled
-              className="flex items-center w-full rounded-md px-4 py-2 text-sm text-bolt-elements-textTertiary gap-2 opacity-60 cursor-not-allowed"
+              className="flex items-center w-full rounded-md px-4 py-2 text-sm text-gray-400 gap-2 opacity-60 cursor-not-allowed"
             >
               <img
                 className="w-5 h-5"
