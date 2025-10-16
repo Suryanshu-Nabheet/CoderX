@@ -320,7 +320,13 @@ export const Menu = () => {
       >
         <div className="h-12 flex items-center justify-between px-4 border-b border-gray-800 bg-gray-900 rounded-tr-2xl">
           <div className="flex items-center gap-2">
-            <img src="/logo.png" alt="CoderX Logo" className="w-20 h-20 object-contain drop-shadow-md" />
+            <a href="/" className="cursor-pointer">
+              <img
+                src="/logo.png"
+                alt="CoderX Logo"
+                className="w-24 h-24 object-contain drop-shadow-md hover:scale-105 transition-transform duration-200"
+              />
+            </a>
           </div>
           <div className="flex items-center gap-3">
             <span className="font-medium text-sm text-white truncate">{profile?.username || 'Guest User'}</span>
