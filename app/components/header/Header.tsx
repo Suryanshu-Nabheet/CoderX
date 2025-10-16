@@ -18,10 +18,6 @@ export function Header() {
       <div className="flex items-center gap-3 z-logo text-bolt-elements-textPrimary cursor-pointer">
         <div className="flex items-center gap-2">
           <img src="/logo.png" alt="CoderX Logo" className="w-8 h-8 object-contain" />
-          <a href="/" className="text-2xl font-semibold text-accent flex items-center">
-            <span className="text-white font-bold">Coder</span>
-            <span className="text-blue-400 font-bold">X</span>
-          </a>
         </div>
       </div>
       {chat.started && ( // Display ChatDescription and HeaderActionButtons only when the chat has started.
