@@ -1,6 +1,6 @@
 # Contribution Guidelines
 
-Welcome! This guide provides all the details you need to contribute effectively to the project. Thank you for helping us make **bolt.diy** a better tool for developers worldwide. 💡
+Welcome! This guide provides all the details you need to contribute effectively to the project. Thank you for helping us make **CoderX** a better tool for developers worldwide. 💡
 
 ---
 
@@ -161,9 +161,9 @@ npm run dockerbuild
 
 **Option 2: Direct Docker Build Command**
 
-```bash
-docker build . --target bolt-ai-development
-```
+   ```bash
+   docker build . --target coderx-development
+   ```
 
 **Option 3: Docker Compose Profile**
 
@@ -174,7 +174,7 @@ docker compose --profile development up
 #### Running the Development Container
 
 ```bash
-docker run -p 5173:5173 --env-file .env.local bolt-ai:development
+docker run -p 5173:5173 --env-file .env.local coderx:development
 ```
 
 ---
@@ -192,9 +192,9 @@ npm run dockerbuild:prod
 
 **Option 2: Direct Docker Build Command**
 
-```bash
-docker build . --target bolt-ai-production
-```
+   ```bash
+   docker build . --target coderx-production
+   ```
 
 **Option 3: Docker Compose Profile**
 
@@ -205,7 +205,7 @@ docker compose --profile production up
 #### Running the Production Container
 
 ```bash
-docker run -p 5173:5173 --env-file .env.local bolt-ai:production
+docker run -p 5173:5173 --env-file .env.local coderx:production
 ```
 
 ---

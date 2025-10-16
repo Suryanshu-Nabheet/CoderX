@@ -1,29 +1,29 @@
-# Code Owners for bolt.diy
+# Code Owners for CoderX
 # These users/teams will automatically be requested for review when files are modified
 
 # Global ownership - repository maintainers
-* @stackblitz-labs/bolt-maintainers
+* @Suryanshu-Nabheet
 
 # GitHub workflows and CI/CD configuration - require maintainer review
-/.github/ @stackblitz-labs/bolt-maintainers
-/package.json @stackblitz-labs/bolt-maintainers
-/pnpm-lock.yaml @stackblitz-labs/bolt-maintainers
+/.github/ @Suryanshu-Nabheet
+/package.json @Suryanshu-Nabheet
+/pnpm-lock.yaml @Suryanshu-Nabheet
 
 # Security-sensitive configurations - require maintainer review
-/.env* @stackblitz-labs/bolt-maintainers
-/wrangler.toml @stackblitz-labs/bolt-maintainers  
-/Dockerfile @stackblitz-labs/bolt-maintainers
-/docker-compose.yaml @stackblitz-labs/bolt-maintainers
+/.env* @Suryanshu-Nabheet
+/wrangler.toml @Suryanshu-Nabheet  
+/Dockerfile @Suryanshu-Nabheet
+/docker-compose.yaml @Suryanshu-Nabheet
 
 # Core application architecture - require maintainer review
-/app/lib/.server/ @stackblitz-labs/bolt-maintainers
-/app/routes/api.* @stackblitz-labs/bolt-maintainers
+/app/lib/.server/ @Suryanshu-Nabheet
+/app/routes/api.* @Suryanshu-Nabheet
 
 # Build and deployment configuration - require maintainer review
-/vite*.config.ts @stackblitz-labs/bolt-maintainers
-/tsconfig.json @stackblitz-labs/bolt-maintainers
-/uno.config.ts @stackblitz-labs/bolt-maintainers
-/eslint.config.mjs @stackblitz-labs/bolt-maintainers
+/vite*.config.ts @Suryanshu-Nabheet
+/tsconfig.json @Suryanshu-Nabheet
+/uno.config.ts @Suryanshu-Nabheet
+/eslint.config.mjs @Suryanshu-Nabheet
 
 # Documentation (optional review)
 /*.md
