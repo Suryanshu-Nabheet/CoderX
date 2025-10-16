@@ -52,7 +52,6 @@ CoderX is an AI-powered development platform created by [Suryanshu Nabheet](http
 - [Setup Using Git (For Developers only)](#setup-using-git-for-developers-only)
 - [Available Scripts](#available-scripts)
 - [Contributing](#contributing)
-- [Roadmap](#roadmap)
 - [FAQ](#faq)
 
 ## Join the community
@@ -195,7 +194,7 @@ This option requires some familiarity with Docker but provides a more isolated e
    npm run dockerbuild
 
    # OR using direct Docker command:
-   docker build . --target bolt-ai-development
+   docker build . --target coderx-development
    ```
 
 2. **Run the Container**:
@@ -498,12 +497,6 @@ Remember to always commit your local changes or stash them before pulling update
 ## Contributing
 
 We welcome contributions! Check out our [Contributing Guide](CONTRIBUTING.md) to get started.
-
----
-
-## Roadmap
-
-Explore upcoming features and priorities on our [Roadmap](https://roadmap.sh/r/ottodev-roadmap-2ovzo).
 
 ---
 
