@@ -116,10 +116,10 @@ export function HistoryItem({
               'absolute right-0 top-0 bottom-0 flex items-center bg-transparent px-2 transition-colors',
             )}
           >
-            <div className="flex items-center gap-3 text-gray-400 dark:text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity">
+            <div className="flex items-center gap-4 text-gray-400 dark:text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity">
               <ChatActionButton
                 toolTipContent="Export"
-                icon="i-ph:download-simple h-6 w-6"
+                icon="i-ph:download-simple h-8 w-8"
                 onClick={(event) => {
                   event.preventDefault();
                   exportChat(item.id);
@@ -128,7 +128,7 @@ export function HistoryItem({
               {onDuplicate && (
                 <ChatActionButton
                   toolTipContent="Duplicate"
-                  icon="i-ph:copy h-6 w-6"
+                  icon="i-ph:copy h-8 w-8"
                   onClick={(event) => {
                     event.preventDefault();
                     onDuplicate?.(item.id);
@@ -137,7 +137,7 @@ export function HistoryItem({
               )}
               <ChatActionButton
                 toolTipContent="Rename"
-                icon="i-ph:pencil-simple h-6 w-6"
+                icon="i-ph:pencil-simple h-8 w-8"
                 onClick={(event) => {
                   event.preventDefault();
                   toggleEditMode();
@@ -149,8 +149,8 @@ export function HistoryItem({
                 className="hover:text-red-500 dark:hover:text-red-400"
                 onClick={handleDeleteClick}
               >
-                <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
+                <svg className="h-8 w-8" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M3 6h18l-2 13H5L3 6zm5-4h8l-1 2H9L8 2zm2 5v8h2V7h-2zm4 0v8h2V7h-2z" />
                 </svg>
               </ChatActionButton>
             </div>
