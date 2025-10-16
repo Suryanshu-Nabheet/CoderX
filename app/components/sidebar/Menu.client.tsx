@@ -366,8 +366,7 @@ export const Menu = () => {
               />
             </div>
           </div>
-          <div className="flex items-center justify-between text-sm px-4 py-2 relative">
-            <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-600 to-transparent"></div>
+          <div className="flex items-center justify-between text-sm px-4 py-2">
             <div className="font-medium text-gray-300">Your Chats</div>
             {selectionMode && (
               <div className="flex items-center gap-2">
@@ -394,8 +393,7 @@ export const Menu = () => {
             <DialogRoot open={dialogContent !== null}>
               {binDates(filteredList).map(({ category, items }) => (
                 <div key={category} className="mt-2 first:mt-0 space-y-1">
-                  <div className="text-xs font-medium text-gray-500 dark:text-gray-400 sticky top-0 z-1 bg-black px-4 py-1 relative">
-                    <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-600 to-transparent"></div>
+                  <div className="text-xs font-medium text-gray-500 dark:text-gray-400 sticky top-0 z-1 bg-black px-4 py-1">
                     {category}
                   </div>
                   <div className="space-y-0.5 pr-1">
