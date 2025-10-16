@@ -67,15 +67,25 @@ const templates: Template[] = STARTER_TEMPLATES.filter((t) => !t.name.includes('
 
 const parseSelectedTemplate = (llmOutput: string): { template: string; title: string } | null => {
   try {
+    // Check if llmOutput is valid
+    if (!llmOutput || typeof llmOutput !== 'string') {
+      console.warn('Invalid llmOutput received:', llmOutput);
+      return null;
+    }
+
     // Extract content between <templateName> tags
     const templateNameMatch = llmOutput.match(/<templateName>(.*?)<\/templateName>/);
     const titleMatch = llmOutput.match(/<title>(.*?)<\/title>/);
 
     if (!templateNameMatch) {
+      console.warn('No template name found in llmOutput:', llmOutput);
       return null;
     }
 
-    return { template: templateNameMatch[1].trim(), title: titleMatch?.[1].trim() || 'Untitled Project' };
+    return {
+      template: templateNameMatch[1].trim(),
+      title: titleMatch?.[1]?.trim() || 'Untitled Project',
+    };
   } catch (error) {
     console.error('Error parsing template selection:', error);
     return null;
@@ -90,21 +100,48 @@ export const selectStarterTemplate = async (options: { message: string; model: s
     provider,
     system: starterTemplateSelectionPrompt(templates),
   };
-  const response = await fetch('/api/llmcall', {
-    method: 'POST',
-    body: JSON.stringify(requestBody),
-  });
-  const respJson: { text: string } = await response.json();
-  console.log(respJson);
 
-  const { text } = respJson;
-  const selectedTemplate = parseSelectedTemplate(text);
+  try {
+    const response = await fetch('/api/llmcall', {
+      method: 'POST',
+      body: JSON.stringify(requestBody),
+    });
 
-  if (selectedTemplate) {
-    return selectedTemplate;
-  } else {
-    console.log('No template selected, using blank template');
+    if (!response.ok) {
+      console.error('API request failed:', response.status, response.statusText);
+      return {
+        template: 'blank',
+        title: '',
+      };
+    }
 
+    const respJson: { text: string } = await response.json();
+    console.log('Template selection response:', respJson);
+
+    const { text } = respJson;
+
+    // Check if text exists and is valid
+    if (!text || typeof text !== 'string') {
+      console.warn('Invalid response text received:', text);
+      return {
+        template: 'blank',
+        title: '',
+      };
+    }
+
+    const selectedTemplate = parseSelectedTemplate(text);
+
+    if (selectedTemplate) {
+      return selectedTemplate;
+    } else {
+      console.log('No template selected, using blank template');
+      return {
+        template: 'blank',
+        title: '',
+      };
+    }
+  } catch (error) {
+    console.error('Error in selectStarterTemplate:', error);
     return {
       template: 'blank',
       title: '',
