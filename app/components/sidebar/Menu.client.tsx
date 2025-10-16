@@ -318,7 +318,8 @@ export const Menu = () => {
           isSettingsOpen ? 'z-40' : 'z-sidebar',
         )}
       >
-        <div className="h-16 flex items-center justify-center px-4 border-b border-blue-600 bg-black rounded-tr-2xl">
+        <div className="h-16 flex items-center justify-center px-4 bg-black rounded-tr-2xl relative">
+          <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-600 to-transparent"></div>
           <div className="flex items-center gap-2">
             <a href="/" className="cursor-pointer">
               <img
@@ -365,7 +366,8 @@ export const Menu = () => {
               />
             </div>
           </div>
-          <div className="flex items-center justify-between text-sm px-4 py-2 border-b border-blue-600">
+          <div className="flex items-center justify-between text-sm px-4 py-2 relative">
+            <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-600 to-transparent"></div>
             <div className="font-medium text-gray-300">Your Chats</div>
             {selectionMode && (
               <div className="flex items-center gap-2">
@@ -392,7 +394,8 @@ export const Menu = () => {
             <DialogRoot open={dialogContent !== null}>
               {binDates(filteredList).map(({ category, items }) => (
                 <div key={category} className="mt-2 first:mt-0 space-y-1">
-                  <div className="text-xs font-medium text-gray-500 dark:text-gray-400 sticky top-0 z-1 bg-black px-4 py-1 border-b border-blue-600">
+                  <div className="text-xs font-medium text-gray-500 dark:text-gray-400 sticky top-0 z-1 bg-black px-4 py-1 relative">
+                    <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-600 to-transparent"></div>
                     {category}
                   </div>
                   <div className="space-y-0.5 pr-1">
@@ -494,7 +497,8 @@ export const Menu = () => {
               </Dialog>
             </DialogRoot>
           </div>
-          <div className="flex flex-col border-t border-blue-600 px-4 py-3 space-y-3">
+          <div className="flex flex-col px-4 py-3 space-y-3 relative">
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-600 to-transparent"></div>
             {/* Guest User Section */}
             <div className="flex items-center justify-center px-3 py-2 bg-gray-800 rounded-lg">
               <div className="flex items-center gap-3">
