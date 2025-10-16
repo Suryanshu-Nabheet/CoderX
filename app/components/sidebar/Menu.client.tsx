@@ -19,6 +19,8 @@ const menuVariants = {
     opacity: 0,
     visibility: 'hidden',
     left: '-340px',
+    top: 'var(--header-height)',
+    height: 'calc(100vh - var(--header-height))',
     transition: {
       duration: 0.2,
       ease: cubicEasingFn,
@@ -28,6 +30,8 @@ const menuVariants = {
     opacity: 1,
     visibility: 'initial',
     left: 0,
+    top: 'var(--header-height)',
+    height: 'calc(100vh - var(--header-height))',
     transition: {
       duration: 0.2,
       ease: cubicEasingFn,
@@ -308,17 +312,15 @@ export const Menu = () => {
         variants={menuVariants}
         style={{ width: '340px' }}
         className={classNames(
-          'flex selection-accent flex-col side-menu fixed top-0 h-full rounded-r-2xl',
+          'flex selection-accent flex-col side-menu fixed h-full',
           'bg-black dark:bg-black border-r border-gray-800',
           'shadow-sm text-sm',
           isSettingsOpen ? 'z-40' : 'z-sidebar',
         )}
       >
-        <div className="h-12 flex items-center justify-between px-4 border-b border-gray-800 bg-gray-900 rounded-tr-2xl">
+        <div className="h-12 flex items-center justify-between px-4 border-b border-gray-800 bg-gray-900">
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 bg-gradient-to-br from-blue-500 to-blue-700 rounded-md flex items-center justify-center">
-              <span className="text-white font-bold text-sm">C</span>
-            </div>
+            <img src="/logo.png" alt="CoderX Logo" className="w-6 h-6 object-contain" />
             <span className="text-white font-medium text-sm">CoderX</span>
           </div>
           <div className="flex items-center gap-3">

@@ -24,7 +24,6 @@ Welcome to CoderX, the AI-powered development platform that allows you to choose
 > **🤝 Want to contribute? [Check our contributing guide](https://github.com/Suryanshu-Nabheet/CoderX/blob/main/CONTRIBUTING.md)**
 
 -----
-Check the [CoderX Documentation](https://github.com/Suryanshu-Nabheet/CoderX#readme) for more installation instructions and additional information.
 
 -----
 Join our community discussions on [GitHub Issues](https://github.com/Suryanshu-Nabheet/CoderX/issues) for support, feature requests, and sharing your projects!
