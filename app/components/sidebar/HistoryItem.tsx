@@ -80,7 +80,7 @@ export function HistoryItem({
             id={`select-${item.id}`}
             checked={isSelected}
             onCheckedChange={handleCheckboxChange}
-            className="h-10 w-10"
+            className="h-5 w-5"
           />
         </div>
       )}
@@ -98,7 +98,7 @@ export function HistoryItem({
           />
           <button
             type="submit"
-            className="i-ph:check h-10 w-10 text-gray-400 hover:text-blue-400 transition-colors"
+            className="i-ph:check h-6 w-6 text-gray-400 hover:text-blue-400 transition-colors"
             onMouseDown={handleSubmit}
           />
         </form>
@@ -116,10 +116,10 @@ export function HistoryItem({
               'absolute right-0 top-0 bottom-0 flex items-center bg-transparent px-2 transition-colors',
             )}
           >
-            <div className="flex items-center gap-2.5 text-gray-400 dark:text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity">
+            <div className="flex items-center gap-3 text-gray-400 dark:text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity">
               <ChatActionButton
                 toolTipContent="Export"
-                icon="i-ph:download-simple h-10 w-10"
+                icon="i-ph:download-simple h-6 w-6"
                 onClick={(event) => {
                   event.preventDefault();
                   exportChat(item.id);
@@ -128,7 +128,7 @@ export function HistoryItem({
               {onDuplicate && (
                 <ChatActionButton
                   toolTipContent="Duplicate"
-                  icon="i-ph:copy h-10 w-10"
+                  icon="i-ph:copy h-6 w-6"
                   onClick={(event) => {
                     event.preventDefault();
                     onDuplicate?.(item.id);
@@ -137,7 +137,7 @@ export function HistoryItem({
               )}
               <ChatActionButton
                 toolTipContent="Rename"
-                icon="i-ph:pencil-fill h-10 w-10"
+                icon="i-ph:pencil-simple h-6 w-6"
                 onClick={(event) => {
                   event.preventDefault();
                   toggleEditMode();
@@ -145,7 +145,7 @@ export function HistoryItem({
               />
               <ChatActionButton
                 toolTipContent="Delete"
-                icon="i-ph:trash h-10 w-10"
+                icon="i-ph:trash-simple h-6 w-6"
                 className="hover:text-red-500 dark:hover:text-red-400"
                 onClick={handleDeleteClick}
               />
@@ -178,8 +178,9 @@ const ChatActionButton = forwardRef(
         <button
           ref={ref}
           type="button"
-          className={`text-gray-400 hover:text-blue-400 transition-colors ${icon} ${className ? className : ''}`}
+          className={`flex items-center justify-center text-gray-400 hover:text-blue-400 transition-colors ${icon} ${className ? className : ''}`}
           onClick={onClick}
+          aria-label={toolTipContent}
         />
       </WithTooltip>
     );
