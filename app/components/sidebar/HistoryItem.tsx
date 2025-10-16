@@ -145,10 +145,14 @@ export function HistoryItem({
               />
               <ChatActionButton
                 toolTipContent="Delete"
-                icon="i-ph:trash-simple h-6 w-6"
+                icon=""
                 className="hover:text-red-500 dark:hover:text-red-400"
                 onClick={handleDeleteClick}
-              />
+              >
+                <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
+                </svg>
+              </ChatActionButton>
             </div>
           </div>
         </a>
@@ -164,12 +168,14 @@ const ChatActionButton = forwardRef(
       icon,
       className,
       onClick,
+      children,
     }: {
       toolTipContent: string;
       icon: string;
       className?: string;
       onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
       btnTitle?: string;
+      children?: React.ReactNode;
     },
     ref: ForwardedRef<HTMLButtonElement>,
   ) => {
@@ -181,7 +187,9 @@ const ChatActionButton = forwardRef(
           className={`flex items-center justify-center text-gray-400 hover:text-blue-400 transition-colors ${icon} ${className ? className : ''}`}
           onClick={onClick}
           aria-label={toolTipContent}
-        />
+        >
+          {children}
+        </button>
       </WithTooltip>
     );
   },
