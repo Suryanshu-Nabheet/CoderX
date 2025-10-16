@@ -405,4 +405,4 @@ If your custom LLM provider isn't appearing:
 [Join the bolt.diy Community](https://thinktank.ottomator.ai/c/bolt-diy/17){target=\_blank} for discussions and help
 
 !!! bug "Report Issues"
-[Open an Issue](https://github.com/stackblitz-labs/bolt.diy/issues/19){target=\_blank} in our GitHub Repository
+[Open an Issue](https://github.com/Suryanshu-Nabheet/CoderX/issues/19){target=\_blank} in our GitHub Repository
