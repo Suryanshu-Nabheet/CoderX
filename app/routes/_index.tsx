@@ -6,7 +6,13 @@ import { Header } from '~/components/header/Header';
 import BackgroundRays from '~/components/ui/BackgroundRays';
 
 export const meta: MetaFunction = () => {
-  return [{ title: 'CoderX' }, { name: 'description', content: 'Talk with CoderX, an AI-powered development platform created by Suryanshu Nabheet' }];
+  return [
+    { title: 'CoderX' },
+    {
+      name: 'description',
+      content: 'Talk with CoderX, an AI-powered development platform created by Suryanshu Nabheet',
+    },
+  ];
 };
 
 export const loader = () => json({});

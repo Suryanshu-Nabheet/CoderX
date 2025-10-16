@@ -20,14 +20,14 @@ Welcome to CoderX, the AI-powered development platform that allows you to choose
 
 > **⭐ If you find CoderX useful, please give it a star on GitHub!**  
 > **🐛 Found a bug? [Report it here](https://github.com/Suryanshu-Nabheet/CoderX/issues)**  
-> **💡 Have an idea? [Start a discussion](https://github.com/Suryanshu-Nabheet/CoderX/discussions)**  
+> **💡 Have an idea? [Open an issue](https://github.com/Suryanshu-Nabheet/CoderX/issues)**  
 > **🤝 Want to contribute? [Check our contributing guide](https://github.com/Suryanshu-Nabheet/CoderX/blob/main/CONTRIBUTING.md)**
 
 -----
 Check the [CoderX Documentation](https://github.com/Suryanshu-Nabheet/CoderX#readme) for more installation instructions and additional information.
 
 -----
-Join our community discussions on [GitHub Discussions](https://github.com/Suryanshu-Nabheet/CoderX/discussions) for support, feature requests, and sharing your projects!
+Join our community discussions on [GitHub Issues](https://github.com/Suryanshu-Nabheet/CoderX/issues) for support, feature requests, and sharing your projects!
 
 CoderX is an AI-powered development platform created by [Suryanshu Nabheet](https://github.com/Suryanshu-Nabheet)!
 
@@ -56,7 +56,7 @@ CoderX is an AI-powered development platform created by [Suryanshu Nabheet](http
 
 ## Join the community
 
-[Join the CoderX community on GitHub Discussions!](https://github.com/Suryanshu-Nabheet/CoderX/discussions)
+[Join the CoderX community on GitHub Issues!](https://github.com/Suryanshu-Nabheet/CoderX/issues)
 
 ## Project management
 
