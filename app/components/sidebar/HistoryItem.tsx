@@ -98,7 +98,7 @@ export function HistoryItem({
           />
           <button
             type="submit"
-            className="i-ph-check h-4 w-4 text-gray-600 hover:text-blue-500 transition-colors"
+            className="i-ph-check h-4 w-4 text-gray-700 hover:text-blue-400 transition-colors"
             onMouseDown={handleSubmit}
           />
         </form>
@@ -116,7 +116,7 @@ export function HistoryItem({
               'absolute right-0 top-0 bottom-0 flex items-center bg-transparent px-2 transition-colors',
             )}
           >
-            <div className="flex items-center gap-2 text-gray-600 dark:text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity">
+            <div className="flex items-center gap-2 text-gray-700 dark:text-gray-700 opacity-0 group-hover:opacity-100 transition-opacity">
               <ChatActionButton
                 toolTipContent="Export"
                 icon="i-ph-download-simple h-4 w-4"
@@ -146,7 +146,7 @@ export function HistoryItem({
               <ChatActionButton
                 toolTipContent="Delete"
                 icon=""
-                className="hover:text-red-500 dark:hover:text-red-500"
+                className="hover:text-red-400 dark:hover:text-red-400"
                 onClick={handleDeleteClick}
               >
                 <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
@@ -191,7 +191,7 @@ const ChatActionButton = forwardRef(
         <button
           ref={ref}
           type="button"
-          className={`flex items-center justify-center text-gray-600 hover:text-blue-500 transition-all duration-200 hover:scale-105 ${className ? className : ''}`}
+          className={`flex items-center justify-center text-gray-700 hover:text-blue-400 transition-all duration-200 hover:scale-105 ${className ? className : ''}`}
           onClick={onClick}
           aria-label={toolTipContent}
         >
