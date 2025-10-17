@@ -292,18 +292,18 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-bolt-elements-background dark:bg-bolt-elements-background rounded-lg shadow-2xl w-full max-w-6xl h-[90vh] flex flex-col border border-bolt-elements-borderColor">
+      <div className="bg-black rounded-lg shadow-2xl w-full max-w-6xl h-[90vh] flex flex-col border border-blue-600">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-bolt-elements-borderColor">
+        <div className="flex items-center justify-between p-6 border-b border-blue-600">
           <div className="flex items-center gap-3">
-            <div className="i-ph:key text-2xl text-bolt-elements-textPrimary" />
-            <h2 className="text-2xl font-bold text-bolt-elements-textPrimary">API Key Configuration</h2>
+            <div className="i-ph:key text-2xl text-white" />
+            <h2 className="text-2xl font-bold text-white">API Key Configuration</h2>
           </div>
           <Button
             variant="ghost"
             size="sm"
             onClick={onClose}
-            className="text-bolt-elements-textSecondary hover:text-bolt-elements-textPrimary"
+            className="text-gray-400 hover:text-white bg-black border border-blue-600 hover:border-blue-500"
           >
             <div className="i-ph:x text-xl" />
           </Button>
@@ -314,15 +314,15 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
           <div className="max-w-4xl mx-auto space-y-6">
             {/* Provider Selection */}
             <div className="space-y-2">
-              <Label className="text-sm font-medium text-bolt-elements-textPrimary">AI Provider</Label>
+              <Label className="text-sm font-medium text-white">AI Provider</Label>
               <div className="relative" ref={providerDropdownRef}>
                 <div
                   className={classNames(
-                    'w-full p-2 rounded-lg border border-bolt-elements-borderColor',
-                    'bg-bolt-elements-prompt-background text-bolt-elements-textPrimary',
-                    'focus-within:outline-none focus-within:ring-2 focus-within:ring-bolt-elements-focus',
+                    'w-full p-2 rounded-lg border border-blue-600',
+                    'bg-black text-white',
+                    'focus-within:outline-none focus-within:ring-2 focus-within:ring-blue-500',
                     'transition-all cursor-pointer',
-                    isProviderDropdownOpen ? 'ring-2 ring-bolt-elements-focus' : undefined,
+                    isProviderDropdownOpen ? 'ring-2 ring-blue-500' : undefined,
                   )}
                   onClick={() => setIsProviderDropdownOpen(!isProviderDropdownOpen)}
                   role="combobox"
@@ -335,7 +335,7 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
                     <div className="truncate">{selectedProvider?.name || 'Select provider'}</div>
                     <div
                       className={classNames(
-                        'i-ph:caret-down w-4 h-4 text-bolt-elements-textSecondary opacity-75',
+                        'i-ph:caret-down w-4 h-4 text-gray-400 opacity-75',
                         isProviderDropdownOpen ? 'rotate-180' : undefined,
                       )}
                     />
@@ -344,7 +344,7 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
 
                 {isProviderDropdownOpen && (
                   <div
-                    className="absolute z-20 w-full mt-1 py-1 rounded-lg border border-bolt-elements-borderColor bg-bolt-elements-background-depth-2 shadow-lg"
+                    className="absolute z-20 w-full mt-1 py-1 rounded-lg border border-blue-600 bg-black shadow-lg"
                     role="listbox"
                     id="provider-listbox"
                   >
@@ -358,9 +358,9 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
                           placeholder="Search providers... (⌘K to clear)"
                           className={classNames(
                             'w-full pl-8 pr-8 py-1.5 rounded-md text-sm',
-                            'bg-bolt-elements-background-depth-2 border border-bolt-elements-borderColor',
-                            'text-bolt-elements-textPrimary placeholder:text-bolt-elements-textTertiary',
-                            'focus:outline-none focus:ring-2 focus:ring-bolt-elements-focus',
+                            'bg-black border border-blue-600',
+                            'text-white placeholder:text-gray-400',
+                            'focus:outline-none focus:ring-2 focus:ring-blue-500',
                             'transition-all',
                           )}
                           onClick={(e) => e.stopPropagation()}
@@ -368,7 +368,7 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
                           aria-label="Search providers"
                         />
                         <div className="absolute left-2.5 top-1/2 -translate-y-1/2">
-                          <span className="i-ph:magnifying-glass text-bolt-elements-textTertiary" />
+                          <span className="i-ph:magnifying-glass text-gray-400" />
                         </div>
                         {providerSearchQuery && (
                           <button
@@ -377,10 +377,10 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
                               e.stopPropagation();
                               clearProviderSearch();
                             }}
-                            className="absolute right-2.5 top-1/2 -translate-y-1/2 p-0.5 rounded hover:bg-bolt-elements-background-depth-3 transition-colors"
+                            className="absolute right-2.5 top-1/2 -translate-y-1/2 p-0.5 rounded hover:bg-gray-800 transition-colors"
                             aria-label="Clear search"
                           >
-                            <span className="i-ph:x text-bolt-elements-textTertiary text-xs" />
+                            <span className="i-ph:x text-gray-400 text-xs" />
                           </button>
                         )}
                       </div>
@@ -389,7 +389,7 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
                     <div className="max-h-60 overflow-y-auto">
                       {filteredProviders.length === 0 ? (
                         <div className="px-3 py-3 text-sm">
-                          <div className="text-bolt-elements-textTertiary mb-1">
+                          <div className="text-gray-400 mb-1">
                             {debouncedProviderSearchQuery
                               ? `No providers match "${debouncedProviderSearchQuery}"`
                               : 'No providers found'}
@@ -404,11 +404,11 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
                             aria-selected={selectedProvider?.name === provider.name}
                             className={classNames(
                               'px-3 py-2 text-sm cursor-pointer',
-                              'hover:bg-bolt-elements-background-depth-3',
-                              'text-bolt-elements-textPrimary',
+                              'hover:bg-gray-800',
+                              'text-white',
                               'outline-none',
                               selectedProvider?.name === provider.name || focusedProviderIndex === index
-                                ? 'bg-bolt-elements-background-depth-2'
+                                ? 'bg-gray-800'
                                 : undefined,
                             )}
                             onClick={(e) => {
@@ -436,18 +436,17 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
             {/* Model Selection */}
             {selectedProvider && (
               <div className="space-y-2">
-                <Label className="text-sm font-medium text-bolt-elements-textPrimary">
-                  Model{' '}
-                  {isLoadingModels && <span className="text-xs text-bolt-elements-textTertiary">(Loading...)</span>}
+                <Label className="text-sm font-medium text-white">
+                  Model {isLoadingModels && <span className="text-xs text-gray-400">(Loading...)</span>}
                 </Label>
                 <div className="relative" ref={modelDropdownRef}>
                   <div
                     className={classNames(
-                      'w-full p-2 rounded-lg border border-bolt-elements-borderColor',
-                      'bg-bolt-elements-prompt-background text-bolt-elements-textPrimary',
-                      'focus-within:outline-none focus-within:ring-2 focus-within:ring-bolt-elements-focus',
+                      'w-full p-2 rounded-lg border border-blue-600',
+                      'bg-black text-white',
+                      'focus-within:outline-none focus-within:ring-2 focus-within:ring-blue-500',
                       'transition-all cursor-pointer',
-                      isModelDropdownOpen ? 'ring-2 ring-bolt-elements-focus' : undefined,
+                      isModelDropdownOpen ? 'ring-2 ring-blue-500' : undefined,
                     )}
                     onClick={() => setIsModelDropdownOpen(!isModelDropdownOpen)}
                     role="combobox"
@@ -462,7 +461,7 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
                       </div>
                       <div
                         className={classNames(
-                          'i-ph:caret-down w-4 h-4 text-bolt-elements-textSecondary opacity-75',
+                          'i-ph:caret-down w-4 h-4 text-gray-400 opacity-75',
                           isModelDropdownOpen ? 'rotate-180' : undefined,
                         )}
                       />
@@ -471,7 +470,7 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
 
                   {isModelDropdownOpen && (
                     <div
-                      className="absolute z-20 w-full mt-1 py-1 rounded-lg border border-bolt-elements-borderColor bg-bolt-elements-background-depth-2 shadow-lg"
+                      className="absolute z-20 w-full mt-1 py-1 rounded-lg border border-blue-600 bg-black shadow-lg"
                       role="listbox"
                       id="model-listbox"
                     >
@@ -485,9 +484,9 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
                             placeholder="Search models... (⌘K to clear)"
                             className={classNames(
                               'w-full pl-8 pr-8 py-1.5 rounded-md text-sm',
-                              'bg-bolt-elements-background-depth-2 border border-bolt-elements-borderColor',
-                              'text-bolt-elements-textPrimary placeholder:text-bolt-elements-textTertiary',
-                              'focus:outline-none focus:ring-2 focus:ring-bolt-elements-focus',
+                              'bg-black border border-blue-600',
+                              'text-white placeholder:text-gray-400',
+                              'focus:outline-none focus:ring-2 focus:ring-blue-500',
                               'transition-all',
                             )}
                             onClick={(e) => e.stopPropagation()}
@@ -495,7 +494,7 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
                             aria-label="Search models"
                           />
                           <div className="absolute left-2.5 top-1/2 -translate-y-1/2">
-                            <span className="i-ph:magnifying-glass text-bolt-elements-textTertiary" />
+                            <span className="i-ph:magnifying-glass text-gray-400" />
                           </div>
                           {modelSearchQuery && (
                             <button
@@ -504,10 +503,10 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
                                 e.stopPropagation();
                                 clearModelSearch();
                               }}
-                              className="absolute right-2.5 top-1/2 -translate-y-1/2 p-0.5 rounded hover:bg-bolt-elements-background-depth-3 transition-colors"
+                              className="absolute right-2.5 top-1/2 -translate-y-1/2 p-0.5 rounded hover:bg-gray-800 transition-colors"
                               aria-label="Clear search"
                             >
-                              <span className="i-ph:x text-bolt-elements-textTertiary text-xs" />
+                              <span className="i-ph:x text-gray-400 text-xs" />
                             </button>
                           )}
                         </div>
@@ -516,7 +515,7 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
                       <div className="max-h-60 overflow-y-auto">
                         {filteredModels.length === 0 ? (
                           <div className="px-3 py-3 text-sm">
-                            <div className="text-bolt-elements-textTertiary mb-1">
+                            <div className="text-gray-400 mb-1">
                               {debouncedModelSearchQuery
                                 ? `No models match "${debouncedModelSearchQuery}"`
                                 : 'No models found'}
@@ -531,12 +530,10 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
                               aria-selected={selectedModel === model.name}
                               className={classNames(
                                 'px-3 py-2 text-sm cursor-pointer',
-                                'hover:bg-bolt-elements-background-depth-3',
-                                'text-bolt-elements-textPrimary',
+                                'hover:bg-gray-800',
+                                'text-white',
                                 'outline-none',
-                                selectedModel === model.name || focusedModelIndex === index
-                                  ? 'bg-bolt-elements-background-depth-2'
-                                  : undefined,
+                                selectedModel === model.name || focusedModelIndex === index ? 'bg-gray-800' : undefined,
                               )}
                               onClick={(e) => {
                                 e.stopPropagation();
@@ -552,7 +549,7 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
                                     __html: (model as any).highlightedLabel || model.label,
                                   }}
                                 />
-                                <div className="flex items-center gap-2 text-xs text-bolt-elements-textTertiary">
+                                <div className="flex items-center gap-2 text-xs text-gray-400">
                                   <span>{formatContextSize(model.maxTokenAllowed)}</span>
                                 </div>
                               </div>
@@ -569,7 +566,7 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
             {/* API Key Input */}
             {selectedProvider && (
               <div className="space-y-2">
-                <Label className="text-sm font-medium text-bolt-elements-textPrimary">
+                <Label className="text-sm font-medium text-white">
                   API Key ({API_KEY_MAPPING[selectedProvider.name]})
                 </Label>
                 <Input
@@ -577,9 +574,9 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
                   placeholder={`Enter your ${selectedProvider.name} API key`}
                   value={apiKeys[API_KEY_MAPPING[selectedProvider.name]] || ''}
                   onChange={(e) => handleKeyChange(API_KEY_MAPPING[selectedProvider.name], e.target.value)}
-                  className="w-full bg-bolt-elements-prompt-background border-bolt-elements-borderColor text-bolt-elements-textPrimary placeholder:text-bolt-elements-textTertiary focus:ring-bolt-elements-focus"
+                  className="w-full bg-black border border-blue-600 text-white placeholder:text-gray-400 focus:ring-blue-500"
                 />
-                <p className="text-xs text-bolt-elements-textTertiary">
+                <p className="text-xs text-gray-400">
                   Your API key will be stored securely and used only for this application.
                 </p>
               </div>
@@ -589,23 +586,23 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
             {selectedProvider?.name === 'Amazon Bedrock' && (
               <>
                 <div className="space-y-2">
-                  <Label className="text-sm font-medium text-bolt-elements-textPrimary">AWS Secret Access Key</Label>
+                  <Label className="text-sm font-medium text-white">AWS Secret Access Key</Label>
                   <Input
                     type="password"
                     placeholder="Enter your AWS Secret Access Key"
                     value={apiKeys.AWS_SECRET_ACCESS_KEY || ''}
                     onChange={(e) => handleKeyChange('AWS_SECRET_ACCESS_KEY', e.target.value)}
-                    className="w-full bg-bolt-elements-prompt-background border-bolt-elements-borderColor text-bolt-elements-textPrimary placeholder:text-bolt-elements-textTertiary focus:ring-bolt-elements-focus"
+                    className="w-full bg-black border border-blue-600 text-white placeholder:text-gray-400 focus:ring-blue-500"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-sm font-medium text-bolt-elements-textPrimary">AWS Region</Label>
+                  <Label className="text-sm font-medium text-white">AWS Region</Label>
                   <Input
                     type="text"
                     placeholder="us-east-1"
                     value={apiKeys.AWS_REGION || 'us-east-1'}
                     onChange={(e) => handleKeyChange('AWS_REGION', e.target.value)}
-                    className="w-full bg-bolt-elements-prompt-background border-bolt-elements-borderColor text-bolt-elements-textPrimary placeholder:text-bolt-elements-textTertiary focus:ring-bolt-elements-focus"
+                    className="w-full bg-black border border-blue-600 text-white placeholder:text-gray-400 focus:ring-blue-500"
                   />
                 </div>
               </>
@@ -614,22 +611,22 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
             {/* Special handling for Supabase */}
             {selectedProvider?.name === 'Supabase' && (
               <div className="space-y-2">
-                <Label className="text-sm font-medium text-bolt-elements-textPrimary">Supabase Anon Key</Label>
+                <Label className="text-sm font-medium text-white">Supabase Anon Key</Label>
                 <Input
                   type="password"
                   placeholder="Enter your Supabase Anon Key"
                   value={apiKeys.SUPABASE_ANON_KEY || ''}
                   onChange={(e) => handleKeyChange('SUPABASE_ANON_KEY', e.target.value)}
-                  className="w-full bg-bolt-elements-prompt-background border-bolt-elements-borderColor text-bolt-elements-textPrimary placeholder:text-bolt-elements-textTertiary focus:ring-bolt-elements-focus"
+                  className="w-full bg-black border border-blue-600 text-white placeholder:text-gray-400 focus:ring-blue-500"
                 />
               </div>
             )}
 
             {/* Provider Information */}
             {selectedProvider && (
-              <div className="bg-bolt-elements-background-depth-2 rounded-lg p-4 border border-bolt-elements-borderColor">
-                <h3 className="text-sm font-medium text-bolt-elements-textPrimary mb-2">Provider Information</h3>
-                <div className="space-y-1 text-xs text-bolt-elements-textSecondary">
+              <div className="bg-black rounded-lg p-4 border border-blue-600">
+                <h3 className="text-sm font-medium text-white mb-2">Provider Information</h3>
+                <div className="space-y-1 text-xs text-gray-400">
                   <div>
                     <strong>Name:</strong> {selectedProvider.name}
                   </div>
@@ -643,7 +640,7 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
                         href={selectedProvider.getApiKeyLink}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-bolt-elements-focus hover:underline"
+                        className="text-blue-400 hover:underline"
                       >
                         {selectedProvider.getApiKeyLink}
                       </a>
@@ -656,23 +653,23 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
         </div>
 
         {/* Footer */}
-        <div className="p-6 border-t border-bolt-elements-borderColor bg-bolt-elements-background-depth-2">
+        <div className="p-6 border-t border-blue-600 bg-black">
           <div className="flex justify-between items-center">
-            <div className="text-sm text-bolt-elements-textTertiary">
+            <div className="text-sm text-gray-400">
               {Object.keys(apiKeys).filter((key) => apiKeys[key]).length} API keys configured
             </div>
             <div className="flex gap-3">
               <Button
                 variant="outline"
                 onClick={onClose}
-                className="border-bolt-elements-borderColor text-bolt-elements-textPrimary hover:bg-bolt-elements-background-depth-3"
+                className="border border-blue-600 text-white hover:bg-gray-800 bg-black"
               >
                 Cancel
               </Button>
               <Button
                 onClick={handleSaveKeys}
                 disabled={isLoading}
-                className="bg-bolt-elements-focus hover:bg-bolt-elements-focus text-white"
+                className="bg-blue-600 hover:bg-blue-700 text-white border border-blue-600"
               >
                 {isLoading ? 'Saving...' : 'Save Configuration'}
               </Button>
