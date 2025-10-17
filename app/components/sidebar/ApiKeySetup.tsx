@@ -4,6 +4,7 @@ import { Button } from '~/components/ui/Button';
 import { Input } from '~/components/ui/Input';
 import { Label } from '~/components/ui/Label';
 import { toast } from 'react-toastify';
+import { PROVIDER_LIST } from '~/utils/constants';
 import type { ProviderInfo } from '~/types/model';
 import type { ModelInfo } from '~/lib/modules/llm/types';
 
@@ -11,32 +12,6 @@ interface ApiKeySetupProps {
   isOpen: boolean;
   onClose: () => void;
 }
-
-// Comprehensive provider list with all available providers
-const ALL_PROVIDERS: ProviderInfo[] = [
-  { name: 'OpenAI', staticModels: [] },
-  { name: 'Anthropic', staticModels: [] },
-  { name: 'Google', staticModels: [] },
-  { name: 'Cohere', staticModels: [] },
-  { name: 'Groq', staticModels: [] },
-  { name: 'Hugging Face', staticModels: [] },
-  { name: 'Together', staticModels: [] },
-  { name: 'Perplexity', staticModels: [] },
-  { name: 'DeepSeek', staticModels: [] },
-  { name: 'Mistral', staticModels: [] },
-  { name: 'Moonshot', staticModels: [] },
-  { name: 'XAI', staticModels: [] },
-  { name: 'OpenRouter', staticModels: [] },
-  { name: 'Ollama', staticModels: [] },
-  { name: 'LM Studio', staticModels: [] },
-  { name: 'Hyperbolic', staticModels: [] },
-  { name: 'Amazon Bedrock', staticModels: [] },
-  { name: 'GitHub', staticModels: [] },
-  { name: 'GitLab', staticModels: [] },
-  { name: 'Supabase', staticModels: [] },
-  { name: 'Netlify', staticModels: [] },
-  { name: 'Vercel', staticModels: [] },
-];
 
 // API Key mapping for each provider
 const API_KEY_MAPPING: Record<string, string> = {
@@ -213,10 +188,10 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
   // Filter providers based on search
   const filteredProviders = useMemo(() => {
     if (!debouncedProviderSearchQuery) {
-      return ALL_PROVIDERS;
+      return PROVIDER_LIST;
     }
 
-    return ALL_PROVIDERS.map((provider) => {
+    return PROVIDER_LIST.map((provider) => {
       const match = fuzzyMatch(debouncedProviderSearchQuery, provider.name);
       return {
         ...provider,
@@ -438,7 +413,7 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
                             )}
                             onClick={(e) => {
                               e.stopPropagation();
-                              setSelectedProvider(provider);
+                              setSelectedProvider(provider as ProviderInfo);
                               setIsProviderDropdownOpen(false);
                               setProviderSearchQuery('');
                               setDebouncedProviderSearchQuery('');
@@ -647,6 +622,34 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
                   onChange={(e) => handleKeyChange('SUPABASE_ANON_KEY', e.target.value)}
                   className="w-full bg-bolt-elements-prompt-background border-bolt-elements-borderColor text-bolt-elements-textPrimary placeholder:text-bolt-elements-textTertiary focus:ring-bolt-elements-focus"
                 />
+              </div>
+            )}
+
+            {/* Provider Information */}
+            {selectedProvider && (
+              <div className="bg-bolt-elements-background-depth-2 rounded-lg p-4 border border-bolt-elements-borderColor">
+                <h3 className="text-sm font-medium text-bolt-elements-textPrimary mb-2">Provider Information</h3>
+                <div className="space-y-1 text-xs text-bolt-elements-textSecondary">
+                  <div>
+                    <strong>Name:</strong> {selectedProvider.name}
+                  </div>
+                  <div>
+                    <strong>Models Available:</strong> {modelList.length}
+                  </div>
+                  {selectedProvider.getApiKeyLink && (
+                    <div>
+                      <strong>Get API Key:</strong>{' '}
+                      <a
+                        href={selectedProvider.getApiKeyLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-bolt-elements-focus hover:underline"
+                      >
+                        {selectedProvider.getApiKeyLink}
+                      </a>
+                    </div>
+                  )}
+                </div>
               </div>
             )}
           </div>

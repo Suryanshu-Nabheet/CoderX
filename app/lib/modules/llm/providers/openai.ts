@@ -15,8 +15,17 @@ export default class OpenAIProvider extends BaseProvider {
   staticModels: ModelInfo[] = [
     /*
      * Essential fallback models - only the most stable/reliable ones
-     * GPT-4o: 128k context, 4k standard output (64k with long output mode)
+     * GPT-OSS-20B: Free model with good performance
      */
+    {
+      name: 'gpt-oss-20b',
+      label: 'GPT-OSS-20B (Free)',
+      provider: 'OpenAI',
+      maxTokenAllowed: 128000,
+      maxCompletionTokens: 4096,
+    },
+
+    // GPT-4o: 128k context, 4k standard output (64k with long output mode)
     { name: 'gpt-4o', label: 'GPT-4o', provider: 'OpenAI', maxTokenAllowed: 128000, maxCompletionTokens: 4096 },
 
     // GPT-4o Mini: 128k context, cost-effective alternative

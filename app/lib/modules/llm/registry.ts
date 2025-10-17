@@ -1,3 +1,4 @@
+import OpenAIProvider from './providers/openai';
 import AnthropicProvider from './providers/anthropic';
 import CohereProvider from './providers/cohere';
 import DeepseekProvider from './providers/deepseek';
@@ -9,7 +10,6 @@ import MistralProvider from './providers/mistral';
 import OllamaProvider from './providers/ollama';
 import OpenRouterProvider from './providers/open-router';
 import OpenAILikeProvider from './providers/openai-like';
-import OpenAIProvider from './providers/openai';
 import PerplexityProvider from './providers/perplexity';
 import TogetherProvider from './providers/together';
 import XAIProvider from './providers/xai';
@@ -19,6 +19,7 @@ import GithubProvider from './providers/github';
 import MoonshotProvider from './providers/moonshot';
 
 export {
+  OpenAIProvider,
   AnthropicProvider,
   CohereProvider,
   DeepseekProvider,
@@ -29,7 +30,6 @@ export {
   MistralProvider,
   MoonshotProvider,
   OllamaProvider,
-  OpenAIProvider,
   OpenRouterProvider,
   OpenAILikeProvider,
   PerplexityProvider,
