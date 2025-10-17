@@ -13,7 +13,7 @@ import { useSearchFilter } from '~/lib/hooks/useSearchFilter';
 import { classNames } from '~/utils/classNames';
 import { useStore } from '@nanostores/react';
 import { profileStore } from '~/lib/stores/profile';
-import { ApiKeyManager } from './ApiKeyManager';
+import { ApiKeySetup } from './ApiKeySetup';
 
 const menuVariants = {
   closed: {
@@ -52,7 +52,7 @@ export const Menu = () => {
   const [open, setOpen] = useState(false);
   const [dialogContent, setDialogContent] = useState<DialogContent>(null);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-  const [isApiKeyManagerOpen, setIsApiKeyManagerOpen] = useState(false);
+  const [isApiKeySetupOpen, setIsApiKeySetupOpen] = useState(false);
   const profile = useStore(profileStore);
   const [selectionMode, setSelectionMode] = useState(false);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
@@ -300,12 +300,12 @@ export const Menu = () => {
     setIsSettingsOpen(false);
   };
 
-  const handleApiKeyManagerClick = () => {
-    setIsApiKeyManagerOpen(true);
+  const handleApiKeySetupClick = () => {
+    setIsApiKeySetupOpen(true);
   };
 
-  const handleApiKeyManagerClose = () => {
-    setIsApiKeyManagerOpen(false);
+  const handleApiKeySetupClose = () => {
+    setIsApiKeySetupOpen(false);
   };
 
   const setDialogContentWithLogging = useCallback((content: DialogContent) => {
@@ -539,7 +539,7 @@ export const Menu = () => {
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={handleApiKeyManagerClick}
+                  onClick={handleApiKeySetupClick}
                   className="w-full flex items-center gap-2 bg-gray-800 hover:bg-gray-700 text-white border-gray-600 hover:border-gray-500"
                 >
                   <div className="i-ph:key text-sm" />
@@ -552,7 +552,7 @@ export const Menu = () => {
       </motion.div>
 
       <ControlPanel open={isSettingsOpen} onClose={handleSettingsClose} />
-      <ApiKeyManager isOpen={isApiKeyManagerOpen} onClose={handleApiKeyManagerClose} />
+      <ApiKeySetup isOpen={isApiKeySetupOpen} onClose={handleApiKeySetupClose} />
     </>
   );
 };
