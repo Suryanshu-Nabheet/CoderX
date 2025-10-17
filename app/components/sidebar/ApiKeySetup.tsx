@@ -538,7 +538,7 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
             variant="ghost"
             size="sm"
             onClick={onClose}
-            className="text-gray-400 hover:text-white hover:bg-gray-800/50 rounded-lg p-2 transition-all"
+            className="text-gray-600 hover:text-gray-800 hover:bg-gray-800/50 rounded-lg p-2 transition-all"
           >
             <div className="i-ph:x text-xl" />
           </Button>
