@@ -520,10 +520,10 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
   }
 
   return (
-    <div className="fixed inset-0 bg-gradient-to-br from-black via-gray-900 to-blue-900/20 backdrop-blur-sm flex items-center justify-center z-50">
-      <div className="bg-gradient-to-br from-black via-gray-900 to-blue-900/30 rounded-xl shadow-2xl w-full max-w-6xl h-[90vh] flex flex-col border border-blue-500/20 backdrop-blur-md">
+    <div className="fixed inset-0 bg-black/40 backdrop-blur-md flex items-center justify-center z-50">
+      <div className="bg-black/20 backdrop-blur-xl rounded-2xl shadow-2xl w-full max-w-6xl h-[90vh] flex flex-col border border-blue-500/30 backdrop-blur-2xl">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-blue-500/20 bg-gradient-to-r from-black/50 to-blue-900/10">
+        <div className="flex items-center justify-between p-6 border-b border-blue-500/30 bg-black/10 backdrop-blur-lg rounded-t-2xl">
           <div className="flex items-center gap-3">
             <div className="i-ph:key text-2xl text-blue-400" />
             <h2 className="text-2xl font-semibold text-white">API Key Configuration</h2>
@@ -539,7 +539,7 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
         </div>
 
         {/* Main Content */}
-        <div className="flex-1 p-6 overflow-y-auto bg-gradient-to-b from-transparent via-gray-900/10 to-blue-900/5">
+        <div className="flex-1 p-6 overflow-y-auto bg-transparent">
           <div className="max-w-4xl mx-auto space-y-8">
             {/* Provider Selection */}
             <div className="space-y-3">
@@ -547,10 +547,10 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
               <div className="relative" ref={providerDropdownRef}>
                 <div
                   className={classNames(
-                    'w-full p-3 rounded-lg border border-gray-600/50',
-                    'bg-gray-800/30 text-white',
+                    'w-full p-3 rounded-lg border border-blue-500/30',
+                    'bg-black/20 backdrop-blur-lg text-white',
                     'focus-within:outline-none focus-within:ring-2 focus-within:ring-blue-500/50',
-                    'transition-all cursor-pointer hover:border-gray-500/50',
+                    'transition-all cursor-pointer hover:border-blue-500/50',
                     isProviderDropdownOpen ? 'ring-2 ring-blue-500/50 border-blue-500/50' : undefined,
                   )}
                   onClick={() => setIsProviderDropdownOpen(!isProviderDropdownOpen)}
@@ -573,7 +573,7 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
 
                 {isProviderDropdownOpen && (
                   <div
-                    className="absolute z-20 w-full mt-2 py-2 rounded-lg border border-gray-600/50 bg-gray-900/95 backdrop-blur-sm shadow-xl"
+                    className="absolute z-20 w-full mt-2 py-2 rounded-lg border border-blue-500/30 bg-black/30 backdrop-blur-xl shadow-xl"
                     role="listbox"
                     id="provider-listbox"
                   >
@@ -587,7 +587,7 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
                           placeholder="Search providers... (⌘K to clear)"
                           className={classNames(
                             'w-full pl-8 pr-8 py-2 rounded-md text-sm',
-                            'bg-gray-800/50 border border-gray-600/50',
+                            'bg-black/20 backdrop-blur-lg border border-blue-500/30',
                             'text-white placeholder:text-gray-400',
                             'focus:outline-none focus:ring-2 focus:ring-blue-500/50',
                             'transition-all',
@@ -677,10 +677,10 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
                 <div className="relative" ref={modelDropdownRef}>
                   <div
                     className={classNames(
-                      'w-full p-3 rounded-lg border border-gray-600/50',
-                      'bg-gray-800/30 text-white',
+                      'w-full p-3 rounded-lg border border-blue-500/30',
+                      'bg-black/20 backdrop-blur-lg text-white',
                       'focus-within:outline-none focus-within:ring-2 focus-within:ring-blue-500/50',
-                      'transition-all cursor-pointer hover:border-gray-500/50',
+                      'transition-all cursor-pointer hover:border-blue-500/50',
                       isModelDropdownOpen ? 'ring-2 ring-blue-500/50 border-blue-500/50' : undefined,
                     )}
                     onClick={() => setIsModelDropdownOpen(!isModelDropdownOpen)}
@@ -705,7 +705,7 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
 
                   {isModelDropdownOpen && (
                     <div
-                      className="absolute z-20 w-full mt-2 py-2 rounded-lg border border-gray-600/50 bg-gray-900/95 backdrop-blur-sm shadow-xl"
+                      className="absolute z-20 w-full mt-2 py-2 rounded-lg border border-blue-500/30 bg-black/30 backdrop-blur-xl shadow-xl"
                       role="listbox"
                       id="model-listbox"
                     >
@@ -719,7 +719,7 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
                             placeholder="Search models... (⌘K to clear)"
                             className={classNames(
                               'w-full pl-8 pr-8 py-2 rounded-md text-sm',
-                              'bg-gray-800/50 border border-gray-600/50',
+                              'bg-black/20 backdrop-blur-lg border border-blue-500/30',
                               'text-white placeholder:text-gray-400',
                               'focus:outline-none focus:ring-2 focus:ring-blue-500/50',
                               'transition-all',
@@ -811,7 +811,7 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
                   placeholder={`Enter your ${selectedProvider.name} API key`}
                   value={apiKeys[API_KEY_MAPPING[selectedProvider.name]] || ''}
                   onChange={(e) => handleKeyChange(API_KEY_MAPPING[selectedProvider.name], e.target.value)}
-                  className="w-full bg-gray-800/30 border border-gray-600/50 text-white placeholder:text-gray-400 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+                  className="w-full bg-black/20 backdrop-blur-lg border border-blue-500/30 text-white placeholder:text-gray-400 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
                 />
                 <p className="text-xs text-gray-400">
                   Your API key will be stored securely and used only for this application.
@@ -829,7 +829,7 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
                     placeholder="Enter your AWS Secret Access Key"
                     value={apiKeys.AWS_SECRET_ACCESS_KEY || ''}
                     onChange={(e) => handleKeyChange('AWS_SECRET_ACCESS_KEY', e.target.value)}
-                    className="w-full bg-gray-800/30 border border-gray-600/50 text-white placeholder:text-gray-400 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+                    className="w-full bg-black/20 backdrop-blur-lg border border-blue-500/30 text-white placeholder:text-gray-400 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
                   />
                 </div>
                 <div className="space-y-3">
@@ -839,7 +839,7 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
                     placeholder="us-east-1"
                     value={apiKeys.AWS_REGION || 'us-east-1'}
                     onChange={(e) => handleKeyChange('AWS_REGION', e.target.value)}
-                    className="w-full bg-gray-800/30 border border-gray-600/50 text-white placeholder:text-gray-400 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+                    className="w-full bg-black/20 backdrop-blur-lg border border-blue-500/30 text-white placeholder:text-gray-400 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
                   />
                 </div>
               </>
@@ -855,7 +855,7 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
                     placeholder="https://your-resource.openai.azure.com/"
                     value={apiKeys.AZURE_OPENAI_ENDPOINT || ''}
                     onChange={(e) => handleKeyChange('AZURE_OPENAI_ENDPOINT', e.target.value)}
-                    className="w-full bg-gray-800/30 border border-gray-600/50 text-white placeholder:text-gray-400 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+                    className="w-full bg-black/20 backdrop-blur-lg border border-blue-500/30 text-white placeholder:text-gray-400 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
                   />
                 </div>
                 <div className="space-y-3">
@@ -865,7 +865,7 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
                     placeholder="gpt-4"
                     value={apiKeys.AZURE_OPENAI_DEPLOYMENT || ''}
                     onChange={(e) => handleKeyChange('AZURE_OPENAI_DEPLOYMENT', e.target.value)}
-                    className="w-full bg-gray-800/30 border border-gray-600/50 text-white placeholder:text-gray-400 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+                    className="w-full bg-black/20 backdrop-blur-lg border border-blue-500/30 text-white placeholder:text-gray-400 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
                   />
                 </div>
                 <div className="space-y-3">
@@ -875,7 +875,7 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
                     placeholder="2024-02-15-preview"
                     value={apiKeys.AZURE_OPENAI_API_VERSION || '2024-02-15-preview'}
                     onChange={(e) => handleKeyChange('AZURE_OPENAI_API_VERSION', e.target.value)}
-                    className="w-full bg-gray-800/30 border border-gray-600/50 text-white placeholder:text-gray-400 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+                    className="w-full bg-black/20 backdrop-blur-lg border border-blue-500/30 text-white placeholder:text-gray-400 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
                   />
                 </div>
               </>
@@ -891,7 +891,7 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
                     placeholder="Enter your Twilio Auth Token"
                     value={apiKeys.TWILIO_AUTH_TOKEN || ''}
                     onChange={(e) => handleKeyChange('TWILIO_AUTH_TOKEN', e.target.value)}
-                    className="w-full bg-gray-800/30 border border-gray-600/50 text-white placeholder:text-gray-400 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+                    className="w-full bg-black/20 backdrop-blur-lg border border-blue-500/30 text-white placeholder:text-gray-400 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
                   />
                 </div>
               </>
@@ -907,7 +907,7 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
                     placeholder="Enter your PayPal Secret"
                     value={apiKeys.PAYPAL_CLIENT_SECRET || ''}
                     onChange={(e) => handleKeyChange('PAYPAL_CLIENT_SECRET', e.target.value)}
-                    className="w-full bg-gray-800/30 border border-gray-600/50 text-white placeholder:text-gray-400 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+                    className="w-full bg-black/20 backdrop-blur-lg border border-blue-500/30 text-white placeholder:text-gray-400 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
                   />
                 </div>
               </>
@@ -915,7 +915,7 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
 
             {/* Provider Information */}
             {selectedProvider && (
-              <div className="bg-gradient-to-r from-gray-800/40 to-blue-900/20 rounded-lg p-5 border border-blue-500/20 backdrop-blur-sm">
+              <div className="bg-black/20 backdrop-blur-lg rounded-lg p-5 border border-blue-500/30">
                 <h3 className="text-sm font-semibold text-white mb-3">Provider Information</h3>
                 <div className="space-y-2 text-sm text-gray-300">
                   <div className="flex justify-between">
@@ -950,7 +950,7 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
         </div>
 
         {/* Footer */}
-        <div className="p-6 border-t border-blue-500/20 bg-gradient-to-r from-black/50 to-blue-900/10">
+        <div className="p-6 border-t border-blue-500/30 bg-black/10 backdrop-blur-lg rounded-b-2xl">
           <div className="flex justify-between items-center">
             <div className="text-sm text-gray-400">
               {Object.keys(apiKeys).filter((key) => apiKeys[key]).length} API keys configured
