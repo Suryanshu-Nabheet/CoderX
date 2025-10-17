@@ -526,10 +526,10 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
   }
 
   return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
-      <div className="bg-gradient-to-br from-gray-900 to-black rounded-xl shadow-2xl w-full max-w-6xl h-[90vh] flex flex-col border border-gray-700/50">
+    <div className="fixed inset-0 bg-gradient-to-br from-black via-gray-900 to-blue-900/20 backdrop-blur-sm flex items-center justify-center z-50">
+      <div className="bg-gradient-to-br from-black via-gray-900 to-blue-900/30 rounded-xl shadow-2xl w-full max-w-6xl h-[90vh] flex flex-col border border-blue-500/20 backdrop-blur-md">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-700/30">
+        <div className="flex items-center justify-between p-6 border-b border-blue-500/20 bg-gradient-to-r from-black/50 to-blue-900/10">
           <div className="flex items-center gap-3">
             <div className="i-ph:key text-2xl text-blue-400" />
             <h2 className="text-2xl font-semibold text-white">API Key Configuration</h2>
@@ -545,7 +545,7 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
         </div>
 
         {/* Main Content */}
-        <div className="flex-1 p-6 overflow-y-auto">
+        <div className="flex-1 p-6 overflow-y-auto bg-gradient-to-b from-transparent via-gray-900/10 to-blue-900/5">
           <div className="max-w-4xl mx-auto space-y-8">
             {/* Category Filter */}
             <div className="space-y-3">
@@ -954,7 +954,7 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
 
             {/* Provider Information */}
             {selectedProvider && (
-              <div className="bg-gradient-to-r from-gray-800/30 to-gray-700/30 rounded-lg p-5 border border-gray-600/30">
+              <div className="bg-gradient-to-r from-gray-800/40 to-blue-900/20 rounded-lg p-5 border border-blue-500/20 backdrop-blur-sm">
                 <h3 className="text-sm font-semibold text-white mb-3">Provider Information</h3>
                 <div className="space-y-2 text-sm text-gray-300">
                   <div className="flex justify-between">
@@ -989,7 +989,7 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
         </div>
 
         {/* Footer */}
-        <div className="p-6 border-t border-gray-700/30 bg-gradient-to-r from-gray-900/50 to-black/50">
+        <div className="p-6 border-t border-blue-500/20 bg-gradient-to-r from-black/50 to-blue-900/10">
           <div className="flex justify-between items-center">
             <div className="text-sm text-gray-400">
               {Object.keys(apiKeys).filter((key) => apiKeys[key]).length} API keys configured
