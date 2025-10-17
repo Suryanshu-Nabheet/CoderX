@@ -191,11 +191,11 @@ const ChatActionButton = forwardRef(
         <button
           ref={ref}
           type="button"
-          className={`flex items-center justify-center text-gray-400 hover:text-blue-400 transition-colors ${icon} ${className ? className : ''}`}
+          className={`flex items-center justify-center text-gray-400 hover:text-blue-400 transition-colors ${className ? className : ''}`}
           onClick={onClick}
           aria-label={toolTipContent}
         >
-          {children}
+          {children || <div className={icon}></div>}
         </button>
       </WithTooltip>
     );
