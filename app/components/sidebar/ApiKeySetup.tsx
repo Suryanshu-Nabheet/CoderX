@@ -4,7 +4,6 @@ import { Button } from '~/components/ui/Button';
 import { Input } from '~/components/ui/Input';
 import { Label } from '~/components/ui/Label';
 import { toast } from 'react-toastify';
-import { PROVIDER_LIST } from '~/utils/constants';
 import type { ProviderInfo } from '~/types/model';
 import type { ModelInfo } from '~/lib/modules/llm/types';
 
@@ -13,11 +12,12 @@ interface ApiKeySetupProps {
   onClose: () => void;
 }
 
-// API Key mapping for each provider
+// Comprehensive API Key mapping for ALL major AI providers and services
 const API_KEY_MAPPING: Record<string, string> = {
+  // Core AI Providers
   OpenAI: 'OPENAI_API_KEY',
   Anthropic: 'ANTHROPIC_API_KEY',
-  Google: 'GOOGLE_API_KEY',
+  Google: 'GOOGLE_GENERATIVE_AI_API_KEY',
   Cohere: 'COHERE_API_KEY',
   Groq: 'GROQ_API_KEY',
   'Hugging Face': 'HUGGINGFACE_API_KEY',
@@ -28,16 +28,247 @@ const API_KEY_MAPPING: Record<string, string> = {
   Moonshot: 'MOONSHOT_API_KEY',
   XAI: 'XAI_API_KEY',
   OpenRouter: 'OPEN_ROUTER_API_KEY',
-  Ollama: 'OLLAMA_API_KEY',
-  'LM Studio': 'LM_STUDIO_API_KEY',
+  Ollama: 'OLLAMA_API_BASE_URL',
+  'LM Studio': 'LMSTUDIO_API_BASE_URL',
   Hyperbolic: 'HYPERBOLIC_API_KEY',
+
+  // Cloud Providers
   'Amazon Bedrock': 'AWS_ACCESS_KEY_ID',
+  'AWS Secret Access Key': 'AWS_SECRET_ACCESS_KEY',
+  'AWS Region': 'AWS_REGION',
+
+  // Development & Deployment Services
   GitHub: 'GITHUB_TOKEN',
   GitLab: 'GITLAB_TOKEN',
   Supabase: 'SUPABASE_URL',
+  'Supabase Anon Key': 'SUPABASE_ANON_KEY',
   Netlify: 'NETLIFY_TOKEN',
   Vercel: 'VERCEL_TOKEN',
+
+  // Additional AI Services
+  'OpenAI Like': 'OPENAI_LIKE_API_KEY',
+  'OpenAI Like Base URL': 'OPENAI_LIKE_API_BASE_URL',
+  'OpenAI Like Models': 'OPENAI_LIKE_API_MODELS',
+  'Together Base URL': 'TOGETHER_API_BASE_URL',
+
+  // Local Development
+  'Ollama Base URL': 'OLLAMA_API_BASE_URL',
+  'LM Studio Base URL': 'LMSTUDIO_API_BASE_URL',
+
+  // Additional Cloud Services
+  'Azure OpenAI': 'AZURE_OPENAI_API_KEY',
+  'Azure OpenAI Endpoint': 'AZURE_OPENAI_ENDPOINT',
+  'Azure OpenAI Deployment': 'AZURE_OPENAI_DEPLOYMENT',
+  'Azure OpenAI API Version': 'AZURE_OPENAI_API_VERSION',
+
+  // Specialized AI Services
+  Replicate: 'REPLICATE_API_TOKEN',
+  'Stability AI': 'STABILITY_API_KEY',
+  ElevenLabs: 'ELEVENLABS_API_KEY',
+  AssemblyAI: 'ASSEMBLYAI_API_KEY',
+  Speechify: 'SPEECHIFY_API_KEY',
+  Whisper: 'WHISPER_API_KEY',
+
+  // Database & Storage
+  Pinecone: 'PINECONE_API_KEY',
+  Weaviate: 'WEAVIATE_API_KEY',
+  Chroma: 'CHROMA_API_KEY',
+  Qdrant: 'QDRANT_API_KEY',
+  Milvus: 'MILVUS_API_KEY',
+
+  // Monitoring & Analytics
+  LangSmith: 'LANGSMITH_API_KEY',
+  'Weights & Biases': 'WANDB_API_KEY',
+  MLflow: 'MLFLOW_TRACKING_URI',
+  Neptune: 'NEPTUNE_API_TOKEN',
+
+  // Additional Services
+  SendGrid: 'SENDGRID_API_KEY',
+  Twilio: 'TWILIO_ACCOUNT_SID',
+  'Twilio Auth Token': 'TWILIO_AUTH_TOKEN',
+  Stripe: 'STRIPE_SECRET_KEY',
+  PayPal: 'PAYPAL_CLIENT_ID',
+  'PayPal Secret': 'PAYPAL_CLIENT_SECRET',
 };
+
+// Comprehensive provider list with all major AI providers and services
+const COMPREHENSIVE_PROVIDER_LIST = [
+  // Core AI Providers
+  {
+    name: 'OpenAI',
+    category: 'AI Provider',
+    icon: 'i-ph:brain',
+    getApiKeyLink: 'https://platform.openai.com/api-keys',
+  },
+  { name: 'Anthropic', category: 'AI Provider', icon: 'i-ph:robot', getApiKeyLink: 'https://console.anthropic.com/' },
+  {
+    name: 'Google',
+    category: 'AI Provider',
+    icon: 'i-ph:google-logo',
+    getApiKeyLink: 'https://makersuite.google.com/app/apikey',
+  },
+  {
+    name: 'Cohere',
+    category: 'AI Provider',
+    icon: 'i-ph:lightning',
+    getApiKeyLink: 'https://dashboard.cohere.ai/api-keys',
+  },
+  { name: 'Groq', category: 'AI Provider', icon: 'i-ph:bolt', getApiKeyLink: 'https://console.groq.com/keys' },
+  {
+    name: 'Hugging Face',
+    category: 'AI Provider',
+    icon: 'i-ph:heart',
+    getApiKeyLink: 'https://huggingface.co/settings/tokens',
+  },
+  {
+    name: 'Together',
+    category: 'AI Provider',
+    icon: 'i-ph:users',
+    getApiKeyLink: 'https://api.together.xyz/settings/api-keys',
+  },
+  {
+    name: 'Perplexity',
+    category: 'AI Provider',
+    icon: 'i-ph:question',
+    getApiKeyLink: 'https://www.perplexity.ai/settings/api',
+  },
+  {
+    name: 'DeepSeek',
+    category: 'AI Provider',
+    icon: 'i-ph:eye',
+    getApiKeyLink: 'https://platform.deepseek.com/api_keys',
+  },
+  {
+    name: 'Mistral',
+    category: 'AI Provider',
+    icon: 'i-ph:wind',
+    getApiKeyLink: 'https://console.mistral.ai/api-keys/',
+  },
+  {
+    name: 'Moonshot',
+    category: 'AI Provider',
+    icon: 'i-ph:moon',
+    getApiKeyLink: 'https://platform.moonshot.ai/console/api-keys',
+  },
+  { name: 'XAI', category: 'AI Provider', icon: 'i-ph:x-logo', getApiKeyLink: 'https://console.x.ai/' },
+  { name: 'OpenRouter', category: 'AI Provider', icon: 'i-ph:router', getApiKeyLink: 'https://openrouter.ai/keys' },
+  { name: 'Ollama', category: 'Local AI', icon: 'i-ph:desktop', getApiKeyLink: 'https://ollama.ai/' },
+  { name: 'LM Studio', category: 'Local AI', icon: 'i-ph:laptop', getApiKeyLink: 'https://lmstudio.ai/' },
+  { name: 'Hyperbolic', category: 'AI Provider', icon: 'i-ph:infinity', getApiKeyLink: 'https://hyperbolic.ai/' },
+
+  // Cloud Providers
+  {
+    name: 'Amazon Bedrock',
+    category: 'Cloud AI',
+    icon: 'i-ph:cloud',
+    getApiKeyLink: 'https://aws.amazon.com/bedrock/',
+  },
+  {
+    name: 'Azure OpenAI',
+    category: 'Cloud AI',
+    icon: 'i-ph:microsoft-logo',
+    getApiKeyLink: 'https://azure.microsoft.com/en-us/products/ai-services/openai-service',
+  },
+
+  // Development & Deployment Services
+  {
+    name: 'GitHub',
+    category: 'Development',
+    icon: 'i-ph:github-logo',
+    getApiKeyLink: 'https://github.com/settings/tokens',
+  },
+  {
+    name: 'GitLab',
+    category: 'Development',
+    icon: 'i-ph:git-branch',
+    getApiKeyLink: 'https://gitlab.com/-/profile/personal_access_tokens',
+  },
+  {
+    name: 'Supabase',
+    category: 'Database',
+    icon: 'i-ph:database',
+    getApiKeyLink: 'https://supabase.com/dashboard/project/_/settings/api',
+  },
+  {
+    name: 'Netlify',
+    category: 'Deployment',
+    icon: 'i-ph:globe',
+    getApiKeyLink: 'https://app.netlify.com/user/applications#personal-access-tokens',
+  },
+  {
+    name: 'Vercel',
+    category: 'Deployment',
+    icon: 'i-ph:vercel-logo',
+    getApiKeyLink: 'https://vercel.com/account/tokens',
+  },
+
+  // Specialized AI Services
+  {
+    name: 'Replicate',
+    category: 'AI Service',
+    icon: 'i-ph:repeat',
+    getApiKeyLink: 'https://replicate.com/account/api-tokens',
+  },
+  {
+    name: 'Stability AI',
+    category: 'AI Service',
+    icon: 'i-ph:image',
+    getApiKeyLink: 'https://platform.stability.ai/account/keys',
+  },
+  {
+    name: 'ElevenLabs',
+    category: 'AI Service',
+    icon: 'i-ph:speaker-high',
+    getApiKeyLink: 'https://elevenlabs.io/app/settings/api-keys',
+  },
+  {
+    name: 'AssemblyAI',
+    category: 'AI Service',
+    icon: 'i-ph:microphone',
+    getApiKeyLink: 'https://www.assemblyai.com/dashboard/signup',
+  },
+  { name: 'Speechify', category: 'AI Service', icon: 'i-ph:play', getApiKeyLink: 'https://speechify.com/api' },
+  { name: 'Whisper', category: 'AI Service', icon: 'i-ph:ear', getApiKeyLink: 'https://openai.com/research/whisper' },
+
+  // Database & Storage
+  {
+    name: 'Pinecone',
+    category: 'Database',
+    icon: 'i-ph:pine-tree',
+    getApiKeyLink: 'https://app.pinecone.io/organizations/-/api-keys',
+  },
+  { name: 'Weaviate', category: 'Database', icon: 'i-ph:graph', getApiKeyLink: 'https://console.weaviate.cloud/' },
+  { name: 'Chroma', category: 'Database', icon: 'i-ph:palette', getApiKeyLink: 'https://www.trychroma.com/' },
+  { name: 'Qdrant', category: 'Database', icon: 'i-ph:target', getApiKeyLink: 'https://cloud.qdrant.io/' },
+  { name: 'Milvus', category: 'Database', icon: 'i-ph:rocket', getApiKeyLink: 'https://milvus.io/' },
+
+  // Monitoring & Analytics
+  { name: 'LangSmith', category: 'Monitoring', icon: 'i-ph:chart-line', getApiKeyLink: 'https://smith.langchain.com/' },
+  {
+    name: 'Weights & Biases',
+    category: 'Monitoring',
+    icon: 'i-ph:chart-bar',
+    getApiKeyLink: 'https://wandb.ai/settings',
+  },
+  { name: 'MLflow', category: 'Monitoring', icon: 'i-ph:flowchart', getApiKeyLink: 'https://mlflow.org/' },
+  { name: 'Neptune', category: 'Monitoring', icon: 'i-ph:planet', getApiKeyLink: 'https://neptune.ai/' },
+
+  // Additional Services
+  {
+    name: 'SendGrid',
+    category: 'Communication',
+    icon: 'i-ph:envelope',
+    getApiKeyLink: 'https://app.sendgrid.com/settings/api_keys',
+  },
+  { name: 'Twilio', category: 'Communication', icon: 'i-ph:phone', getApiKeyLink: 'https://console.twilio.com/' },
+  {
+    name: 'Stripe',
+    category: 'Payment',
+    icon: 'i-ph:credit-card',
+    getApiKeyLink: 'https://dashboard.stripe.com/apikeys',
+  },
+  { name: 'PayPal', category: 'Payment', icon: 'i-ph:paypal-logo', getApiKeyLink: 'https://developer.paypal.com/' },
+];
 
 // Fuzzy search utilities (copied from ModelSelector)
 const levenshteinDistance = (str1: string, str2: string): number => {
@@ -115,10 +346,11 @@ const formatContextSize = (tokens: number): string => {
 export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => {
   const [apiKeys, setApiKeys] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedProvider, setSelectedProvider] = useState<ProviderInfo | null>(null);
+  const [selectedProvider, setSelectedProvider] = useState<any | null>(null);
   const [selectedModel, setSelectedModel] = useState<string>('');
   const [modelList, setModelList] = useState<ModelInfo[]>([]);
   const [isLoadingModels, setIsLoadingModels] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<string>('All');
 
   // Provider dropdown state
   const [isProviderDropdownOpen, setIsProviderDropdownOpen] = useState(false);
@@ -179,24 +411,33 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
     }
   };
 
-  // Filter providers based on search
+  // Filter providers based on search and category
   const filteredProviders = useMemo(() => {
-    if (!debouncedProviderSearchQuery) {
-      return PROVIDER_LIST;
+    let providers = COMPREHENSIVE_PROVIDER_LIST;
+
+    // Filter by category first
+    if (selectedCategory !== 'All') {
+      providers = providers.filter((provider) => provider.category === selectedCategory);
     }
 
-    return PROVIDER_LIST.map((provider) => {
-      const match = fuzzyMatch(debouncedProviderSearchQuery, provider.name);
-      return {
-        ...provider,
-        searchScore: match.score,
-        searchMatches: match.matches,
-        highlightedName: highlightText(provider.name, debouncedProviderSearchQuery),
-      };
-    })
+    // Then filter by search query
+    if (!debouncedProviderSearchQuery) {
+      return providers;
+    }
+
+    return providers
+      .map((provider) => {
+        const match = fuzzyMatch(debouncedProviderSearchQuery, provider.name);
+        return {
+          ...provider,
+          searchScore: match.score,
+          searchMatches: match.matches,
+          highlightedName: highlightText(provider.name, debouncedProviderSearchQuery),
+        };
+      })
       .filter((provider) => provider.searchMatches)
       .sort((a, b) => b.searchScore - a.searchScore);
-  }, [debouncedProviderSearchQuery]);
+  }, [debouncedProviderSearchQuery, selectedCategory]);
 
   // Filter models based on selected provider and search
   const filteredModels = useMemo(() => {
@@ -306,9 +547,42 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
         {/* Main Content */}
         <div className="flex-1 p-6 overflow-y-auto">
           <div className="max-w-4xl mx-auto space-y-8">
+            {/* Category Filter */}
+            <div className="space-y-3">
+              <Label className="text-sm font-semibold text-gray-200">Category</Label>
+              <div className="flex flex-wrap gap-2">
+                {[
+                  'All',
+                  'AI Provider',
+                  'Cloud AI',
+                  'Local AI',
+                  'Development',
+                  'Database',
+                  'Deployment',
+                  'AI Service',
+                  'Monitoring',
+                  'Communication',
+                  'Payment',
+                ].map((category) => (
+                  <button
+                    key={category}
+                    onClick={() => setSelectedCategory(category)}
+                    className={classNames(
+                      'px-3 py-1.5 rounded-lg text-sm font-medium transition-all',
+                      selectedCategory === category
+                        ? 'bg-blue-600 text-white'
+                        : 'bg-gray-800/30 text-gray-300 hover:bg-gray-700/50',
+                    )}
+                  >
+                    {category}
+                  </button>
+                ))}
+              </div>
+            </div>
+
             {/* Provider Selection */}
             <div className="space-y-3">
-              <Label className="text-sm font-semibold text-gray-200">AI Provider</Label>
+              <Label className="text-sm font-semibold text-gray-200">Service Provider</Label>
               <div className="relative" ref={providerDropdownRef}>
                 <div
                   className={classNames(
@@ -407,17 +681,23 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
                             )}
                             onClick={(e) => {
                               e.stopPropagation();
-                              setSelectedProvider(provider as ProviderInfo);
+                              setSelectedProvider(provider as any);
                               setIsProviderDropdownOpen(false);
                               setProviderSearchQuery('');
                               setDebouncedProviderSearchQuery('');
                             }}
                           >
-                            <div
-                              dangerouslySetInnerHTML={{
-                                __html: (provider as any).highlightedName || provider.name,
-                              }}
-                            />
+                            <div className="flex items-center gap-3">
+                              <div className={`${provider.icon} text-lg text-blue-400`} />
+                              <div className="flex-1">
+                                <div
+                                  dangerouslySetInnerHTML={{
+                                    __html: (provider as any).highlightedName || provider.name,
+                                  }}
+                                />
+                                <div className="text-xs text-gray-400">{provider.category}</div>
+                              </div>
+                            </div>
                           </div>
                         ))
                       )}
@@ -563,7 +843,7 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
             {selectedProvider && (
               <div className="space-y-3">
                 <Label className="text-sm font-semibold text-gray-200">
-                  API Key ({API_KEY_MAPPING[selectedProvider.name]})
+                  API Key ({API_KEY_MAPPING[selectedProvider.name] || 'API_KEY'})
                 </Label>
                 <Input
                   type="password"
@@ -604,18 +884,72 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
               </>
             )}
 
-            {/* Special handling for Supabase */}
-            {selectedProvider?.name === 'Supabase' && (
-              <div className="space-y-3">
-                <Label className="text-sm font-semibold text-gray-200">Supabase Anon Key</Label>
-                <Input
-                  type="password"
-                  placeholder="Enter your Supabase Anon Key"
-                  value={apiKeys.SUPABASE_ANON_KEY || ''}
-                  onChange={(e) => handleKeyChange('SUPABASE_ANON_KEY', e.target.value)}
-                  className="w-full bg-gray-800/30 border border-gray-600/50 text-white placeholder:text-gray-400 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
-                />
-              </div>
+            {/* Special handling for Azure OpenAI */}
+            {selectedProvider?.name === 'Azure OpenAI' && (
+              <>
+                <div className="space-y-3">
+                  <Label className="text-sm font-semibold text-gray-200">Azure OpenAI Endpoint</Label>
+                  <Input
+                    type="text"
+                    placeholder="https://your-resource.openai.azure.com/"
+                    value={apiKeys.AZURE_OPENAI_ENDPOINT || ''}
+                    onChange={(e) => handleKeyChange('AZURE_OPENAI_ENDPOINT', e.target.value)}
+                    className="w-full bg-gray-800/30 border border-gray-600/50 text-white placeholder:text-gray-400 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+                  />
+                </div>
+                <div className="space-y-3">
+                  <Label className="text-sm font-semibold text-gray-200">Azure OpenAI Deployment</Label>
+                  <Input
+                    type="text"
+                    placeholder="gpt-4"
+                    value={apiKeys.AZURE_OPENAI_DEPLOYMENT || ''}
+                    onChange={(e) => handleKeyChange('AZURE_OPENAI_DEPLOYMENT', e.target.value)}
+                    className="w-full bg-gray-800/30 border border-gray-600/50 text-white placeholder:text-gray-400 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+                  />
+                </div>
+                <div className="space-y-3">
+                  <Label className="text-sm font-semibold text-gray-200">Azure OpenAI API Version</Label>
+                  <Input
+                    type="text"
+                    placeholder="2024-02-15-preview"
+                    value={apiKeys.AZURE_OPENAI_API_VERSION || '2024-02-15-preview'}
+                    onChange={(e) => handleKeyChange('AZURE_OPENAI_API_VERSION', e.target.value)}
+                    className="w-full bg-gray-800/30 border border-gray-600/50 text-white placeholder:text-gray-400 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+                  />
+                </div>
+              </>
+            )}
+
+            {/* Special handling for Twilio */}
+            {selectedProvider?.name === 'Twilio' && (
+              <>
+                <div className="space-y-3">
+                  <Label className="text-sm font-semibold text-gray-200">Twilio Auth Token</Label>
+                  <Input
+                    type="password"
+                    placeholder="Enter your Twilio Auth Token"
+                    value={apiKeys.TWILIO_AUTH_TOKEN || ''}
+                    onChange={(e) => handleKeyChange('TWILIO_AUTH_TOKEN', e.target.value)}
+                    className="w-full bg-gray-800/30 border border-gray-600/50 text-white placeholder:text-gray-400 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+                  />
+                </div>
+              </>
+            )}
+
+            {/* Special handling for PayPal */}
+            {selectedProvider?.name === 'PayPal' && (
+              <>
+                <div className="space-y-3">
+                  <Label className="text-sm font-semibold text-gray-200">PayPal Secret</Label>
+                  <Input
+                    type="password"
+                    placeholder="Enter your PayPal Secret"
+                    value={apiKeys.PAYPAL_CLIENT_SECRET || ''}
+                    onChange={(e) => handleKeyChange('PAYPAL_CLIENT_SECRET', e.target.value)}
+                    className="w-full bg-gray-800/30 border border-gray-600/50 text-white placeholder:text-gray-400 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+                  />
+                </div>
+              </>
             )}
 
             {/* Provider Information */}
@@ -626,6 +960,10 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
                   <div className="flex justify-between">
                     <span className="font-medium">Name:</span>
                     <span className="text-gray-200">{selectedProvider.name}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="font-medium">Category:</span>
+                    <span className="text-gray-200">{selectedProvider.category}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="font-medium">Models Available:</span>
