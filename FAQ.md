@@ -42,7 +42,7 @@ Check out our [Contribution Guide](CONTRIBUTING.md) for more details on how to g
 <details>
 <summary><strong>What are the future plans for CoderX?</strong></summary>
 
-Visit our [Roadmap](https://roadmap.sh/r/ottodev-roadmap-2ovzo) for the latest updates.  
+Visit our [Roadmap](https://github.com/Suryanshu-Nabheet/CoderX/projects) for the latest updates.  
 New features and improvements are on the way!
 
 </details>
@@ -50,7 +50,7 @@ New features and improvements are on the way!
 <details>
 <summary><strong>Why are there so many open issues/pull requests?</strong></summary>
 
-CoderX began as a small showcase project on @ColeMedin's YouTube channel to explore editing open-source projects with local LLMs. However, it quickly grew into a massive community effort!
+CoderX began as a small showcase project to explore editing open-source projects with local LLMs. However, it quickly grew into a massive community effort!
 
 We're forming a team of maintainers to manage demand and streamline issue resolution. The maintainers are rockstars, and we're also exploring partnerships to help the project thrive.
 

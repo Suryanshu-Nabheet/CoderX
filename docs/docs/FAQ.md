@@ -54,7 +54,7 @@ You can configure API keys in two ways:
         Never commit API keys to version control. The `.env.local` file is already in `.gitignore`.
 
 ??? question "How do I add a new LLM provider?"
-bolt.diy uses a modular provider architecture. To add a new provider:
+CoderX uses a modular provider architecture. To add a new provider:
 
     1. **Create a Provider Class** in `app/lib/modules/llm/providers/your-provider.ts`
     2. **Implement the BaseProvider interface** with your provider's specific logic
@@ -101,7 +101,7 @@ xAI has released several new Grok models with enhanced capabilities:
 ## Best Practices
 
 ??? question "How do I access help and documentation?"
-bolt.diy provides multiple ways to access help and documentation:
+CoderX provides multiple ways to access help and documentation:
 
     **Help Icon in Sidebar:**
     - Look for the question mark (?) icon in the sidebar
@@ -116,7 +116,7 @@ bolt.diy provides multiple ways to access help and documentation:
 
     **Community Support:**
     - **GitHub Issues**: Report bugs and request features
-    - **Community Forum**: [thinktank.ottomator.ai](https://thinktank.ottomator.ai)
+    - **Community Forum**: [GitHub Discussions](https://github.com/Suryanshu-Nabheet/CoderX/discussions)
 
 ??? question "How do I get the best results with CoderX?"
 Follow these proven strategies for optimal results:
@@ -189,11 +189,11 @@ CoderX provides comprehensive Git and GitHub integration:
 Check out our [Contribution Guide](CONTRIBUTING.md) for more details on how to get involved!
 
 ??? question "What are the future plans for CoderX?"
-Visit our [Roadmap](https://roadmap.sh/r/ottodev-roadmap-2ovzo) for the latest updates.  
+Visit our [Roadmap](https://github.com/Suryanshu-Nabheet/CoderX/projects) for the latest updates.  
  New features and improvements are on the way!
 
 ??? question "Why are there so many open issues/pull requests?"
-CoderX began as a small showcase project on @ColeMedin's YouTube channel to explore editing open-source projects with local LLMs. However, it quickly grew into a massive community effort!
+CoderX began as a small showcase project to explore editing open-source projects with local LLMs. However, it quickly grew into a massive community effort!
 
     We're forming a team of maintainers to manage demand and streamline issue resolution. The maintainers are rockstars, and we're also exploring partnerships to help the project thrive.
 
@@ -342,7 +342,7 @@ If you're having trouble with MCP integrations:
 
     - **Verify server configuration** in Settings → MCP
     - **Check server endpoints** and authentication credentials
-    - **Test server connectivity** outside of bolt.diy
+    - **Test server connectivity** outside of CoderX
     - **Review MCP server logs** for specific error messages
     - **Ensure server supports** the MCP protocol version
 
@@ -386,7 +386,7 @@ If the live preview isn't working:
 **Windows-specific issue**: Update the [Visual C++ Redistributable](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170)
 
 ??? error "Miniflare or Wrangler errors in Windows"
-**Windows development environment**: Install Visual Studio C++ (version 14.40.33816 or later). More details in [GitHub Issues](https://github.com/stackblitz-labs/bolt.diy/issues/19)
+**Windows development environment**: Install Visual Studio C++ (version 14.40.33816 or later). More details in [GitHub Issues](https://github.com/Suryanshu-Nabheet/CoderX/issues/19)
 
 ??? error "Provider not showing up after adding it"
 If your custom LLM provider isn't appearing:

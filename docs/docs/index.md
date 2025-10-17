@@ -31,9 +31,9 @@ CoderX allows you to choose the LLM that you use for each prompt! Currently, you
 
 ## Join the community!
 
-[Join the community!](https://thinktank.ottomator.ai)
+[Join the community!](https://github.com/Suryanshu-Nabheet/CoderX/discussions)
 
-Also [this pinned post in our community](https://thinktank.ottomator.ai/t/videos-tutorial-helpful-content/3243) has a bunch of incredible resources for running and deploying CoderX yourself!
+Also [this pinned post in our community](https://github.com/Suryanshu-Nabheet/CoderX/discussions) has a bunch of incredible resources for running and deploying CoderX yourself!
 
 ---
 
@@ -628,7 +628,7 @@ The documentation includes:
 
 ### Community Support
 - **GitHub Issues**: Report bugs and request features
-- **Community Forum**: Join discussions at [thinktank.ottomator.ai](https://thinktank.ottomator.ai)
+- **Community Forum**: Join discussions at [GitHub Discussions](https://github.com/Suryanshu-Nabheet/CoderX/discussions)
 - **Contributing Guide**: Learn how to contribute to the project
 
 ## Tips and Tricks
