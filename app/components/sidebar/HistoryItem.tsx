@@ -98,7 +98,7 @@ export function HistoryItem({
           />
           <button
             type="submit"
-            className="i-phosphor-check h-6 w-6 text-gray-400 hover:text-blue-400 transition-colors"
+            className="i-ph-check h-6 w-6 text-gray-400 hover:text-blue-400 transition-colors"
             onMouseDown={handleSubmit}
           />
         </form>
@@ -119,7 +119,7 @@ export function HistoryItem({
             <div className="flex items-center gap-4 text-gray-400 dark:text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity">
               <ChatActionButton
                 toolTipContent="Export"
-                icon="i-phosphor-download-simple h-8 w-8"
+                icon="i-ph-download-simple h-8 w-8"
                 onClick={(event) => {
                   event.preventDefault();
                   exportChat(item.id);
@@ -128,7 +128,7 @@ export function HistoryItem({
               {onDuplicate && (
                 <ChatActionButton
                   toolTipContent="Duplicate"
-                  icon="i-phosphor-copy h-8 w-8"
+                  icon="i-ph-copy h-8 w-8"
                   onClick={(event) => {
                     event.preventDefault();
                     onDuplicate?.(item.id);
@@ -137,7 +137,7 @@ export function HistoryItem({
               )}
               <ChatActionButton
                 toolTipContent="Rename"
-                icon="i-phosphor-pencil-simple h-8 w-8"
+                icon="i-ph-pencil-simple h-8 w-8"
                 onClick={(event) => {
                   event.preventDefault();
                   toggleEditMode();
