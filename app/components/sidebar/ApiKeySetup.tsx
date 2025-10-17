@@ -350,7 +350,6 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
   const [selectedModel, setSelectedModel] = useState<string>('');
   const [modelList, setModelList] = useState<ModelInfo[]>([]);
   const [isLoadingModels, setIsLoadingModels] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState<string>('All');
 
   // Provider dropdown state
   const [isProviderDropdownOpen, setIsProviderDropdownOpen] = useState(false);
@@ -411,16 +410,11 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
     }
   };
 
-  // Filter providers based on search and category
+  // Filter providers based on search
   const filteredProviders = useMemo(() => {
-    let providers = COMPREHENSIVE_PROVIDER_LIST;
+    const providers = COMPREHENSIVE_PROVIDER_LIST;
 
-    // Filter by category first
-    if (selectedCategory !== 'All') {
-      providers = providers.filter((provider) => provider.category === selectedCategory);
-    }
-
-    // Then filter by search query
+    // Filter by search query
     if (!debouncedProviderSearchQuery) {
       return providers;
     }
@@ -437,7 +431,7 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
       })
       .filter((provider) => provider.searchMatches)
       .sort((a, b) => b.searchScore - a.searchScore);
-  }, [debouncedProviderSearchQuery, selectedCategory]);
+  }, [debouncedProviderSearchQuery]);
 
   // Filter models based on selected provider and search
   const filteredModels = useMemo(() => {
@@ -547,39 +541,6 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
         {/* Main Content */}
         <div className="flex-1 p-6 overflow-y-auto bg-gradient-to-b from-transparent via-gray-900/10 to-blue-900/5">
           <div className="max-w-4xl mx-auto space-y-8">
-            {/* Category Filter */}
-            <div className="space-y-3">
-              <Label className="text-sm font-semibold text-gray-200">Category</Label>
-              <div className="flex flex-wrap gap-2">
-                {[
-                  'All',
-                  'AI Provider',
-                  'Cloud AI',
-                  'Local AI',
-                  'Development',
-                  'Database',
-                  'Deployment',
-                  'AI Service',
-                  'Monitoring',
-                  'Communication',
-                  'Payment',
-                ].map((category) => (
-                  <button
-                    key={category}
-                    onClick={() => setSelectedCategory(category)}
-                    className={classNames(
-                      'px-3 py-1.5 rounded-lg text-sm font-medium transition-all',
-                      selectedCategory === category
-                        ? 'bg-blue-600 text-white'
-                        : 'bg-gray-800/30 text-gray-300 hover:bg-gray-700/50',
-                    )}
-                  >
-                    {category}
-                  </button>
-                ))}
-              </div>
-            </div>
-
             {/* Provider Selection */}
             <div className="space-y-3">
               <Label className="text-sm font-semibold text-gray-200">Service Provider</Label>
