@@ -164,17 +164,11 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
     setIsLoadingModels(true);
 
     try {
-      // Try to fetch models from the API
-      const response = await fetch('/api/models');
-
-      if (response.ok) {
-        const data = (await response.json()) as { modelList?: ModelInfo[] };
-        const providerModels = data.modelList?.filter((model: ModelInfo) => model.provider === provider.name) || [];
-        setModelList(providerModels);
-      } else {
-        // Fallback to static models if API fails
-        setModelList(provider.staticModels || []);
-      }
+      /*
+       * For now, just use static models to avoid API errors
+       * In the future, we can implement proper API key validation
+       */
+      setModelList(provider.staticModels || []);
     } catch (error) {
       console.error('Error loading models:', error);
 
@@ -669,7 +663,7 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
               <Button
                 onClick={handleSaveKeys}
                 disabled={isLoading}
-                className="bg-blue-600 hover:bg-blue-700 text-white border border-blue-600"
+                className="bg-black hover:bg-gray-800 text-white border border-blue-600"
               >
                 {isLoading ? 'Saving...' : 'Save Configuration'}
               </Button>
