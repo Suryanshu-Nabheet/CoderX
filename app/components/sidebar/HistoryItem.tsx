@@ -98,7 +98,7 @@ export function HistoryItem({
           />
           <button
             type="submit"
-            className="i-ph-check h-6 w-6 text-gray-400 hover:text-blue-400 transition-colors"
+            className="i-ph-check h-4 w-4 text-gray-400 hover:text-blue-400 transition-colors"
             onMouseDown={handleSubmit}
           />
         </form>
@@ -116,10 +116,10 @@ export function HistoryItem({
               'absolute right-0 top-0 bottom-0 flex items-center bg-transparent px-2 transition-colors',
             )}
           >
-            <div className="flex items-center gap-4 text-gray-400 dark:text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity">
+            <div className="flex items-center gap-2 text-gray-400 dark:text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity">
               <ChatActionButton
                 toolTipContent="Export"
-                icon="i-ph-download-simple h-8 w-8"
+                icon="i-ph-download-simple h-4 w-4"
                 onClick={(event) => {
                   event.preventDefault();
                   exportChat(item.id);
@@ -128,7 +128,7 @@ export function HistoryItem({
               {onDuplicate && (
                 <ChatActionButton
                   toolTipContent="Duplicate"
-                  icon="i-ph-copy h-8 w-8"
+                  icon="i-ph-copy h-4 w-4"
                   onClick={(event) => {
                     event.preventDefault();
                     onDuplicate?.(item.id);
@@ -137,7 +137,7 @@ export function HistoryItem({
               )}
               <ChatActionButton
                 toolTipContent="Rename"
-                icon="i-ph-pencil-simple h-8 w-8"
+                icon="i-ph-pencil-simple h-4 w-4"
                 onClick={(event) => {
                   event.preventDefault();
                   toggleEditMode();
@@ -149,7 +149,7 @@ export function HistoryItem({
                 className="hover:text-red-500 dark:hover:text-red-400"
                 onClick={handleDeleteClick}
               >
-                <svg className="h-8 w-8" fill="currentColor" viewBox="0 0 24 24">
+                <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
                   <path
                     d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
                     stroke="currentColor"
@@ -191,7 +191,7 @@ const ChatActionButton = forwardRef(
         <button
           ref={ref}
           type="button"
-          className={`flex items-center justify-center text-gray-400 hover:text-blue-400 transition-colors ${className ? className : ''}`}
+          className={`flex items-center justify-center text-gray-400 hover:text-blue-400 transition-all duration-200 hover:scale-105 ${className ? className : ''}`}
           onClick={onClick}
           aria-label={toolTipContent}
         >
