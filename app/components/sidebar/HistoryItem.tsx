@@ -98,7 +98,7 @@ export function HistoryItem({
           />
           <button
             type="submit"
-            className="p-1.5 rounded-md text-gray-900 hover:text-green-500 hover:bg-green-500/10 transition-all duration-200 ease-out"
+            className="p-1.5 rounded-md text-gray-900 transition-all duration-200 ease-out"
             onMouseDown={handleSubmit}
             title="Save"
           >
@@ -128,7 +128,7 @@ export function HistoryItem({
                   event.preventDefault();
                   exportChat(item.id);
                 }}
-                className="p-1.5 rounded-md text-gray-900 hover:text-blue-500 hover:bg-blue-500/10 transition-all duration-200 ease-out"
+                className="p-1.5 rounded-md text-gray-900 transition-all duration-200 ease-out"
                 title="Export"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -148,7 +148,7 @@ export function HistoryItem({
                     event.preventDefault();
                     onDuplicate?.(item.id);
                   }}
-                  className="p-1.5 rounded-md text-gray-900 hover:text-green-500 hover:bg-green-500/10 transition-all duration-200 ease-out"
+                  className="p-1.5 rounded-md text-gray-900 transition-all duration-200 ease-out"
                   title="Duplicate"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -168,7 +168,7 @@ export function HistoryItem({
                   event.preventDefault();
                   toggleEditMode();
                 }}
-                className="p-1.5 rounded-md text-gray-900 hover:text-yellow-500 hover:bg-yellow-500/10 transition-all duration-200 ease-out"
+                className="p-1.5 rounded-md text-gray-900 transition-all duration-200 ease-out"
                 title="Rename"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -184,7 +184,7 @@ export function HistoryItem({
               {/* Delete Icon */}
               <button
                 onClick={handleDeleteClick}
-                className="p-1.5 rounded-md text-gray-900 hover:text-red-500 hover:bg-red-500/10 transition-all duration-200 ease-out"
+                className="p-1.5 rounded-md text-gray-900 transition-all duration-200 ease-out"
                 title="Delete"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
