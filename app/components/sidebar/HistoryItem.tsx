@@ -3,7 +3,7 @@ import { classNames } from '~/utils/classNames';
 import { type ChatHistoryItem } from '~/lib/persistence';
 import WithTooltip from '~/components/ui/Tooltip';
 import { useEditChatDescription } from '~/lib/hooks';
-import { forwardRef, type ForwardedRef, useCallback } from 'react';
+import { useCallback } from 'react';
 import { Checkbox } from '~/components/ui/Checkbox';
 
 interface HistoryItemProps {
@@ -98,9 +98,14 @@ export function HistoryItem({
           />
           <button
             type="submit"
-            className="i-ph-check h-4 w-4 text-gray-400 hover:text-blue-400 transition-colors"
+            className="p-1.5 rounded-md text-gray-500 hover:text-green-500 hover:bg-green-500/10 transition-all duration-200 ease-out"
             onMouseDown={handleSubmit}
-          />
+            title="Save"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+          </button>
         </form>
       ) : (
         <a
@@ -116,50 +121,81 @@ export function HistoryItem({
               'absolute right-0 top-0 bottom-0 flex items-center bg-transparent px-2 transition-colors',
             )}
           >
-            <div className="flex items-center gap-2 text-gray-400 dark:text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">
-              <ChatActionButton
-                toolTipContent="Export"
-                icon="i-ph-download-simple h-4 w-4"
+            <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-all duration-300 ease-out">
+              {/* Export Icon */}
+              <button
                 onClick={(event) => {
                   event.preventDefault();
                   exportChat(item.id);
                 }}
-              />
+                className="p-1.5 rounded-md text-gray-500 hover:text-blue-500 hover:bg-blue-500/10 transition-all duration-200 ease-out"
+                title="Export"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                  />
+                </svg>
+              </button>
+
+              {/* Duplicate Icon */}
               {onDuplicate && (
-                <ChatActionButton
-                  toolTipContent="Duplicate"
-                  icon="i-ph-copy h-4 w-4"
+                <button
                   onClick={(event) => {
                     event.preventDefault();
                     onDuplicate?.(item.id);
                   }}
-                />
+                  className="p-1.5 rounded-md text-gray-500 hover:text-green-500 hover:bg-green-500/10 transition-all duration-200 ease-out"
+                  title="Duplicate"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                    />
+                  </svg>
+                </button>
               )}
-              <ChatActionButton
-                toolTipContent="Rename"
-                icon="i-ph-pencil-simple h-4 w-4"
+
+              {/* Rename Icon */}
+              <button
                 onClick={(event) => {
                   event.preventDefault();
                   toggleEditMode();
                 }}
-              />
-              <ChatActionButton
-                toolTipContent="Delete"
-                icon=""
-                className="hover:text-red-400 dark:hover:text-red-400"
-                onClick={handleDeleteClick}
+                className="p-1.5 rounded-md text-gray-500 hover:text-yellow-500 hover:bg-yellow-500/10 transition-all duration-200 ease-out"
+                title="Rename"
               >
-                <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
-                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                    stroke="currentColor"
-                    strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    fill="none"
+                    strokeWidth={2}
+                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
                   />
                 </svg>
-              </ChatActionButton>
+              </button>
+
+              {/* Delete Icon */}
+              <button
+                onClick={handleDeleteClick}
+                className="p-1.5 rounded-md text-gray-500 hover:text-red-500 hover:bg-red-500/10 transition-all duration-200 ease-out"
+                title="Delete"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                  />
+                </svg>
+              </button>
             </div>
           </div>
         </a>
@@ -167,37 +203,3 @@ export function HistoryItem({
     </div>
   );
 }
-
-const ChatActionButton = forwardRef(
-  (
-    {
-      toolTipContent,
-      icon,
-      className,
-      onClick,
-      children,
-    }: {
-      toolTipContent: string;
-      icon: string;
-      className?: string;
-      onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-      btnTitle?: string;
-      children?: React.ReactNode;
-    },
-    ref: ForwardedRef<HTMLButtonElement>,
-  ) => {
-    return (
-      <WithTooltip tooltip={toolTipContent} position="bottom" sideOffset={4}>
-        <button
-          ref={ref}
-          type="button"
-          className={`text-gray-400 hover:text-blue-400 transition-colors duration-200 ${className ? className : ''}`}
-          onClick={onClick}
-          aria-label={toolTipContent}
-        >
-          {children || <div className={icon}></div>}
-        </button>
-      </WithTooltip>
-    );
-  },
-);
