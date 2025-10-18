@@ -21,8 +21,6 @@ import type { ElementInfo } from '~/components/workbench/Inspector';
 import { McpTools } from './MCPTools';
 
 interface ChatBoxProps {
-  isModelSettingsCollapsed: boolean;
-  setIsModelSettingsCollapsed: (collapsed: boolean) => void;
   isApiConfigExpanded: boolean;
   setIsApiConfigExpanded: (expanded: boolean) => void;
   provider: any;
@@ -107,7 +105,7 @@ export const ChatBox: React.FC<ChatBoxProps> = (props) => {
       <div>
         <ClientOnly>
           {() => (
-            <div className={props.isModelSettingsCollapsed ? 'hidden' : ''}>
+            <div className={props.isApiConfigExpanded ? '' : 'hidden'}>
               <ModelSelector
                 key={props.provider?.name + ':' + props.modelList.length}
                 model={props.model}
@@ -119,14 +117,6 @@ export const ChatBox: React.FC<ChatBoxProps> = (props) => {
                 apiKeys={props.apiKeys}
                 modelLoading={props.isModelLoading}
               />
-            </div>
-          )}
-        </ClientOnly>
-
-        {/* Expandable API Configuration Section */}
-        <ClientOnly>
-          {() => (
-            <div className={props.isApiConfigExpanded ? '' : 'hidden'}>
               {(props.providerList || []).length > 0 &&
                 props.provider &&
                 !LOCAL_PROVIDERS.includes(props.provider.name) && (
@@ -294,8 +284,8 @@ export const ChatBox: React.FC<ChatBoxProps> = (props) => {
             </IconButton>
 
             <IconButton
-              title="API Configuration"
-              className={classNames('transition-all', {
+              title="API Configuration & Model Settings"
+              className={classNames('transition-all flex items-center gap-1', {
                 'bg-bolt-elements-item-backgroundAccent text-bolt-elements-item-contentAccent':
                   props.isApiConfigExpanded,
                 'bg-bolt-elements-item-backgroundDefault text-bolt-elements-item-contentDefault':
@@ -306,6 +296,7 @@ export const ChatBox: React.FC<ChatBoxProps> = (props) => {
               }}
             >
               <div className="i-ph:key text-xl"></div>
+              {!props.isApiConfigExpanded ? <span className="text-xs">{props.model}</span> : <span />}
             </IconButton>
 
             <SpeechRecognitionButton
@@ -331,20 +322,6 @@ export const ChatBox: React.FC<ChatBoxProps> = (props) => {
                 {props.chatMode === 'discuss' ? <span>Discuss</span> : <span />}
               </IconButton>
             )}
-            <IconButton
-              title="Model Settings"
-              className={classNames('transition-all flex items-center gap-1', {
-                'bg-bolt-elements-item-backgroundAccent text-bolt-elements-item-contentAccent':
-                  props.isModelSettingsCollapsed,
-                'bg-bolt-elements-item-backgroundDefault text-bolt-elements-item-contentDefault':
-                  !props.isModelSettingsCollapsed,
-              })}
-              onClick={() => props.setIsModelSettingsCollapsed(!props.isModelSettingsCollapsed)}
-              disabled={!props.providerList || props.providerList.length === 0}
-            >
-              <div className={`i-ph:caret-${props.isModelSettingsCollapsed ? 'right' : 'down'} text-lg`} />
-              {props.isModelSettingsCollapsed ? <span className="text-xs">{props.model}</span> : <span />}
-            </IconButton>
           </div>
           {props.input.length > 3 ? (
             <div className="text-xs text-bolt-elements-textTertiary">
