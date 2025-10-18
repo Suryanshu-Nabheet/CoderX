@@ -23,7 +23,7 @@ import { McpTools } from './MCPTools';
 interface ChatBoxProps {
   isApiConfigExpanded: boolean;
   setIsApiConfigExpanded: (expanded: boolean) => void;
-  provider: any;
+  provider: ProviderInfo | null;
   providerList: any[];
   modelList: any[];
   apiKeys: Record<string, string>;
@@ -46,7 +46,7 @@ interface ChatBoxProps {
   qrModalOpen: boolean;
   setQrModalOpen: (open: boolean) => void;
   handleFileUpload: () => void;
-  setProvider?: ((provider: ProviderInfo) => void) | undefined;
+  setProvider?: ((provider: ProviderInfo | null) => void) | undefined;
   model?: string | undefined;
   setModel?: ((model: string) => void) | undefined;
   setUploadedFiles?: ((files: File[]) => void) | undefined;
@@ -106,6 +106,17 @@ export const ChatBox: React.FC<ChatBoxProps> = (props) => {
         <ClientOnly>
           {() => (
             <div className={props.isApiConfigExpanded ? '' : 'hidden'}>
+              {!props.provider ? (
+                <div className="mb-2 p-4 rounded-lg border border-bolt-elements-borderColor bg-bolt-elements-prompt-background text-bolt-elements-textPrimary">
+                  <div className="text-center space-y-2">
+                    <p className="font-medium">No Model Selected</p>
+                    <p className="text-sm text-bolt-elements-textSecondary">
+                      Select a provider and model below to start chatting. API keys from your .env file will be used
+                      automatically.
+                    </p>
+                  </div>
+                </div>
+              ) : null}
               <ModelSelector
                 key={props.provider?.name + ':' + props.modelList.length}
                 model={props.model}
@@ -124,7 +135,9 @@ export const ChatBox: React.FC<ChatBoxProps> = (props) => {
                     provider={props.provider}
                     apiKey={props.apiKeys[props.provider.name] || ''}
                     setApiKey={(key) => {
-                      props.onApiKeysChange(props.provider.name, key);
+                      if (props.provider) {
+                        props.onApiKeysChange(props.provider.name, key);
+                      }
                     }}
                   />
                 )}
@@ -246,7 +259,7 @@ export const ChatBox: React.FC<ChatBoxProps> = (props) => {
             <SendButton
               show={props.input.length > 0 || props.isStreaming || props.uploadedFiles.length > 0}
               isStreaming={props.isStreaming}
-              disabled={!props.providerList || props.providerList.length === 0}
+              disabled={!props.providerList || props.providerList.length === 0 || !props.provider || !props.model}
               onClick={(event) => {
                 if (props.isStreaming) {
                   props.handleStop?.();
@@ -296,7 +309,13 @@ export const ChatBox: React.FC<ChatBoxProps> = (props) => {
               }}
             >
               <div className="i-ph:key text-xl"></div>
-              {!props.isApiConfigExpanded ? <span className="text-xs">{props.model}</span> : <span />}
+              {!props.isApiConfigExpanded ? (
+                <span className="text-xs">
+                  {props.provider ? `${props.provider.name} - ${props.model}` : 'Select Model'}
+                </span>
+              ) : (
+                <span />
+              )}
             </IconButton>
 
             <SpeechRecognitionButton
@@ -325,8 +344,14 @@ export const ChatBox: React.FC<ChatBoxProps> = (props) => {
           </div>
           {props.input.length > 3 ? (
             <div className="text-xs text-bolt-elements-textTertiary">
-              Use <kbd className="kdb px-1.5 py-0.5 rounded bg-bolt-elements-background-depth-2">Shift</kbd> +{' '}
-              <kbd className="kdb px-1.5 py-0.5 rounded bg-bolt-elements-background-depth-2">Return</kbd> a new line
+              {!props.provider || !props.model ? (
+                <span className="text-amber-500">Select a model above to start chatting</span>
+              ) : (
+                <>
+                  Use <kbd className="kdb px-1.5 py-0.5 rounded bg-bolt-elements-background-depth-2">Shift</kbd> +{' '}
+                  <kbd className="kdb px-1.5 py-0.5 rounded bg-bolt-elements-background-depth-2">Return</kbd> a new line
+                </>
+              )}
             </div>
           ) : null}
           <SupabaseConnection />

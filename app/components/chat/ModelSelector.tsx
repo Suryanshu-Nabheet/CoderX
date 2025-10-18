@@ -82,8 +82,8 @@ const formatContextSize = (tokens: number): string => {
 interface ModelSelectorProps {
   model?: string;
   setModel?: (model: string) => void;
-  provider?: ProviderInfo;
-  setProvider?: (provider: ProviderInfo) => void;
+  provider?: ProviderInfo | null;
+  setProvider?: (provider: ProviderInfo | null) => void;
   modelList: ModelInfo[];
   providerList: ProviderInfo[];
   apiKeys: Record<string, string>;
@@ -391,15 +391,13 @@ export const ModelSelector = ({
       return;
     }
 
+    /*
+     * If provider is null or not in the current provider list, don't auto-select
+     * Let the user choose manually
+     */
     if (provider && !providerList.some((p) => p.name === provider.name)) {
-      const firstEnabledProvider = providerList[0];
-      setProvider?.(firstEnabledProvider);
-
-      const firstModel = modelList.find((m) => m.provider === firstEnabledProvider.name);
-
-      if (firstModel) {
-        setModel?.(firstModel.name);
-      }
+      setProvider?.(null);
+      setModel?.('');
     }
   }, [providerList, provider, setProvider, modelList, setModel]);
 

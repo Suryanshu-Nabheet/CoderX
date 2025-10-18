@@ -51,8 +51,8 @@ interface BaseChatProps {
   input?: string;
   model?: string;
   setModel?: (model: string) => void;
-  provider?: ProviderInfo;
-  setProvider?: (provider: ProviderInfo) => void;
+  provider?: ProviderInfo | null;
+  setProvider?: (provider: ProviderInfo | null) => void;
   providerList?: ProviderInfo[];
   handleStop?: () => void;
   sendMessage?: (event: React.UIEvent, messageInput?: string) => void;
@@ -378,7 +378,7 @@ export const BaseChat = React.forwardRef<HTMLDivElement, BaseChatProps>(
                         append={append}
                         chatMode={chatMode}
                         setChatMode={setChatMode}
-                        provider={provider}
+                        provider={provider || undefined}
                         model={model}
                         addToolResult={addToolResult}
                       />
@@ -429,7 +429,7 @@ export const BaseChat = React.forwardRef<HTMLDivElement, BaseChatProps>(
                 <ChatBox
                   isApiConfigExpanded={isApiConfigExpanded}
                   setIsApiConfigExpanded={setIsApiConfigExpanded}
-                  provider={provider}
+                  provider={provider || null}
                   setProvider={setProvider}
                   providerList={providerList || (PROVIDER_LIST as ProviderInfo[])}
                   model={model}

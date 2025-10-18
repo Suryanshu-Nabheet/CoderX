@@ -8,7 +8,7 @@ import { useMessageParser, usePromptEnhancer, useShortcuts } from '~/lib/hooks';
 import { description, useChatHistory } from '~/lib/persistence';
 import { chatStore } from '~/lib/stores/chat';
 import { workbenchStore } from '~/lib/stores/workbench';
-import { DEFAULT_MODEL, DEFAULT_PROVIDER, PROMPT_COOKIE_KEY, PROVIDER_LIST } from '~/utils/constants';
+import { PROMPT_COOKIE_KEY, PROVIDER_LIST } from '~/utils/constants';
 import { cubicEasingFn } from '~/utils/easings';
 import { createScopedLogger, renderLogger } from '~/utils/logger';
 import { BaseChat } from './BaseChat';
@@ -135,14 +135,8 @@ export const ChatImpl = memo(
     const supabaseAlert = useStore(workbenchStore.supabaseAlert);
     const { activeProviders, promptId, autoSelectTemplate, contextOptimizationEnabled } = useSettings();
     const [llmErrorAlert, setLlmErrorAlert] = useState<LlmErrorAlertType | undefined>(undefined);
-    const [model, setModel] = useState(() => {
-      const savedModel = Cookies.get('selectedModel');
-      return savedModel || DEFAULT_MODEL;
-    });
-    const [provider, setProvider] = useState(() => {
-      const savedProvider = Cookies.get('selectedProvider');
-      return (PROVIDER_LIST.find((p) => p.name === savedProvider) || DEFAULT_PROVIDER) as ProviderInfo;
-    });
+    const [model, setModel] = useState<string>('');
+    const [provider, setProvider] = useState<ProviderInfo | null>(null);
     const { showChat } = useStore(chatStore);
     const [animationScope, animate] = useAnimate();
     const [apiKeys, setApiKeys] = useState<Record<string, string>>({});
@@ -198,7 +192,7 @@ export const ChatImpl = memo(
             component: 'Chat',
             action: 'response',
             model,
-            provider: provider.name,
+            provider: provider?.name || 'unknown',
             usage,
             messageLength: message.content.length,
           });
@@ -219,7 +213,7 @@ export const ChatImpl = memo(
         runAnimation();
         append({
           role: 'user',
-          content: `[Model: ${model}]\n\n[Provider: ${provider.name}]\n\n${prompt}`,
+          content: `[Model: ${model}]\n\n[Provider: ${provider?.name || 'unknown'}]\n\n${prompt}`,
         });
       }
     }, [model, provider, searchParams]);
@@ -260,7 +254,7 @@ export const ChatImpl = memo(
         component: 'Chat',
         action: 'abort',
         model,
-        provider: provider.name,
+        provider: provider?.name || 'unknown',
       });
     };
 
@@ -275,7 +269,7 @@ export const ChatImpl = memo(
           message: 'An unexpected error occurred',
           isRetryable: true,
           statusCode: 500,
-          provider: provider.name,
+          provider: provider?.name || 'unknown',
           type: 'unknown' as const,
           retryDelay: 0,
         };
@@ -318,7 +312,7 @@ export const ChatImpl = memo(
           context,
           retryable: errorInfo.isRetryable,
           errorType,
-          provider: provider.name,
+          provider: provider?.name || 'unknown',
         });
 
         // Create API error alert
@@ -326,12 +320,12 @@ export const ChatImpl = memo(
           type: 'error',
           title,
           description: errorInfo.message,
-          provider: provider.name,
+          provider: provider?.name || 'unknown',
           errorType,
         });
         setData([]);
       },
-      [provider.name, stop],
+      [provider?.name || 'unknown', stop],
     );
 
     const clearApiErrorAlert = useCallback(() => {
@@ -449,7 +443,7 @@ export const ChatImpl = memo(
           const { template, title } = await selectStarterTemplate({
             message: finalMessageContent,
             model,
-            provider,
+            provider: provider || (PROVIDER_LIST[0] as ProviderInfo),
           });
 
           if (template !== 'blank') {
@@ -465,7 +459,7 @@ export const ChatImpl = memo(
 
             if (temResp) {
               const { assistantMessage, userMessage } = temResp;
-              const userMessageText = `[Model: ${model}]\n\n[Provider: ${provider.name}]\n\n${finalMessageContent}`;
+              const userMessageText = `[Model: ${model}]\n\n[Provider: ${provider?.name || 'unknown'}]\n\n${finalMessageContent}`;
 
               setMessages([
                 {
@@ -482,7 +476,7 @@ export const ChatImpl = memo(
                 {
                   id: `3-${new Date().getTime()}`,
                   role: 'user',
-                  content: `[Model: ${model}]\n\n[Provider: ${provider.name}]\n\n${userMessage}`,
+                  content: `[Model: ${model}]\n\n[Provider: ${provider?.name || 'unknown'}]\n\n${userMessage}`,
                   annotations: ['hidden'],
                 },
               ]);
@@ -510,7 +504,7 @@ export const ChatImpl = memo(
         }
 
         // If autoSelectTemplate is disabled or template selection failed, proceed with normal message
-        const userMessageText = `[Model: ${model}]\n\n[Provider: ${provider.name}]\n\n${finalMessageContent}`;
+        const userMessageText = `[Model: ${model}]\n\n[Provider: ${provider?.name || 'unknown'}]\n\n${finalMessageContent}`;
         const attachments = uploadedFiles.length > 0 ? await filesToAttachments(uploadedFiles) : undefined;
 
         setMessages([
@@ -547,7 +541,7 @@ export const ChatImpl = memo(
 
       if (modifiedFiles !== undefined) {
         const userUpdateArtifact = filesToArtifacts(modifiedFiles, `${Date.now()}`);
-        const messageText = `[Model: ${model}]\n\n[Provider: ${provider.name}]\n\n${userUpdateArtifact}${finalMessageContent}`;
+        const messageText = `[Model: ${model}]\n\n[Provider: ${provider?.name || 'unknown'}]\n\n${userUpdateArtifact}${finalMessageContent}`;
 
         const attachmentOptions =
           uploadedFiles.length > 0 ? { experimental_attachments: await filesToAttachments(uploadedFiles) } : undefined;
@@ -563,7 +557,7 @@ export const ChatImpl = memo(
 
         workbenchStore.resetAllFileModifications();
       } else {
-        const messageText = `[Model: ${model}]\n\n[Provider: ${provider.name}]\n\n${finalMessageContent}`;
+        const messageText = `[Model: ${model}]\n\n[Provider: ${provider?.name || 'unknown'}]\n\n${finalMessageContent}`;
 
         const attachmentOptions =
           uploadedFiles.length > 0 ? { experimental_attachments: await filesToAttachments(uploadedFiles) } : undefined;
@@ -619,12 +613,22 @@ export const ChatImpl = memo(
 
     const handleModelChange = (newModel: string) => {
       setModel(newModel);
-      Cookies.set('selectedModel', newModel, { expires: 30 });
+
+      if (newModel) {
+        Cookies.set('selectedModel', newModel, { expires: 30 });
+      } else {
+        Cookies.remove('selectedModel');
+      }
     };
 
-    const handleProviderChange = (newProvider: ProviderInfo) => {
+    const handleProviderChange = (newProvider: ProviderInfo | null) => {
       setProvider(newProvider);
-      Cookies.set('selectedProvider', newProvider.name, { expires: 30 });
+
+      if (newProvider) {
+        Cookies.set('selectedProvider', newProvider.name, { expires: 30 });
+      } else {
+        Cookies.remove('selectedProvider');
+      }
     };
 
     return (
@@ -672,7 +676,7 @@ export const ChatImpl = memo(
               scrollTextArea();
             },
             model,
-            provider,
+            provider || (PROVIDER_LIST[0] as ProviderInfo),
             apiKeys,
           );
         }}
