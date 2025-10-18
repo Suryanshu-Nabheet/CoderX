@@ -6,11 +6,59 @@ import { Label } from '~/components/ui/Label';
 import { toast } from 'react-toastify';
 import type { ProviderInfo } from '~/types/model';
 import type { ModelInfo } from '~/lib/modules/llm/types';
+import {
+  OpenAIProvider,
+  AnthropicProvider,
+  CohereProvider,
+  DeepseekProvider,
+  GoogleProvider,
+  GroqProvider,
+  HuggingFaceProvider,
+  LMStudioProvider,
+  MistralProvider,
+  OllamaProvider,
+  OpenRouterProvider,
+  OpenAILikeProvider,
+  PerplexityProvider,
+  TogetherProvider,
+  XAIProvider,
+  HyperbolicProvider,
+  AmazonBedrockProvider,
+  GithubProvider,
+  MoonshotProvider,
+} from '~/lib/modules/llm/registry';
 
 interface ApiKeySetupProps {
   isOpen: boolean;
   onClose: () => void;
 }
+
+// Provider instance mapping
+const PROVIDER_INSTANCES = {
+  OpenAI: new OpenAIProvider(),
+  Anthropic: new AnthropicProvider(),
+  Cohere: new CohereProvider(),
+  DeepSeek: new DeepseekProvider(),
+  Google: new GoogleProvider(),
+  Groq: new GroqProvider(),
+  'Hugging Face': new HuggingFaceProvider(),
+  'LM Studio': new LMStudioProvider(),
+  Mistral: new MistralProvider(),
+  Ollama: new OllamaProvider(),
+  OpenRouter: new OpenRouterProvider(),
+  'OpenAI Like': new OpenAILikeProvider(),
+  Perplexity: new PerplexityProvider(),
+  Together: new TogetherProvider(),
+  XAI: new XAIProvider(),
+  Hyperbolic: new HyperbolicProvider(),
+  'Amazon Bedrock': new AmazonBedrockProvider(),
+  GitHub: new GithubProvider(),
+  Moonshot: new MoonshotProvider(),
+};
+
+const getProviderInstance = (providerName: string) => {
+  return PROVIDER_INSTANCES[providerName as keyof typeof PROVIDER_INSTANCES];
+};
 
 // Comprehensive API Key mapping for ALL major AI providers and services
 const API_KEY_MAPPING: Record<string, string> = {
@@ -851,11 +899,16 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
     setIsLoadingModels(true);
 
     try {
-      /*
-       * For now, just use static models to avoid API errors
-       * In the future, we can implement proper API key validation
-       */
-      setModelList(provider.staticModels || []);
+      // Use the actual provider's getDynamicModels method
+      const providerInstance = getProviderInstance(provider.name);
+
+      if (providerInstance && typeof providerInstance.getDynamicModels === 'function') {
+        const dynamicModels = await providerInstance.getDynamicModels();
+        setModelList(dynamicModels);
+      } else {
+        // Fallback to static models if dynamic loading fails
+        setModelList(provider.staticModels || []);
+      }
     } catch (error) {
       console.error('Error loading models:', error);
 
