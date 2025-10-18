@@ -163,10 +163,11 @@ export function HistoryItem({
             {/* Dropdown Menu */}
             {isMenuOpen && (
               <div
-                className="fixed w-48 bg-gray-900 border-2 border-gray-500 rounded-lg shadow-2xl z-[9999] overflow-hidden"
+                className="fixed w-48 bg-red-500 border-4 border-yellow-400 rounded-lg shadow-2xl z-[9999] overflow-hidden"
                 style={{ top: '100px', right: '20px' }}
               >
                 <div className="py-1">
+                  <div className="px-4 py-2 text-white font-bold text-center">MENU IS WORKING!</div>
                   {/* Export Option */}
                   <button
                     onClick={(event) => {
