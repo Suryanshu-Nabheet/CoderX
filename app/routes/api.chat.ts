@@ -14,6 +14,7 @@ import { extractPropertiesFromMessage } from '~/lib/.server/llm/utils';
 import type { DesignScheme } from '~/types/design-scheme';
 import { MCPService } from '~/lib/services/mcpService';
 import { StreamRecoveryManager } from '~/lib/.server/llm/stream-recovery';
+import { loadApiKeysFromEnv } from '~/lib/utils/env-api-keys';
 
 export async function action(args: ActionFunctionArgs) {
   return chatAction(args);
@@ -68,10 +69,14 @@ async function chatAction({ context, request }: ActionFunctionArgs) {
     }>();
 
   const cookieHeader = request.headers.get('Cookie');
-  const apiKeys = JSON.parse(parseCookies(cookieHeader || '').apiKeys || '{}');
+  const cookieApiKeys = JSON.parse(parseCookies(cookieHeader || '').apiKeys || '{}');
   const providerSettings: Record<string, IProviderSetting> = JSON.parse(
     parseCookies(cookieHeader || '').providers || '{}',
   );
+
+  // Merge environment API keys as fallback
+  const envApiKeys = loadApiKeysFromEnv();
+  const apiKeys = { ...envApiKeys, ...cookieApiKeys };
 
   const stream = new SwitchableStream();
 

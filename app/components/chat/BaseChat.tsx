@@ -210,7 +210,7 @@ export const BaseChat = React.forwardRef<HTMLDivElement, BaseChatProps>(
         setIsModelLoading('all');
         fetch('/api/models')
           .then((response) => response.json())
-          .then((data) => {
+          .then((data: unknown) => {
             const typedData = data as { modelList: ModelInfo[] };
             setModelList(typedData.modelList);
           })

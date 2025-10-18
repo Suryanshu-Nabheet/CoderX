@@ -8,6 +8,7 @@ import { LLMManager } from '~/lib/modules/llm/manager';
 import type { ModelInfo } from '~/lib/modules/llm/types';
 import { getApiKeysFromCookie, getProviderSettingsFromCookie } from '~/lib/api/cookies';
 import { createScopedLogger } from '~/utils/logger';
+import { loadApiKeysFromEnv } from '~/lib/utils/env-api-keys';
 
 export async function action(args: ActionFunctionArgs) {
   return llmCallAction(args);
@@ -91,8 +92,12 @@ async function llmCallAction({ context, request }: ActionFunctionArgs) {
   }
 
   const cookieHeader = request.headers.get('Cookie');
-  const apiKeys = getApiKeysFromCookie(cookieHeader);
+  const cookieApiKeys = getApiKeysFromCookie(cookieHeader);
   const providerSettings = getProviderSettingsFromCookie(cookieHeader);
+
+  // Merge environment API keys as fallback
+  const envApiKeys = loadApiKeysFromEnv();
+  const apiKeys = { ...envApiKeys, ...cookieApiKeys };
 
   if (streamOutput) {
     try {

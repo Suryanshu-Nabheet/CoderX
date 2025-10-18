@@ -16,6 +16,7 @@ export interface EnvApiKeys {
   perplexity?: string;
   deepseek?: string;
   ollama_base_url?: string;
+  openrouter?: string;
   supabase_url?: string;
   supabase_anon_key?: string;
   netlify_access_token?: string;
@@ -44,6 +45,7 @@ export function loadApiKeysFromEnv(): EnvApiKeys {
     perplexity: process.env.PERPLEXITY_API_KEY,
     deepseek: process.env.DEEPSEEK_API_KEY,
     ollama_base_url: process.env.OLLAMA_BASE_URL,
+    openrouter: process.env.OPEN_ROUTER_API_KEY,
     supabase_url: process.env.SUPABASE_URL,
     supabase_anon_key: process.env.SUPABASE_ANON_KEY,
     netlify_access_token: process.env.NETLIFY_ACCESS_TOKEN,
@@ -73,6 +75,7 @@ export function hasEnvApiKey(providerName: string): boolean {
     perplexity: 'perplexity',
     deepseek: 'deepseek',
     ollama: 'ollama_base_url',
+    openrouter: 'openrouter',
   };
 
   const envKey = providerKeyMap[providerName.toLowerCase()];
@@ -104,6 +107,7 @@ export function getEnvApiKey(providerName: string): string | undefined {
     perplexity: 'perplexity',
     deepseek: 'deepseek',
     ollama: 'ollama_base_url',
+    openrouter: 'openrouter',
   };
 
   const envKey = providerKeyMap[providerName.toLowerCase()];
@@ -131,6 +135,7 @@ export function getAvailableProvidersFromEnv(): string[] {
     'perplexity',
     'deepseek',
     'ollama',
+    'openrouter',
   ];
 
   return providers.filter((provider) => hasEnvApiKey(provider));
