@@ -157,7 +157,7 @@ export function HistoryItem({
             </button>
 
             {/* Dropdown Menu */}
-            {isMenuOpen && (
+            {(isMenuOpen || true) && (
               <div className="absolute right-0 top-full mt-1 w-48 bg-gray-800 border border-gray-600 rounded-lg shadow-xl z-[9999]">
                 <div className="py-1">
                   {/* Export Option */}
