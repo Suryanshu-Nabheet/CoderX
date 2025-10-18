@@ -403,7 +403,7 @@ export const ModelSelector = ({
 
   // Auto-select free model when available
   useEffect(() => {
-    if (provider && modelList.length > 0 && !model) {
+    if (provider && modelList.length > 0) {
       // Look for free models first
       const freeModels = modelList.filter((m) => m.provider === provider.name && isModelLikelyFree(m, provider.name));
 
@@ -412,12 +412,18 @@ export const ModelSelector = ({
         const openaiFreeModel = freeModels.find((m) => m.name.includes('openai') && m.name.includes('free'));
 
         if (openaiFreeModel) {
-          setModel?.(openaiFreeModel.name);
+          // Force selection of free model even if another model is selected
+          if (model !== openaiFreeModel.name) {
+            setModel?.(openaiFreeModel.name);
+          }
+
           return;
         }
 
         // Otherwise select the first free model
-        setModel?.(freeModels[0].name);
+        if (model !== freeModels[0].name) {
+          setModel?.(freeModels[0].name);
+        }
       }
     }
   }, [provider, modelList, model, setModel]);

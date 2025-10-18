@@ -611,6 +611,18 @@ export const ChatImpl = memo(
       }
     }, []);
 
+    // Force free model selection on initialization
+    useEffect(() => {
+      const storedModel = Cookies.get('selectedModel');
+
+      // If user has selected a paid model, force them to use the free one
+      if (storedModel && storedModel.includes('openai/gpt-oss-20b') && !storedModel.includes('free')) {
+        console.log('Detected paid model selection, forcing free model');
+        Cookies.set('selectedModel', 'openai/gpt-oss-20b:free', { expires: 30 });
+        setModel('openai/gpt-oss-20b:free');
+      }
+    }, [setModel]);
+
     const handleModelChange = (newModel: string) => {
       setModel(newModel);
 
