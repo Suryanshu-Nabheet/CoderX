@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { classNames } from '~/utils/classNames';
 import { Button } from '~/components/ui/Button';
 import { Input } from '~/components/ui/Input';
@@ -31,6 +31,17 @@ import {
 interface ApiKeySetupProps {
   isOpen: boolean;
   onClose: () => void;
+}
+
+interface ExtendedProviderInfo extends Omit<ProviderInfo, 'staticModels'> {
+  highlightedName?: string;
+  category?: string;
+  staticModels?: ModelInfo[];
+}
+
+interface ExtendedModelInfo extends ModelInfo {
+  highlightedName?: string;
+  highlightedLabel?: string;
 }
 
 // Provider instance mapping
@@ -140,441 +151,91 @@ const API_KEY_MAPPING: Record<string, string> = {
 };
 
 // Comprehensive provider list with all major AI providers and services
-const COMPREHENSIVE_PROVIDER_LIST = [
+const COMPREHENSIVE_PROVIDER_LIST: ExtendedProviderInfo[] = [
   // Core AI Providers
   {
     name: 'OpenAI',
     category: 'AI Provider',
     icon: 'i-ph:brain',
     getApiKeyLink: 'https://platform.openai.com/api-keys',
-    staticModels: [
-      {
-        name: 'gpt-oss-20b',
-        label: 'GPT-OSS-20B (Free)',
-        provider: 'OpenAI',
-        maxTokenAllowed: 128000,
-        maxCompletionTokens: 4096,
-      },
-      { name: 'gpt-4o', label: 'GPT-4o', provider: 'OpenAI', maxTokenAllowed: 128000, maxCompletionTokens: 4096 },
-      {
-        name: 'gpt-4o-mini',
-        label: 'GPT-4o Mini',
-        provider: 'OpenAI',
-        maxTokenAllowed: 128000,
-        maxCompletionTokens: 4096,
-      },
-      {
-        name: 'gpt-3.5-turbo',
-        label: 'GPT-3.5 Turbo',
-        provider: 'OpenAI',
-        maxTokenAllowed: 16000,
-        maxCompletionTokens: 4096,
-      },
-      {
-        name: 'o1-preview',
-        label: 'o1-preview',
-        provider: 'OpenAI',
-        maxTokenAllowed: 128000,
-        maxCompletionTokens: 32000,
-      },
-      { name: 'o1-mini', label: 'o1-mini', provider: 'OpenAI', maxTokenAllowed: 128000, maxCompletionTokens: 65000 },
-    ],
   },
   {
     name: 'Anthropic',
     category: 'AI Provider',
     icon: 'i-ph:robot',
     getApiKeyLink: 'https://console.anthropic.com/',
-    staticModels: [
-      {
-        name: 'claude-3-5-sonnet-20241022',
-        label: 'Claude 3.5 Sonnet',
-        provider: 'Anthropic',
-        maxTokenAllowed: 200000,
-        maxCompletionTokens: 128000,
-      },
-      {
-        name: 'claude-3-haiku-20240307',
-        label: 'Claude 3 Haiku',
-        provider: 'Anthropic',
-        maxTokenAllowed: 200000,
-        maxCompletionTokens: 128000,
-      },
-      {
-        name: 'claude-opus-4-20250514',
-        label: 'Claude 4 Opus',
-        provider: 'Anthropic',
-        maxTokenAllowed: 200000,
-        maxCompletionTokens: 32000,
-      },
-    ],
   },
   {
     name: 'Google',
     category: 'AI Provider',
     icon: 'i-ph:google-logo',
     getApiKeyLink: 'https://makersuite.google.com/app/apikey',
-    staticModels: [
-      {
-        name: 'gemini-1.5-pro',
-        label: 'Gemini 1.5 Pro',
-        provider: 'Google',
-        maxTokenAllowed: 2000000,
-        maxCompletionTokens: 8192,
-      },
-      {
-        name: 'gemini-1.5-flash',
-        label: 'Gemini 1.5 Flash',
-        provider: 'Google',
-        maxTokenAllowed: 1000000,
-        maxCompletionTokens: 8192,
-      },
-    ],
   },
   {
     name: 'Cohere',
     category: 'AI Provider',
     icon: 'i-ph:lightning',
     getApiKeyLink: 'https://dashboard.cohere.ai/api-keys',
-    staticModels: [
-      {
-        name: 'command-r-plus-08-2024',
-        label: 'Command R plus Latest',
-        provider: 'Cohere',
-        maxTokenAllowed: 4096,
-        maxCompletionTokens: 4000,
-      },
-      {
-        name: 'command-r-08-2024',
-        label: 'Command R Latest',
-        provider: 'Cohere',
-        maxTokenAllowed: 4096,
-        maxCompletionTokens: 4000,
-      },
-      {
-        name: 'command-r-plus',
-        label: 'Command R plus',
-        provider: 'Cohere',
-        maxTokenAllowed: 4096,
-        maxCompletionTokens: 4000,
-      },
-      { name: 'command-r', label: 'Command R', provider: 'Cohere', maxTokenAllowed: 4096, maxCompletionTokens: 4000 },
-      { name: 'command', label: 'Command', provider: 'Cohere', maxTokenAllowed: 4096, maxCompletionTokens: 4000 },
-      {
-        name: 'command-nightly',
-        label: 'Command Nightly',
-        provider: 'Cohere',
-        maxTokenAllowed: 4096,
-        maxCompletionTokens: 4000,
-      },
-      {
-        name: 'command-light',
-        label: 'Command Light',
-        provider: 'Cohere',
-        maxTokenAllowed: 4096,
-        maxCompletionTokens: 4000,
-      },
-      {
-        name: 'command-light-nightly',
-        label: 'Command Light Nightly',
-        provider: 'Cohere',
-        maxTokenAllowed: 4096,
-        maxCompletionTokens: 4000,
-      },
-      {
-        name: 'c4ai-aya-expanse-8b',
-        label: 'c4AI Aya Expanse 8b',
-        provider: 'Cohere',
-        maxTokenAllowed: 4096,
-        maxCompletionTokens: 4000,
-      },
-    ],
   },
   {
     name: 'Groq',
     category: 'AI Provider',
     icon: 'i-ph:bolt',
     getApiKeyLink: 'https://console.groq.com/keys',
-    staticModels: [
-      {
-        name: 'llama-3.1-8b-instant',
-        label: 'Llama 3.1 8B',
-        provider: 'Groq',
-        maxTokenAllowed: 128000,
-        maxCompletionTokens: 8192,
-      },
-      {
-        name: 'llama-3.3-70b-versatile',
-        label: 'Llama 3.3 70B',
-        provider: 'Groq',
-        maxTokenAllowed: 128000,
-        maxCompletionTokens: 8192,
-      },
-    ],
   },
   {
     name: 'Hugging Face',
     category: 'AI Provider',
     icon: 'i-ph:heart',
     getApiKeyLink: 'https://huggingface.co/settings/tokens',
-    staticModels: [
-      {
-        name: 'meta-llama/Llama-2-70b-chat-hf',
-        label: 'Llama 2 70B Chat',
-        provider: 'Hugging Face',
-        maxTokenAllowed: 4096,
-        maxCompletionTokens: 2048,
-      },
-      {
-        name: 'microsoft/DialoGPT-large',
-        label: 'DialoGPT Large',
-        provider: 'Hugging Face',
-        maxTokenAllowed: 1024,
-        maxCompletionTokens: 512,
-      },
-      {
-        name: 'facebook/blenderbot-400M-distill',
-        label: 'BlenderBot 400M',
-        provider: 'Hugging Face',
-        maxTokenAllowed: 1024,
-        maxCompletionTokens: 512,
-      },
-    ],
   },
   {
     name: 'Together',
     category: 'AI Provider',
     icon: 'i-ph:users',
     getApiKeyLink: 'https://api.together.xyz/settings/api-keys',
-    staticModels: [
-      {
-        name: 'meta-llama/Llama-3.2-90B-Vision-Instruct-Turbo',
-        label: 'Llama 3.2 90B Vision',
-        provider: 'Together',
-        maxTokenAllowed: 128000,
-        maxCompletionTokens: 8192,
-      },
-      {
-        name: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
-        label: 'Mixtral 8x7B Instruct',
-        provider: 'Together',
-        maxTokenAllowed: 32000,
-        maxCompletionTokens: 8192,
-      },
-    ],
   },
   {
     name: 'Perplexity',
     category: 'AI Provider',
     icon: 'i-ph:question',
     getApiKeyLink: 'https://www.perplexity.ai/settings/api',
-    staticModels: [
-      {
-        name: 'sonar',
-        label: 'Sonar',
-        provider: 'Perplexity',
-        maxTokenAllowed: 8192,
-      },
-      {
-        name: 'sonar-pro',
-        label: 'Sonar Pro',
-        provider: 'Perplexity',
-        maxTokenAllowed: 8192,
-      },
-      {
-        name: 'sonar-reasoning-pro',
-        label: 'Sonar Reasoning Pro',
-        provider: 'Perplexity',
-        maxTokenAllowed: 8192,
-      },
-    ],
   },
   {
     name: 'DeepSeek',
     category: 'AI Provider',
     icon: 'i-ph:eye',
     getApiKeyLink: 'https://platform.deepseek.com/api_keys',
-    staticModels: [
-      {
-        name: 'deepseek-coder',
-        label: 'Deepseek-Coder',
-        provider: 'Deepseek',
-        maxTokenAllowed: 8000,
-        maxCompletionTokens: 8192,
-      },
-      {
-        name: 'deepseek-chat',
-        label: 'Deepseek-Chat',
-        provider: 'Deepseek',
-        maxTokenAllowed: 8000,
-        maxCompletionTokens: 8192,
-      },
-      {
-        name: 'deepseek-reasoner',
-        label: 'Deepseek-Reasoner',
-        provider: 'Deepseek',
-        maxTokenAllowed: 8000,
-        maxCompletionTokens: 8192,
-      },
-    ],
   },
   {
     name: 'Mistral',
     category: 'AI Provider',
     icon: 'i-ph:wind',
     getApiKeyLink: 'https://console.mistral.ai/api-keys/',
-    staticModels: [
-      {
-        name: 'open-mistral-7b',
-        label: 'Mistral 7B',
-        provider: 'Mistral',
-        maxTokenAllowed: 8000,
-        maxCompletionTokens: 8192,
-      },
-      {
-        name: 'open-mixtral-8x7b',
-        label: 'Mistral 8x7B',
-        provider: 'Mistral',
-        maxTokenAllowed: 8000,
-        maxCompletionTokens: 8192,
-      },
-      {
-        name: 'open-mixtral-8x22b',
-        label: 'Mistral 8x22B',
-        provider: 'Mistral',
-        maxTokenAllowed: 8000,
-        maxCompletionTokens: 8192,
-      },
-      {
-        name: 'open-codestral-mamba',
-        label: 'Codestral Mamba',
-        provider: 'Mistral',
-        maxTokenAllowed: 8000,
-        maxCompletionTokens: 8192,
-      },
-      {
-        name: 'open-mistral-nemo',
-        label: 'Mistral Nemo',
-        provider: 'Mistral',
-        maxTokenAllowed: 8000,
-        maxCompletionTokens: 8192,
-      },
-      {
-        name: 'ministral-8b-latest',
-        label: 'Mistral 8B',
-        provider: 'Mistral',
-        maxTokenAllowed: 8000,
-        maxCompletionTokens: 8192,
-      },
-      {
-        name: 'mistral-small-latest',
-        label: 'Mistral Small',
-        provider: 'Mistral',
-        maxTokenAllowed: 8000,
-        maxCompletionTokens: 8192,
-      },
-    ],
   },
   {
     name: 'Moonshot',
     category: 'AI Provider',
     icon: 'i-ph:moon',
     getApiKeyLink: 'https://platform.moonshot.ai/console/api-keys',
-    staticModels: [
-      { name: 'moonshot-v1-8k', label: 'Moonshot v1 8K', provider: 'Moonshot', maxTokenAllowed: 8000 },
-      { name: 'moonshot-v1-32k', label: 'Moonshot v1 32K', provider: 'Moonshot', maxTokenAllowed: 32000 },
-      { name: 'moonshot-v1-128k', label: 'Moonshot v1 128K', provider: 'Moonshot', maxTokenAllowed: 128000 },
-      { name: 'moonshot-v1-auto', label: 'Moonshot v1 Auto', provider: 'Moonshot', maxTokenAllowed: 128000 },
-      {
-        name: 'moonshot-v1-8k-vision-preview',
-        label: 'Moonshot v1 8K Vision',
-        provider: 'Moonshot',
-        maxTokenAllowed: 8000,
-      },
-      {
-        name: 'moonshot-v1-32k-vision-preview',
-        label: 'Moonshot v1 32K Vision',
-        provider: 'Moonshot',
-        maxTokenAllowed: 32000,
-      },
-      {
-        name: 'moonshot-v1-128k-vision-preview',
-        label: 'Moonshot v1 128K Vision',
-        provider: 'Moonshot',
-        maxTokenAllowed: 128000,
-      },
-      { name: 'kimi-latest', label: 'Kimi Latest', provider: 'Moonshot', maxTokenAllowed: 128000 },
-      { name: 'kimi-k2-0711-preview', label: 'Kimi K2 Preview', provider: 'Moonshot', maxTokenAllowed: 128000 },
-      { name: 'kimi-k2-turbo-preview', label: 'Kimi K2 Turbo', provider: 'Moonshot', maxTokenAllowed: 128000 },
-      { name: 'kimi-thinking-preview', label: 'Kimi Thinking', provider: 'Moonshot', maxTokenAllowed: 128000 },
-    ],
   },
   {
     name: 'XAI',
     category: 'AI Provider',
     icon: 'i-ph:x-logo',
     getApiKeyLink: 'https://console.x.ai/',
-    staticModels: [
-      { name: 'grok-4', label: 'xAI Grok 4', provider: 'xAI', maxTokenAllowed: 256000 },
-      { name: 'grok-4-07-09', label: 'xAI Grok 4 (07-09)', provider: 'xAI', maxTokenAllowed: 256000 },
-      { name: 'grok-3-mini', label: 'xAI Grok 3 Mini', provider: 'xAI', maxTokenAllowed: 131000 },
-      { name: 'grok-3-mini-fast', label: 'xAI Grok 3 Mini Fast', provider: 'xAI', maxTokenAllowed: 131000 },
-      { name: 'grok-code-fast-1', label: 'xAI Grok Code Fast 1', provider: 'xAI', maxTokenAllowed: 131000 },
-    ],
   },
   {
     name: 'OpenRouter',
     category: 'AI Provider',
     icon: 'i-ph:router',
     getApiKeyLink: 'https://openrouter.ai/keys',
-    staticModels: [
-      {
-        name: 'openai/gpt-4o',
-        label: 'GPT-4o',
-        provider: 'OpenRouter',
-        maxTokenAllowed: 128000,
-        maxCompletionTokens: 4096,
-      },
-      {
-        name: 'anthropic/claude-3.5-sonnet',
-        label: 'Claude 3.5 Sonnet',
-        provider: 'OpenRouter',
-        maxTokenAllowed: 200000,
-        maxCompletionTokens: 8192,
-      },
-      {
-        name: 'google/gemini-pro',
-        label: 'Gemini Pro',
-        provider: 'OpenRouter',
-        maxTokenAllowed: 30720,
-        maxCompletionTokens: 2048,
-      },
-    ],
   },
   {
     name: 'Ollama',
     category: 'Local AI',
     icon: 'i-ph:desktop',
     getApiKeyLink: 'https://ollama.ai/',
-    staticModels: [
-      { name: 'llama3.1', label: 'Llama 3.1', provider: 'Ollama', maxTokenAllowed: 128000, maxCompletionTokens: 4096 },
-      {
-        name: 'llama3.1:8b',
-        label: 'Llama 3.1 8B',
-        provider: 'Ollama',
-        maxTokenAllowed: 128000,
-        maxCompletionTokens: 4096,
-      },
-      {
-        name: 'llama3.1:70b',
-        label: 'Llama 3.1 70B',
-        provider: 'Ollama',
-        maxTokenAllowed: 128000,
-        maxCompletionTokens: 4096,
-      },
-      { name: 'mistral', label: 'Mistral', provider: 'Ollama', maxTokenAllowed: 32000, maxCompletionTokens: 4096 },
-      { name: 'codellama', label: 'Code Llama', provider: 'Ollama', maxTokenAllowed: 16000, maxCompletionTokens: 4096 },
-    ],
   },
   { name: 'LM Studio', category: 'Local AI', icon: 'i-ph:laptop', getApiKeyLink: 'https://lmstudio.ai/' },
   {
@@ -582,38 +243,6 @@ const COMPREHENSIVE_PROVIDER_LIST = [
     category: 'AI Provider',
     icon: 'i-ph:infinity',
     getApiKeyLink: 'https://hyperbolic.ai/',
-    staticModels: [
-      {
-        name: 'Qwen/Qwen2.5-Coder-32B-Instruct',
-        label: 'Qwen 2.5 Coder 32B Instruct',
-        provider: 'Hyperbolic',
-        maxTokenAllowed: 8192,
-      },
-      {
-        name: 'Qwen/Qwen2.5-72B-Instruct',
-        label: 'Qwen2.5-72B-Instruct',
-        provider: 'Hyperbolic',
-        maxTokenAllowed: 8192,
-      },
-      {
-        name: 'deepseek-ai/DeepSeek-V2.5',
-        label: 'DeepSeek-V2.5',
-        provider: 'Hyperbolic',
-        maxTokenAllowed: 8192,
-      },
-      {
-        name: 'Qwen/QwQ-32B-Preview',
-        label: 'QwQ-32B-Preview',
-        provider: 'Hyperbolic',
-        maxTokenAllowed: 8192,
-      },
-      {
-        name: 'Qwen/Qwen2-VL-72B-Instruct',
-        label: 'Qwen2-VL-72B-Instruct',
-        provider: 'Hyperbolic',
-        maxTokenAllowed: 8192,
-      },
-    ],
   },
 
   // Cloud Providers
@@ -622,50 +251,6 @@ const COMPREHENSIVE_PROVIDER_LIST = [
     category: 'Cloud AI',
     icon: 'i-ph:cloud',
     getApiKeyLink: 'https://aws.amazon.com/bedrock/',
-    staticModels: [
-      {
-        name: 'anthropic.claude-3-5-sonnet-20241022-v2:0',
-        label: 'Claude 3.5 Sonnet v2 (Bedrock)',
-        provider: 'AmazonBedrock',
-        maxTokenAllowed: 200000,
-      },
-      {
-        name: 'anthropic.claude-3-5-sonnet-20240620-v1:0',
-        label: 'Claude 3.5 Sonnet (Bedrock)',
-        provider: 'AmazonBedrock',
-        maxTokenAllowed: 4096,
-      },
-      {
-        name: 'anthropic.claude-3-sonnet-20240229-v1:0',
-        label: 'Claude 3 Sonnet (Bedrock)',
-        provider: 'AmazonBedrock',
-        maxTokenAllowed: 4096,
-      },
-      {
-        name: 'anthropic.claude-3-haiku-20240307-v1:0',
-        label: 'Claude 3 Haiku (Bedrock)',
-        provider: 'AmazonBedrock',
-        maxTokenAllowed: 4096,
-      },
-      {
-        name: 'amazon.nova-pro-v1:0',
-        label: 'Amazon Nova Pro (Bedrock)',
-        provider: 'AmazonBedrock',
-        maxTokenAllowed: 5120,
-      },
-      {
-        name: 'amazon.nova-lite-v1:0',
-        label: 'Amazon Nova Lite (Bedrock)',
-        provider: 'AmazonBedrock',
-        maxTokenAllowed: 5120,
-      },
-      {
-        name: 'mistral.mistral-large-2402-v1:0',
-        label: 'Mistral Large 24.02 (Bedrock)',
-        provider: 'AmazonBedrock',
-        maxTokenAllowed: 8192,
-      },
-    ],
   },
   {
     name: 'Azure OpenAI',
@@ -691,7 +276,7 @@ const COMPREHENSIVE_PROVIDER_LIST = [
     name: 'Supabase',
     category: 'Database',
     icon: 'i-ph:database',
-    getApiKeyLink: 'https://supabase.com/dashboard/project/_/settings/api',
+    getApiKeyLink: 'https://supabase.com/dashboard/account/tokens',
   },
   {
     name: 'Netlify',
@@ -702,60 +287,159 @@ const COMPREHENSIVE_PROVIDER_LIST = [
   {
     name: 'Vercel',
     category: 'Deployment',
-    icon: 'i-ph:vercel-logo',
+    icon: 'i-ph:rocket',
     getApiKeyLink: 'https://vercel.com/account/tokens',
+  },
+
+  // Additional AI Services
+  {
+    name: 'OpenAI Like',
+    category: 'AI Provider',
+    icon: 'i-ph:link',
+    getApiKeyLink: undefined,
+  },
+  {
+    name: 'Together Base URL',
+    category: 'AI Provider',
+    icon: 'i-ph:link',
+    getApiKeyLink: 'https://api.together.xyz/',
+  },
+
+  // Local Development
+  {
+    name: 'Ollama Base URL',
+    category: 'Local AI',
+    icon: 'i-ph:desktop',
+    getApiKeyLink: 'https://ollama.ai/',
+  },
+  {
+    name: 'LM Studio Base URL',
+    category: 'Local AI',
+    icon: 'i-ph:laptop',
+    getApiKeyLink: 'https://lmstudio.ai/',
+  },
+
+  // Additional Cloud Services
+  {
+    name: 'Azure OpenAI',
+    category: 'Cloud AI',
+    icon: 'i-ph:microsoft-logo',
+    getApiKeyLink: 'https://azure.microsoft.com/en-us/products/ai-services/openai-service',
+  },
+  {
+    name: 'Azure OpenAI Endpoint',
+    category: 'Cloud AI',
+    icon: 'i-ph:microsoft-logo',
+    getApiKeyLink: 'https://azure.microsoft.com/en-us/products/ai-services/openai-service',
+  },
+  {
+    name: 'Azure OpenAI Deployment',
+    category: 'Cloud AI',
+    icon: 'i-ph:microsoft-logo',
+    getApiKeyLink: 'https://azure.microsoft.com/en-us/products/ai-services/openai-service',
+  },
+  {
+    name: 'Azure OpenAI API Version',
+    category: 'Cloud AI',
+    icon: 'i-ph:microsoft-logo',
+    getApiKeyLink: 'https://azure.microsoft.com/en-us/products/ai-services/openai-service',
   },
 
   // Specialized AI Services
   {
     name: 'Replicate',
-    category: 'AI Service',
-    icon: 'i-ph:repeat',
+    category: 'AI Provider',
+    icon: 'i-ph:robot',
     getApiKeyLink: 'https://replicate.com/account/api-tokens',
   },
   {
     name: 'Stability AI',
-    category: 'AI Service',
+    category: 'AI Provider',
     icon: 'i-ph:image',
     getApiKeyLink: 'https://platform.stability.ai/account/keys',
   },
   {
     name: 'ElevenLabs',
-    category: 'AI Service',
-    icon: 'i-ph:speaker-high',
+    category: 'AI Provider',
+    icon: 'i-ph:microphone',
     getApiKeyLink: 'https://elevenlabs.io/app/settings/api-keys',
   },
   {
     name: 'AssemblyAI',
-    category: 'AI Service',
+    category: 'AI Provider',
     icon: 'i-ph:microphone',
     getApiKeyLink: 'https://www.assemblyai.com/dashboard/signup',
   },
-  { name: 'Speechify', category: 'AI Service', icon: 'i-ph:play', getApiKeyLink: 'https://speechify.com/api' },
-  { name: 'Whisper', category: 'AI Service', icon: 'i-ph:ear', getApiKeyLink: 'https://openai.com/research/whisper' },
+  {
+    name: 'Speechify',
+    category: 'AI Provider',
+    icon: 'i-ph:speaker-high',
+    getApiKeyLink: 'https://speechify.com/',
+  },
+  {
+    name: 'Whisper',
+    category: 'AI Provider',
+    icon: 'i-ph:microphone',
+    getApiKeyLink: 'https://openai.com/research/whisper',
+  },
 
   // Database & Storage
   {
     name: 'Pinecone',
     category: 'Database',
-    icon: 'i-ph:pine-tree',
+    icon: 'i-ph:database',
     getApiKeyLink: 'https://app.pinecone.io/organizations/-/api-keys',
   },
-  { name: 'Weaviate', category: 'Database', icon: 'i-ph:graph', getApiKeyLink: 'https://console.weaviate.cloud/' },
-  { name: 'Chroma', category: 'Database', icon: 'i-ph:palette', getApiKeyLink: 'https://www.trychroma.com/' },
-  { name: 'Qdrant', category: 'Database', icon: 'i-ph:target', getApiKeyLink: 'https://cloud.qdrant.io/' },
-  { name: 'Milvus', category: 'Database', icon: 'i-ph:rocket', getApiKeyLink: 'https://milvus.io/' },
+  {
+    name: 'Weaviate',
+    category: 'Database',
+    icon: 'i-ph:database',
+    getApiKeyLink: 'https://console.weaviate.cloud/',
+  },
+  {
+    name: 'Chroma',
+    category: 'Database',
+    icon: 'i-ph:database',
+    getApiKeyLink: 'https://www.trychroma.com/',
+  },
+  {
+    name: 'Qdrant',
+    category: 'Database',
+    icon: 'i-ph:database',
+    getApiKeyLink: 'https://cloud.qdrant.io/',
+  },
+  {
+    name: 'Milvus',
+    category: 'Database',
+    icon: 'i-ph:database',
+    getApiKeyLink: 'https://milvus.io/',
+  },
 
   // Monitoring & Analytics
-  { name: 'LangSmith', category: 'Monitoring', icon: 'i-ph:chart-line', getApiKeyLink: 'https://smith.langchain.com/' },
+  {
+    name: 'LangSmith',
+    category: 'Monitoring',
+    icon: 'i-ph:chart-line',
+    getApiKeyLink: 'https://smith.langchain.com/',
+  },
   {
     name: 'Weights & Biases',
     category: 'Monitoring',
-    icon: 'i-ph:chart-bar',
-    getApiKeyLink: 'https://wandb.ai/settings',
+    icon: 'i-ph:chart-line',
+    getApiKeyLink: 'https://wandb.ai/authorize',
   },
-  { name: 'MLflow', category: 'Monitoring', icon: 'i-ph:flowchart', getApiKeyLink: 'https://mlflow.org/' },
-  { name: 'Neptune', category: 'Monitoring', icon: 'i-ph:planet', getApiKeyLink: 'https://neptune.ai/' },
+  {
+    name: 'MLflow',
+    category: 'Monitoring',
+    icon: 'i-ph:chart-line',
+    getApiKeyLink: 'https://mlflow.org/',
+  },
+  {
+    name: 'Neptune',
+    category: 'Monitoring',
+    icon: 'i-ph:chart-line',
+    getApiKeyLink: 'https://neptune.ai/',
+  },
 
   // Additional Services
   {
@@ -764,120 +448,59 @@ const COMPREHENSIVE_PROVIDER_LIST = [
     icon: 'i-ph:envelope',
     getApiKeyLink: 'https://app.sendgrid.com/settings/api_keys',
   },
-  { name: 'Twilio', category: 'Communication', icon: 'i-ph:phone', getApiKeyLink: 'https://console.twilio.com/' },
+  {
+    name: 'Twilio',
+    category: 'Communication',
+    icon: 'i-ph:phone',
+    getApiKeyLink: 'https://console.twilio.com/us1/develop/api-keys',
+  },
+  {
+    name: 'Twilio Auth Token',
+    category: 'Communication',
+    icon: 'i-ph:phone',
+    getApiKeyLink: 'https://console.twilio.com/us1/develop/api-keys',
+  },
   {
     name: 'Stripe',
     category: 'Payment',
     icon: 'i-ph:credit-card',
     getApiKeyLink: 'https://dashboard.stripe.com/apikeys',
   },
-  { name: 'PayPal', category: 'Payment', icon: 'i-ph:paypal-logo', getApiKeyLink: 'https://developer.paypal.com/' },
+  {
+    name: 'PayPal',
+    category: 'Payment',
+    icon: 'i-ph:credit-card',
+    getApiKeyLink: 'https://developer.paypal.com/developer/applications/',
+  },
+  {
+    name: 'PayPal Secret',
+    category: 'Payment',
+    icon: 'i-ph:credit-card',
+    getApiKeyLink: 'https://developer.paypal.com/developer/applications/',
+  },
 ];
 
-// Fuzzy search utilities (copied from ModelSelector)
-const levenshteinDistance = (str1: string, str2: string): number => {
-  const matrix = [];
-
-  for (let i = 0; i <= str2.length; i++) {
-    matrix[i] = [i];
-  }
-
-  for (let j = 0; j <= str1.length; j++) {
-    matrix[0][j] = j;
-  }
-
-  for (let i = 1; i <= str2.length; i++) {
-    for (let j = 1; j <= str1.length; j++) {
-      if (str2.charAt(i - 1) === str1.charAt(j - 1)) {
-        matrix[i][j] = matrix[i - 1][j - 1];
-      } else {
-        matrix[i][j] = Math.min(matrix[i - 1][j - 1] + 1, matrix[i][j - 1] + 1, matrix[i - 1][j] + 1);
-      }
-    }
-  }
-
-  return matrix[str2.length][str1.length];
-};
-
-const fuzzyMatch = (query: string, text: string): { score: number; matches: boolean } => {
-  if (!query) {
-    return { score: 0, matches: true };
-  }
-
-  if (!text) {
-    return { score: 0, matches: false };
-  }
-
-  const queryLower = query.toLowerCase();
-  const textLower = text.toLowerCase();
-
-  if (textLower.includes(queryLower)) {
-    return { score: 100 - (textLower.indexOf(queryLower) / textLower.length) * 20, matches: true };
-  }
-
-  const distance = levenshteinDistance(queryLower, textLower);
-  const maxLen = Math.max(queryLower.length, textLower.length);
-  const similarity = 1 - distance / maxLen;
-
-  return {
-    score: similarity > 0.6 ? similarity * 80 : 0,
-    matches: similarity > 0.6,
-  };
-};
-
-const highlightText = (text: string, query: string): string => {
-  if (!query) {
-    return text;
-  }
-
-  const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
-
-  return text.replace(regex, '<mark class="bg-yellow-200 dark:bg-yellow-800 text-current">$1</mark>');
-};
-
-const formatContextSize = (tokens: number): string => {
-  if (tokens >= 1000000) {
-    return `${(tokens / 1000000).toFixed(1)}M`;
-  }
-
-  if (tokens >= 1000) {
-    return `${(tokens / 1000).toFixed(0)}K`;
-  }
-
-  return tokens.toString();
-};
-
 export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => {
-  const [apiKeys, setApiKeys] = useState<Record<string, string>>({});
-  const [isLoading, setIsLoading] = useState(false);
-  const [selectedProvider, setSelectedProvider] = useState<any | null>(null);
-  const [selectedModel, setSelectedModel] = useState<string>('');
-  const [modelList, setModelList] = useState<ModelInfo[]>([]);
+  const [selectedProvider, setSelectedProvider] = useState<ExtendedProviderInfo | null>(null);
+  const [selectedModel, setSelectedModel] = useState<ExtendedModelInfo | null>(null);
+  const [modelList, setModelList] = useState<ExtendedModelInfo[]>([]);
   const [isLoadingModels, setIsLoadingModels] = useState(false);
-
-  // Provider dropdown state
+  const [apiKeys, setApiKeys] = useState<Record<string, string>>({});
   const [isProviderDropdownOpen, setIsProviderDropdownOpen] = useState(false);
-  const [providerSearchQuery, setProviderSearchQuery] = useState('');
-  const [debouncedProviderSearchQuery, setDebouncedProviderSearchQuery] = useState('');
-  const [focusedProviderIndex] = useState(-1);
-  const providerDropdownRef = useRef<HTMLDivElement>(null);
-  const providerSearchInputRef = useRef<HTMLInputElement>(null);
-  const providerOptionsRef = useRef<(HTMLDivElement | null)[]>([]);
-
-  // Model dropdown state
   const [isModelDropdownOpen, setIsModelDropdownOpen] = useState(false);
+  const [providerSearchQuery, setProviderSearchQuery] = useState('');
   const [modelSearchQuery, setModelSearchQuery] = useState('');
+  const [debouncedProviderSearchQuery, setDebouncedProviderSearchQuery] = useState('');
   const [debouncedModelSearchQuery, setDebouncedModelSearchQuery] = useState('');
-  const [focusedModelIndex] = useState(-1);
+  const providerDropdownRef = useRef<HTMLDivElement>(null);
   const modelDropdownRef = useRef<HTMLDivElement>(null);
-  const modelSearchInputRef = useRef<HTMLInputElement>(null);
-  const modelOptionsRef = useRef<(HTMLDivElement | null)[]>([]);
 
   // Debounce search queries
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedProviderSearchQuery(providerSearchQuery);
     }, 300);
+
     return () => clearTimeout(timer);
   }, [providerSearchQuery]);
 
@@ -885,6 +508,7 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
     const timer = setTimeout(() => {
       setDebouncedModelSearchQuery(modelSearchQuery);
     }, 300);
+
     return () => clearTimeout(timer);
   }, [modelSearchQuery]);
 
@@ -895,7 +519,7 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
     }
   }, [selectedProvider]);
 
-  const loadModelsForProvider = async (provider: ProviderInfo) => {
+  const loadModelsForProvider = async (provider: ExtendedProviderInfo) => {
     setIsLoadingModels(true);
 
     try {
@@ -906,14 +530,14 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
         const dynamicModels = await providerInstance.getDynamicModels();
         setModelList(dynamicModels);
       } else {
-        // Fallback to static models if dynamic loading fails
-        setModelList(provider.staticModels || []);
+        // Fallback to empty array if no dynamic loading available
+        setModelList([]);
       }
     } catch (error) {
       console.error('Error loading models:', error);
 
-      // Fallback to static models
-      setModelList(provider.staticModels || []);
+      // Fallback to empty array
+      setModelList([]);
     } finally {
       setIsLoadingModels(false);
     }
@@ -923,89 +547,87 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
   const filteredProviders = useMemo(() => {
     const providers = COMPREHENSIVE_PROVIDER_LIST;
 
-    // Filter by search query
     if (!debouncedProviderSearchQuery) {
       return providers;
     }
 
+    const fuzzyMatch = (query: string, text: string): boolean => {
+      const queryLower = query.toLowerCase();
+      const textLower = text.toLowerCase();
+      let queryIndex = 0;
+
+      for (let i = 0; i < textLower.length && queryIndex < queryLower.length; i++) {
+        if (textLower[i] === queryLower[queryIndex]) {
+          queryIndex++;
+        }
+      }
+
+      return queryIndex === queryLower.length;
+    };
+
+    const highlightText = (text: string, query: string): string => {
+      if (!query) {
+        return text;
+      }
+
+      const regex = new RegExp(`(${query})`, 'gi');
+
+      return text.replace(regex, '<mark>$1</mark>');
+    };
+
     return providers
-      .map((provider) => {
+      .filter((provider) => {
         const match = fuzzyMatch(debouncedProviderSearchQuery, provider.name);
-        return {
-          ...provider,
-          searchScore: match.score,
-          searchMatches: match.matches,
-          highlightedName: highlightText(provider.name, debouncedProviderSearchQuery),
-        };
+        return match;
       })
-      .filter((provider) => provider.searchMatches)
-      .sort((a, b) => b.searchScore - a.searchScore);
+      .map((provider) => ({
+        ...provider,
+        highlightedName: highlightText(provider.name, debouncedProviderSearchQuery),
+      }));
   }, [debouncedProviderSearchQuery]);
 
-  // Filter models based on selected provider and search
+  // Filter models based on search
   const filteredModels = useMemo(() => {
-    if (!selectedProvider) {
-      return [];
+    if (!debouncedModelSearchQuery) {
+      return modelList;
     }
 
-    let models = modelList;
+    const fuzzyMatch = (query: string, text: string): boolean => {
+      const queryLower = query.toLowerCase();
+      const textLower = text.toLowerCase();
+      let queryIndex = 0;
 
-    if (debouncedModelSearchQuery) {
-      models = models
-        .map((model) => {
-          const match = fuzzyMatch(debouncedModelSearchQuery, model.label);
-          return {
-            ...model,
-            searchScore: match.score,
-            searchMatches: match.matches,
-            highlightedLabel: highlightText(model.label, debouncedModelSearchQuery),
-          };
-        })
-        .filter((model) => model.searchMatches)
-        .sort((a, b) => b.searchScore - a.searchScore);
-    }
+      for (let i = 0; i < textLower.length && queryIndex < queryLower.length; i++) {
+        if (textLower[i] === queryLower[queryIndex]) {
+          queryIndex++;
+        }
+      }
 
-    return models;
-  }, [selectedProvider, modelList, debouncedModelSearchQuery]);
+      return queryIndex === queryLower.length;
+    };
 
-  const handleSaveKeys = async () => {
-    setIsLoading(true);
+    const highlightText = (text: string, query: string): string => {
+      if (!query) {
+        return text;
+      }
 
-    try {
-      // In a real implementation, you would save these to a secure backend
-      toast.success('API keys saved successfully! Please restart the application to use them.');
-      onClose();
-    } catch {
-      toast.error('Failed to save API keys');
-    } finally {
-      setIsLoading(false);
-    }
-  };
+      const regex = new RegExp(`(${query})`, 'gi');
 
-  const handleKeyChange = (key: string, value: string) => {
-    setApiKeys((prev) => ({
-      ...prev,
-      [key]: value,
-    }));
-  };
+      return text.replace(regex, '<mark>$1</mark>');
+    };
 
-  const clearProviderSearch = useCallback(() => {
-    setProviderSearchQuery('');
-    setDebouncedProviderSearchQuery('');
-
-    if (providerSearchInputRef.current) {
-      providerSearchInputRef.current.focus();
-    }
-  }, []);
-
-  const clearModelSearch = useCallback(() => {
-    setModelSearchQuery('');
-    setDebouncedModelSearchQuery('');
-
-    if (modelSearchInputRef.current) {
-      modelSearchInputRef.current.focus();
-    }
-  }, []);
+    return modelList
+      .filter((model) => {
+        const match =
+          fuzzyMatch(debouncedModelSearchQuery, model.name) || fuzzyMatch(debouncedModelSearchQuery, model.label);
+        return match;
+      })
+      .map((model) => ({
+        ...model,
+        highlightedName: highlightText(model.name, debouncedModelSearchQuery),
+        highlightedLabel: highlightText(model.label, debouncedModelSearchQuery),
+      }));
+  }, [modelList, debouncedModelSearchQuery]);
 
   // Close dropdowns when clicking outside
   useEffect(() => {
@@ -1021,8 +643,153 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
 
     document.addEventListener('mousedown', handleClickOutside);
 
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
   }, []);
+
+  const handleProviderSelect = (provider: ExtendedProviderInfo) => {
+    setSelectedProvider(provider);
+    setSelectedModel(null);
+    setIsProviderDropdownOpen(false);
+    setProviderSearchQuery('');
+  };
+
+  const handleModelSelect = (model: ExtendedModelInfo) => {
+    setSelectedModel(model);
+    setIsModelDropdownOpen(false);
+    setModelSearchQuery('');
+  };
+
+  const handleApiKeyChange = (key: string, value: string) => {
+    setApiKeys((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const handleSaveConfiguration = () => {
+    // Save API keys to localStorage for demonstration
+    Object.entries(apiKeys).forEach(([key, value]) => {
+      if (value) {
+        localStorage.setItem(`CODERX_API_KEY_${key}`, value);
+      }
+    });
+
+    toast.success('API keys saved successfully!');
+    onClose();
+  };
+
+  const getApiKeyField = (provider: ExtendedProviderInfo) => {
+    const apiKeyName = API_KEY_MAPPING[provider.name];
+
+    if (!apiKeyName) {
+      return null;
+    }
+
+    if (provider.name === 'Amazon Bedrock') {
+      return (
+        <div className="space-y-4">
+          <div>
+            <Label htmlFor="aws-access-key" className="text-white">
+              AWS Access Key ID
+            </Label>
+            <Input
+              id="aws-access-key"
+              type="password"
+              value={apiKeys.AWS_ACCESS_KEY_ID || ''}
+              onChange={(e) => handleApiKeyChange('AWS_ACCESS_KEY_ID', e.target.value)}
+              placeholder="Enter AWS Access Key ID"
+              className="w-full bg-black/20 backdrop-blur-lg border border-blue-500/30 text-white placeholder:text-gray-400 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+            />
+          </div>
+          <div>
+            <Label htmlFor="aws-secret-key" className="text-white">
+              AWS Secret Access Key
+            </Label>
+            <Input
+              id="aws-secret-key"
+              type="password"
+              value={apiKeys.AWS_SECRET_ACCESS_KEY || ''}
+              onChange={(e) => handleApiKeyChange('AWS_SECRET_ACCESS_KEY', e.target.value)}
+              placeholder="Enter AWS Secret Access Key"
+              className="w-full bg-black/20 backdrop-blur-lg border border-blue-500/30 text-white placeholder:text-gray-400 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+            />
+          </div>
+          <div>
+            <Label htmlFor="aws-region" className="text-white">
+              AWS Region
+            </Label>
+            <Input
+              id="aws-region"
+              type="text"
+              value={apiKeys.AWS_REGION || ''}
+              onChange={(e) => handleApiKeyChange('AWS_REGION', e.target.value)}
+              placeholder="Enter AWS Region (e.g., us-east-1)"
+              className="w-full bg-black/20 backdrop-blur-lg border border-blue-500/30 text-white placeholder:text-gray-400 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+            />
+          </div>
+        </div>
+      );
+    }
+
+    if (provider.name === 'Supabase') {
+      return (
+        <div className="space-y-4">
+          <div>
+            <Label htmlFor="supabase-url" className="text-white">
+              Supabase URL
+            </Label>
+            <Input
+              id="supabase-url"
+              type="url"
+              value={apiKeys.SUPABASE_URL || ''}
+              onChange={(e) => handleApiKeyChange('SUPABASE_URL', e.target.value)}
+              placeholder="Enter Supabase URL"
+              className="w-full bg-black/20 backdrop-blur-lg border border-blue-500/30 text-white placeholder:text-gray-400 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+            />
+          </div>
+          <div>
+            <Label htmlFor="supabase-anon-key" className="text-white">
+              Supabase Anon Key
+            </Label>
+            <Input
+              id="supabase-anon-key"
+              type="password"
+              value={apiKeys.SUPABASE_ANON_KEY || ''}
+              onChange={(e) => handleApiKeyChange('SUPABASE_ANON_KEY', e.target.value)}
+              placeholder="Enter Supabase Anon Key"
+              className="w-full bg-black/20 backdrop-blur-lg border border-blue-500/30 text-white placeholder:text-gray-400 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+            />
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div>
+        <Label htmlFor={apiKeyName} className="text-white">
+          {provider.name} API Key
+        </Label>
+        <Input
+          id={apiKeyName}
+          type="password"
+          value={apiKeys[apiKeyName] || ''}
+          onChange={(e) => handleApiKeyChange(apiKeyName, e.target.value)}
+          placeholder={`Enter ${provider.name} API Key`}
+          className="w-full bg-black/20 backdrop-blur-lg border border-blue-500/30 text-white placeholder:text-gray-400 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+        />
+        <p className="text-gray-400 text-sm mt-1">
+          Get your API key from{' '}
+          <a
+            href={provider.getApiKeyLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-400 hover:underline"
+          >
+            {provider.getApiKeyLink}
+          </a>
+        </p>
+      </div>
+    );
+  };
 
   if (!isOpen) {
     return null;
@@ -1034,142 +801,81 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-blue-500/30 bg-black/10 backdrop-blur-lg rounded-t-2xl">
           <div className="flex items-center gap-3">
-            <div className="i-ph:key text-2xl text-blue-400" />
-            <h2 className="text-2xl font-semibold text-white">API Key Configuration</h2>
+            <div className="i-ph:key text-blue-400 text-xl" />
+            <h2 className="text-xl font-semibold text-white">API Key Configuration</h2>
           </div>
-          <Button
-            variant="ghost"
-            size="sm"
+          <button
             onClick={onClose}
-            className="text-gray-600 hover:text-gray-800 hover:bg-gray-800/50 rounded-lg p-2 transition-all"
+            className="text-gray-600 hover:text-gray-800 hover:bg-gray-800/50 rounded-lg p-2 transition-colors"
           >
-            <div className="i-ph:x text-xl" />
-          </Button>
+            <div className="i-ph:x text-lg" />
+          </button>
         </div>
 
         {/* Main Content */}
         <div className="flex-1 p-6 overflow-y-auto bg-transparent">
-          <div className="max-w-4xl mx-auto space-y-8">
+          <div className="space-y-8">
             {/* Provider Selection */}
             <div className="space-y-3">
-              <Label className="text-sm font-semibold text-gray-200">Service Provider</Label>
+              <Label className="text-white font-semibold">Select AI Provider</Label>
               <div className="relative" ref={providerDropdownRef}>
                 <div
                   className={classNames(
-                    'w-full p-3 rounded-lg border border-blue-500/30',
-                    'bg-black/20 backdrop-blur-lg text-white',
-                    'focus-within:outline-none focus-within:ring-2 focus-within:ring-blue-500/50',
-                    'transition-all cursor-pointer hover:border-blue-500/50',
+                    'w-full p-3 rounded-lg border border-blue-500/30 bg-black/20 backdrop-blur-lg text-white focus-within:outline-none focus-within:ring-2 focus-within:ring-blue-500/50 transition-all cursor-pointer hover:border-blue-500/50',
                     isProviderDropdownOpen ? 'ring-2 ring-blue-500/50 border-blue-500/50' : undefined,
                   )}
                   onClick={() => setIsProviderDropdownOpen(!isProviderDropdownOpen)}
-                  role="combobox"
-                  aria-expanded={isProviderDropdownOpen}
-                  aria-controls="provider-listbox"
-                  aria-haspopup="listbox"
-                  tabIndex={0}
                 >
                   <div className="flex items-center justify-between">
-                    <div className="truncate">{selectedProvider?.name || 'Select provider'}</div>
-                    <div
-                      className={classNames(
-                        'i-ph:caret-down w-4 h-4 text-gray-400 opacity-75',
-                        isProviderDropdownOpen ? 'rotate-180' : undefined,
-                      )}
-                    />
+                    <span className="text-white">
+                      {selectedProvider ? selectedProvider.name : 'Choose a provider...'}
+                    </span>
+                    <div className="i-ph:caret-down text-gray-400" />
                   </div>
                 </div>
 
                 {isProviderDropdownOpen && (
-                  <div
-                    className="absolute z-20 w-full mt-2 py-2 rounded-lg border border-blue-500/30 bg-black/30 backdrop-blur-xl shadow-xl"
-                    role="listbox"
-                    id="provider-listbox"
-                  >
-                    <div className="px-2 pb-2">
+                  <div className="absolute z-20 w-full mt-2 py-2 rounded-lg border border-blue-500/30 bg-black/30 backdrop-blur-xl shadow-xl">
+                    <div className="px-3 py-2 border-b border-blue-500/20">
                       <div className="relative">
-                        <input
-                          ref={providerSearchInputRef}
+                        <div className="i-ph:magnifying-glass absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                        <Input
                           type="text"
+                          placeholder="Search providers..."
                           value={providerSearchQuery}
                           onChange={(e) => setProviderSearchQuery(e.target.value)}
-                          placeholder="Search providers... (⌘K to clear)"
-                          className={classNames(
-                            'w-full pl-8 pr-8 py-2 rounded-md text-sm',
-                            'bg-black/20 backdrop-blur-lg border border-blue-500/30',
-                            'text-white placeholder:text-gray-400',
-                            'focus:outline-none focus:ring-2 focus:ring-blue-500/50',
-                            'transition-all',
-                          )}
-                          onClick={(e) => e.stopPropagation()}
-                          role="searchbox"
-                          aria-label="Search providers"
+                          className="pl-10 bg-black/20 backdrop-blur-lg border border-blue-500/30 text-white placeholder:text-gray-400 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
                         />
-                        <div className="absolute left-2.5 top-1/2 -translate-y-1/2">
-                          <span className="i-ph:magnifying-glass text-gray-400" />
-                        </div>
                         {providerSearchQuery && (
                           <button
-                            type="button"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              clearProviderSearch();
-                            }}
-                            className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 rounded hover:bg-gray-700/50 transition-colors"
-                            aria-label="Clear search"
+                            onClick={() => setProviderSearchQuery('')}
+                            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white"
                           >
-                            <span className="i-ph:x text-gray-400 text-xs" />
+                            <div className="i-ph:x text-sm" />
                           </button>
                         )}
                       </div>
                     </div>
-
                     <div className="max-h-60 overflow-y-auto">
-                      {filteredProviders.length === 0 ? (
-                        <div className="px-3 py-3 text-sm">
-                          <div className="text-gray-400 mb-1">
-                            {debouncedProviderSearchQuery
-                              ? `No providers match "${debouncedProviderSearchQuery}"`
-                              : 'No providers found'}
-                          </div>
-                        </div>
-                      ) : (
-                        filteredProviders.map((provider, index) => (
+                      {filteredProviders.length > 0 ? (
+                        filteredProviders.map((provider) => (
                           <div
-                            ref={(el) => (providerOptionsRef.current[index] = el)}
                             key={provider.name}
-                            role="option"
-                            aria-selected={selectedProvider?.name === provider.name}
-                            className={classNames(
-                              'px-3 py-2.5 text-sm cursor-pointer rounded-md mx-1',
-                              'hover:bg-gray-700/50',
-                              'text-white',
-                              'outline-none transition-all',
-                              selectedProvider?.name === provider.name || focusedProviderIndex === index
-                                ? 'bg-gray-700/50'
-                                : undefined,
-                            )}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setSelectedProvider(provider as any);
-                              setIsProviderDropdownOpen(false);
-                              setProviderSearchQuery('');
-                              setDebouncedProviderSearchQuery('');
-                            }}
+                            className="px-3 py-2.5 text-sm cursor-pointer rounded-md mx-1 hover:bg-gray-700/50 text-white transition-colors"
+                            onClick={() => handleProviderSelect(provider)}
                           >
                             <div className="flex items-center gap-3">
-                              <div className={`${provider.icon} text-lg text-blue-400`} />
-                              <div className="flex-1">
-                                <div
-                                  dangerouslySetInnerHTML={{
-                                    __html: (provider as any).highlightedName || provider.name,
-                                  }}
-                                />
-                                <div className="text-xs text-gray-400">{provider.category}</div>
-                              </div>
+                              <div className={classNames(provider.icon, 'text-lg')} />
+                              <span dangerouslySetInnerHTML={{ __html: provider.highlightedName || provider.name }} />
                             </div>
                           </div>
                         ))
+                      ) : (
+                        <div className="px-3 py-2 text-gray-400 text-sm">
+                          {debouncedProviderSearchQuery
+                            ? `No providers match "${debouncedProviderSearchQuery}"`
+                            : 'No providers available'}
+                        </div>
                       )}
                     </div>
                   </div>
@@ -1180,127 +886,76 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
             {/* Model Selection */}
             {selectedProvider && (
               <div className="space-y-3">
-                <Label className="text-sm font-semibold text-gray-200">
-                  Model {isLoadingModels && <span className="text-xs text-gray-400">(Loading...)</span>}
-                </Label>
+                <Label className="text-white font-semibold">Select Model</Label>
                 <div className="relative" ref={modelDropdownRef}>
                   <div
                     className={classNames(
-                      'w-full p-3 rounded-lg border border-blue-500/30',
-                      'bg-black/20 backdrop-blur-lg text-white',
-                      'focus-within:outline-none focus-within:ring-2 focus-within:ring-blue-500/50',
-                      'transition-all cursor-pointer hover:border-blue-500/50',
+                      'w-full p-3 rounded-lg border border-blue-500/30 bg-black/20 backdrop-blur-lg text-white focus-within:outline-none focus-within:ring-2 focus-within:ring-blue-500/50 transition-all cursor-pointer hover:border-blue-500/50',
                       isModelDropdownOpen ? 'ring-2 ring-blue-500/50 border-blue-500/50' : undefined,
                     )}
                     onClick={() => setIsModelDropdownOpen(!isModelDropdownOpen)}
-                    role="combobox"
-                    aria-expanded={isModelDropdownOpen}
-                    aria-controls="model-listbox"
-                    aria-haspopup="listbox"
-                    tabIndex={0}
                   >
                     <div className="flex items-center justify-between">
-                      <div className="truncate">
-                        {filteredModels.find((m) => m.name === selectedModel)?.label || 'Select model'}
-                      </div>
-                      <div
-                        className={classNames(
-                          'i-ph:caret-down w-4 h-4 text-gray-400 opacity-75',
-                          isModelDropdownOpen ? 'rotate-180' : undefined,
-                        )}
-                      />
+                      <span className="text-white">
+                        {selectedModel
+                          ? selectedModel.label
+                          : isLoadingModels
+                            ? 'Loading models...'
+                            : 'Choose a model...'}
+                      </span>
+                      <div className="i-ph:caret-down text-gray-400" />
                     </div>
                   </div>
 
                   {isModelDropdownOpen && (
-                    <div
-                      className="absolute z-20 w-full mt-2 py-2 rounded-lg border border-blue-500/30 bg-black/30 backdrop-blur-xl shadow-xl"
-                      role="listbox"
-                      id="model-listbox"
-                    >
-                      <div className="px-2 pb-2">
+                    <div className="absolute z-20 w-full mt-2 py-2 rounded-lg border border-blue-500/30 bg-black/30 backdrop-blur-xl shadow-xl">
+                      <div className="px-3 py-2 border-b border-blue-500/20">
                         <div className="relative">
-                          <input
-                            ref={modelSearchInputRef}
+                          <div className="i-ph:magnifying-glass absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                          <Input
                             type="text"
+                            placeholder="Search models..."
                             value={modelSearchQuery}
                             onChange={(e) => setModelSearchQuery(e.target.value)}
-                            placeholder="Search models... (⌘K to clear)"
-                            className={classNames(
-                              'w-full pl-8 pr-8 py-2 rounded-md text-sm',
-                              'bg-black/20 backdrop-blur-lg border border-blue-500/30',
-                              'text-white placeholder:text-gray-400',
-                              'focus:outline-none focus:ring-2 focus:ring-blue-500/50',
-                              'transition-all',
-                            )}
-                            onClick={(e) => e.stopPropagation()}
-                            role="searchbox"
-                            aria-label="Search models"
+                            className="pl-10 bg-black/20 backdrop-blur-lg border border-blue-500/30 text-white placeholder:text-gray-400 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
                           />
-                          <div className="absolute left-2.5 top-1/2 -translate-y-1/2">
-                            <span className="i-ph:magnifying-glass text-gray-400" />
-                          </div>
                           {modelSearchQuery && (
                             <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                clearModelSearch();
-                              }}
-                              className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 rounded hover:bg-gray-700/50 transition-colors"
-                              aria-label="Clear search"
+                              onClick={() => setModelSearchQuery('')}
+                              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white"
                             >
-                              <span className="i-ph:x text-gray-400 text-xs" />
+                              <div className="i-ph:x text-sm" />
                             </button>
                           )}
                         </div>
                       </div>
-
                       <div className="max-h-60 overflow-y-auto">
-                        {filteredModels.length === 0 ? (
-                          <div className="px-3 py-3 text-sm">
-                            <div className="text-gray-400 mb-1">
-                              {debouncedModelSearchQuery
-                                ? `No models match "${debouncedModelSearchQuery}"`
-                                : 'No models found'}
-                            </div>
-                          </div>
-                        ) : (
-                          filteredModels.map((model, index) => (
+                        {filteredModels.length > 0 ? (
+                          filteredModels.map((model) => (
                             <div
-                              ref={(el) => (modelOptionsRef.current[index] = el)}
                               key={model.name}
-                              role="option"
-                              aria-selected={selectedModel === model.name}
-                              className={classNames(
-                                'px-3 py-2.5 text-sm cursor-pointer rounded-md mx-1',
-                                'hover:bg-gray-700/50',
-                                'text-white',
-                                'outline-none transition-all',
-                                selectedModel === model.name || focusedModelIndex === index
-                                  ? 'bg-gray-700/50'
-                                  : undefined,
-                              )}
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setSelectedModel(model.name);
-                                setIsModelDropdownOpen(false);
-                                setModelSearchQuery('');
-                                setDebouncedModelSearchQuery('');
-                              }}
+                              className="px-3 py-2.5 text-sm cursor-pointer rounded-md mx-1 hover:bg-gray-700/50 text-white transition-colors"
+                              onClick={() => handleModelSelect(model)}
                             >
                               <div className="flex items-center justify-between">
-                                <div
-                                  dangerouslySetInnerHTML={{
-                                    __html: (model as any).highlightedLabel || model.label,
-                                  }}
-                                />
-                                <div className="flex items-center gap-2 text-xs text-gray-400">
-                                  <span>{formatContextSize(model.maxTokenAllowed)}</span>
+                                <div>
+                                  <div
+                                    className="font-medium"
+                                    dangerouslySetInnerHTML={{ __html: model.highlightedLabel || model.label }}
+                                  />
+                                  <div className="text-gray-400 text-xs">{model.name}</div>
+                                </div>
+                                <div className="text-gray-400 text-xs">
+                                  {model.maxTokenAllowed ? `${Math.round(model.maxTokenAllowed / 1000)}K` : 'N/A'}{' '}
+                                  tokens
                                 </div>
                               </div>
                             </div>
                           ))
+                        ) : (
+                          <div className="px-3 py-2 text-gray-400 text-sm">
+                            {isLoadingModels ? 'Loading models...' : 'No models available'}
+                          </div>
                         )}
                       </div>
                     </div>
@@ -1310,149 +965,24 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
             )}
 
             {/* API Key Input */}
-            {selectedProvider && (
-              <div className="space-y-3">
-                <Label className="text-sm font-semibold text-gray-200">
-                  API Key ({API_KEY_MAPPING[selectedProvider.name] || 'API_KEY'})
-                </Label>
-                <Input
-                  type="password"
-                  placeholder={`Enter your ${selectedProvider.name} API key`}
-                  value={apiKeys[API_KEY_MAPPING[selectedProvider.name]] || ''}
-                  onChange={(e) => handleKeyChange(API_KEY_MAPPING[selectedProvider.name], e.target.value)}
-                  className="w-full bg-black/20 backdrop-blur-lg border border-blue-500/30 text-white placeholder:text-gray-400 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
-                />
-                <p className="text-xs text-gray-400">
-                  Your API key will be stored securely and used only for this application.
-                </p>
-              </div>
-            )}
-
-            {/* Special handling for AWS Bedrock */}
-            {selectedProvider?.name === 'Amazon Bedrock' && (
-              <>
-                <div className="space-y-3">
-                  <Label className="text-sm font-semibold text-gray-200">AWS Secret Access Key</Label>
-                  <Input
-                    type="password"
-                    placeholder="Enter your AWS Secret Access Key"
-                    value={apiKeys.AWS_SECRET_ACCESS_KEY || ''}
-                    onChange={(e) => handleKeyChange('AWS_SECRET_ACCESS_KEY', e.target.value)}
-                    className="w-full bg-black/20 backdrop-blur-lg border border-blue-500/30 text-white placeholder:text-gray-400 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
-                  />
-                </div>
-                <div className="space-y-3">
-                  <Label className="text-sm font-semibold text-gray-200">AWS Region</Label>
-                  <Input
-                    type="text"
-                    placeholder="us-east-1"
-                    value={apiKeys.AWS_REGION || 'us-east-1'}
-                    onChange={(e) => handleKeyChange('AWS_REGION', e.target.value)}
-                    className="w-full bg-black/20 backdrop-blur-lg border border-blue-500/30 text-white placeholder:text-gray-400 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
-                  />
-                </div>
-              </>
-            )}
-
-            {/* Special handling for Azure OpenAI */}
-            {selectedProvider?.name === 'Azure OpenAI' && (
-              <>
-                <div className="space-y-3">
-                  <Label className="text-sm font-semibold text-gray-200">Azure OpenAI Endpoint</Label>
-                  <Input
-                    type="text"
-                    placeholder="https://your-resource.openai.azure.com/"
-                    value={apiKeys.AZURE_OPENAI_ENDPOINT || ''}
-                    onChange={(e) => handleKeyChange('AZURE_OPENAI_ENDPOINT', e.target.value)}
-                    className="w-full bg-black/20 backdrop-blur-lg border border-blue-500/30 text-white placeholder:text-gray-400 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
-                  />
-                </div>
-                <div className="space-y-3">
-                  <Label className="text-sm font-semibold text-gray-200">Azure OpenAI Deployment</Label>
-                  <Input
-                    type="text"
-                    placeholder="gpt-4"
-                    value={apiKeys.AZURE_OPENAI_DEPLOYMENT || ''}
-                    onChange={(e) => handleKeyChange('AZURE_OPENAI_DEPLOYMENT', e.target.value)}
-                    className="w-full bg-black/20 backdrop-blur-lg border border-blue-500/30 text-white placeholder:text-gray-400 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
-                  />
-                </div>
-                <div className="space-y-3">
-                  <Label className="text-sm font-semibold text-gray-200">Azure OpenAI API Version</Label>
-                  <Input
-                    type="text"
-                    placeholder="2024-02-15-preview"
-                    value={apiKeys.AZURE_OPENAI_API_VERSION || '2024-02-15-preview'}
-                    onChange={(e) => handleKeyChange('AZURE_OPENAI_API_VERSION', e.target.value)}
-                    className="w-full bg-black/20 backdrop-blur-lg border border-blue-500/30 text-white placeholder:text-gray-400 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
-                  />
-                </div>
-              </>
-            )}
-
-            {/* Special handling for Twilio */}
-            {selectedProvider?.name === 'Twilio' && (
-              <>
-                <div className="space-y-3">
-                  <Label className="text-sm font-semibold text-gray-200">Twilio Auth Token</Label>
-                  <Input
-                    type="password"
-                    placeholder="Enter your Twilio Auth Token"
-                    value={apiKeys.TWILIO_AUTH_TOKEN || ''}
-                    onChange={(e) => handleKeyChange('TWILIO_AUTH_TOKEN', e.target.value)}
-                    className="w-full bg-black/20 backdrop-blur-lg border border-blue-500/30 text-white placeholder:text-gray-400 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
-                  />
-                </div>
-              </>
-            )}
-
-            {/* Special handling for PayPal */}
-            {selectedProvider?.name === 'PayPal' && (
-              <>
-                <div className="space-y-3">
-                  <Label className="text-sm font-semibold text-gray-200">PayPal Secret</Label>
-                  <Input
-                    type="password"
-                    placeholder="Enter your PayPal Secret"
-                    value={apiKeys.PAYPAL_CLIENT_SECRET || ''}
-                    onChange={(e) => handleKeyChange('PAYPAL_CLIENT_SECRET', e.target.value)}
-                    className="w-full bg-black/20 backdrop-blur-lg border border-blue-500/30 text-white placeholder:text-gray-400 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
-                  />
-                </div>
-              </>
-            )}
+            {selectedProvider && getApiKeyField(selectedProvider)}
 
             {/* Provider Information */}
             {selectedProvider && (
               <div className="bg-black/20 backdrop-blur-lg rounded-lg p-5 border border-blue-500/30">
-                <h3 className="text-sm font-semibold text-white mb-3">Provider Information</h3>
-                <div className="space-y-2 text-sm text-gray-300">
-                  <div className="flex justify-between">
-                    <span className="font-medium">Name:</span>
-                    <span className="text-gray-200">{selectedProvider.name}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="font-medium">Category:</span>
-                    <span className="text-gray-200">{selectedProvider.category}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="font-medium">Models Available:</span>
-                    <span className="text-gray-200">{modelList.length}</span>
-                  </div>
-                  {selectedProvider.getApiKeyLink && (
-                    <div className="pt-2 border-t border-gray-600/30">
-                      <div className="font-medium mb-1">Get API Key:</div>
-                      <a
-                        href={selectedProvider.getApiKeyLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-400 hover:text-blue-300 hover:underline transition-colors text-xs break-all"
-                      >
-                        {selectedProvider.getApiKeyLink}
-                      </a>
-                    </div>
-                  )}
-                </div>
+                <h3 className="text-white font-semibold mb-2">{selectedProvider.name}</h3>
+                <p className="text-sm text-gray-300 mb-3">
+                  {selectedProvider.category} • {selectedProvider.name} provides AI models and services for various use
+                  cases.
+                </p>
+                <a
+                  href={selectedProvider.getApiKeyLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-400 hover:text-blue-300 hover:underline text-sm"
+                >
+                  Get API Key →
+                </a>
               </div>
             )}
           </div>
@@ -1460,24 +990,24 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
 
         {/* Footer */}
         <div className="p-6 border-t border-blue-500/30 bg-black/10 backdrop-blur-lg rounded-b-2xl">
-          <div className="flex justify-between items-center">
-            <div className="text-sm text-gray-400">
-              {Object.keys(apiKeys).filter((key) => apiKeys[key]).length} API keys configured
+          <div className="flex items-center justify-between">
+            <div className="text-gray-400 text-sm">
+              {selectedProvider ? `Configure ${selectedProvider.name} API key` : 'Select a provider to configure'}
             </div>
             <div className="flex gap-3">
               <Button
                 variant="outline"
                 onClick={onClose}
-                className="border border-gray-600/50 text-white hover:bg-gray-800/50 bg-gray-900/30 transition-all"
+                className="border border-gray-600/50 text-white hover:bg-gray-800/50 bg-gray-900/30"
               >
                 Cancel
               </Button>
               <Button
-                onClick={handleSaveKeys}
-                disabled={isLoading}
+                onClick={handleSaveConfiguration}
                 className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white border-0 transition-all shadow-lg"
+                disabled={!selectedProvider || !Object.values(apiKeys).some((key) => key)}
               >
-                {isLoading ? 'Saving...' : 'Save Configuration'}
+                Save Configuration
               </Button>
             </div>
           </div>
