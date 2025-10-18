@@ -29,6 +29,7 @@ export function HistoryItem({
   const isActiveChat = urlId === item.urlId;
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   const { editing, handleChange, handleBlur, handleSubmit, handleKeyDown, currentDescription, toggleEditMode } =
     useEditChatDescription({
@@ -88,6 +89,8 @@ export function HistoryItem({
     (event: React.MouseEvent) => {
       event.preventDefault();
       event.stopPropagation();
+      console.log('3-dot menu clicked, current state:', isMenuOpen, 'will set to:', !isMenuOpen);
+
       setIsMenuOpen(!isMenuOpen);
     },
     [isMenuOpen],
@@ -145,10 +148,11 @@ export function HistoryItem({
             <span className="truncate pr-24">{currentDescription}</span>
           </WithTooltip>
           {/* 3-Dot Menu */}
-          <div className="relative" ref={menuRef}>
+          <div className="absolute right-2 top-1/2 -translate-y-1/2" ref={menuRef}>
             <button
+              ref={buttonRef}
               onClick={handleMenuToggle}
-              className="p-2 text-gray-400 hover:text-white hover:bg-gray-700 rounded transition-all duration-200"
+              className="p-1 text-gray-400 hover:text-white opacity-60 hover:opacity-100 transition-all duration-200 bg-transparent border-none outline-none"
               title="More options"
             >
               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -157,8 +161,11 @@ export function HistoryItem({
             </button>
 
             {/* Dropdown Menu */}
-            {(isMenuOpen || true) && (
-              <div className="absolute right-0 top-full mt-1 w-48 bg-gray-800 border border-gray-600 rounded-lg shadow-xl z-[9999]">
+            {isMenuOpen && (
+              <div
+                className="fixed w-48 bg-gray-900 border-2 border-gray-500 rounded-lg shadow-2xl z-[9999] overflow-hidden"
+                style={{ top: '100px', right: '20px' }}
+              >
                 <div className="py-1">
                   {/* Export Option */}
                   <button
@@ -168,7 +175,7 @@ export function HistoryItem({
                       exportChat(item.id);
                       setIsMenuOpen(false);
                     }}
-                    className="w-full px-4 py-2 text-left text-sm text-gray-300 hover:bg-gray-700 hover:text-white flex items-center gap-2"
+                    className="w-full px-4 py-3 text-left text-sm text-white hover:bg-gray-700 hover:text-white flex items-center gap-3 border-b border-gray-700"
                   >
                     <svg className="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path
@@ -190,7 +197,7 @@ export function HistoryItem({
                         onDuplicate?.(item.id);
                         setIsMenuOpen(false);
                       }}
-                      className="w-full px-4 py-2 text-left text-sm text-gray-300 hover:bg-gray-700 hover:text-white flex items-center gap-2"
+                      className="w-full px-4 py-3 text-left text-sm text-white hover:bg-gray-700 hover:text-white flex items-center gap-3 border-b border-gray-700"
                     >
                       <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path
@@ -236,7 +243,7 @@ export function HistoryItem({
                       handleDeleteClick(event as any);
                       setIsMenuOpen(false);
                     }}
-                    className="w-full px-4 py-2 text-left text-sm text-red-400 hover:bg-red-900/20 hover:text-red-300 flex items-center gap-2"
+                    className="w-full px-4 py-3 text-left text-sm text-red-400 hover:bg-red-900/20 hover:text-red-300 flex items-center gap-3"
                   >
                     <svg className="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path
