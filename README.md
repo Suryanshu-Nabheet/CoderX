@@ -231,33 +231,6 @@ The desktop app provides the same full functionality as the web version with add
 
 CoderX features a modern, intuitive settings interface for managing AI providers and API keys. The settings are organized into dedicated panels for easy navigation and configuration.
 
-### 🔐 Security First
-
-**IMPORTANT**: CoderX is an open-source project. For security:
-
-- ✅ **Use the setup script**: `./scripts/setup-env.sh`
-- ✅ **Keep API keys in `.env` file only** (never commit to version control)
-- ✅ **Use environment variables** for production deployments
-- ❌ **Never expose API keys** in code, documentation, or screenshots
-- ❌ **Don't commit `.env` files** to version control
-
-### Quick Setup
-
-1. **Run the secure setup script:**
-   ```bash
-   ./scripts/setup-env.sh
-   ```
-
-2. **Edit your `.env` file:**
-   ```bash
-   nano .env  # Add your actual API keys here
-   ```
-
-3. **Start the application:**
-   ```bash
-   pnpm dev
-   ```
-
 ### Accessing Provider Settings
 
 1. **Open Settings**: Click the settings icon (⚙️) in the sidebar to access the settings panel
@@ -306,10 +279,10 @@ The Local Providers tab manages local AI installations and custom endpoints:
 CoderX supports both methods for maximum flexibility:
 
 #### Environment Variables (Recommended for Production)
-Set API keys and base URLs in your `.env` file:
+Set API keys and base URLs in your `.env.local` file:
 ```bash
-# API Keys - Replace with your actual keys
-OPENAI_API_KEY=sk-your-actual-openai-key-here
+# API Keys
+OPENAI_API_KEY=your_openai_key_here
 ANTHROPIC_API_KEY=your_anthropic_key_here
 
 # Custom Base URLs

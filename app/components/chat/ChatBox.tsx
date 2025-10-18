@@ -1,6 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ClientOnly } from 'remix-utils/client-only';
 import { classNames } from '~/utils/classNames';
+import { PROVIDER_LIST } from '~/utils/constants';
+import { ModelSelector } from '~/components/chat/ModelSelector';
+import { APIKeyManager } from './APIKeyManager';
+import { LOCAL_PROVIDERS } from '~/lib/stores/settings';
 import FilePreview from './FilePreview';
 import { ScreenshotStateManager } from './ScreenshotStateManager';
 import { SendButton } from './SendButton.client';
@@ -10,13 +14,23 @@ import { SpeechRecognitionButton } from '~/components/chat/SpeechRecognition';
 import { SupabaseConnection } from './SupabaseConnection';
 import { ExpoQrModal } from '~/components/workbench/ExpoQrModal';
 import styles from './BaseChat.module.scss';
+import type { ProviderInfo } from '~/types/model';
 import { ColorSchemeDialog } from '~/components/ui/ColorSchemeDialog';
 import type { DesignScheme } from '~/types/design-scheme';
 import type { ElementInfo } from '~/components/workbench/Inspector';
 import { McpTools } from './MCPTools';
-import { ApiKeySetup } from '~/components/sidebar/ApiKeySetup';
 
 interface ChatBoxProps {
+  isModelSettingsCollapsed: boolean;
+  setIsModelSettingsCollapsed: (collapsed: boolean) => void;
+  isApiConfigExpanded: boolean;
+  setIsApiConfigExpanded: (expanded: boolean) => void;
+  provider: any;
+  providerList: any[];
+  modelList: any[];
+  apiKeys: Record<string, string>;
+  isModelLoading: string | undefined;
+  onApiKeysChange: (providerName: string, apiKey: string) => void;
   uploadedFiles: File[];
   imageDataList: string[];
   textareaRef: React.RefObject<HTMLTextAreaElement> | undefined;
@@ -34,6 +48,9 @@ interface ChatBoxProps {
   qrModalOpen: boolean;
   setQrModalOpen: (open: boolean) => void;
   handleFileUpload: () => void;
+  setProvider?: ((provider: ProviderInfo) => void) | undefined;
+  model?: string | undefined;
+  setModel?: ((model: string) => void) | undefined;
   setUploadedFiles?: ((files: File[]) => void) | undefined;
   setImageDataList?: ((dataList: string[]) => void) | undefined;
   handleInputChange?: ((event: React.ChangeEvent<HTMLTextAreaElement>) => void) | undefined;
@@ -49,7 +66,6 @@ interface ChatBoxProps {
 }
 
 export const ChatBox: React.FC<ChatBoxProps> = (props) => {
-  const [isApiKeySetupOpen, setIsApiKeySetupOpen] = useState(false);
   return (
     <div
       className={classNames(
@@ -90,7 +106,40 @@ export const ChatBox: React.FC<ChatBoxProps> = (props) => {
       </svg>
       <div>
         <ClientOnly>
-          {() => <div className="hidden">{/* Model selection removed for enterprise use */}</div>}
+          {() => (
+            <div className={props.isModelSettingsCollapsed ? 'hidden' : ''}>
+              <ModelSelector
+                key={props.provider?.name + ':' + props.modelList.length}
+                model={props.model}
+                setModel={props.setModel}
+                modelList={props.modelList}
+                provider={props.provider}
+                setProvider={props.setProvider}
+                providerList={props.providerList || (PROVIDER_LIST as ProviderInfo[])}
+                apiKeys={props.apiKeys}
+                modelLoading={props.isModelLoading}
+              />
+            </div>
+          )}
+        </ClientOnly>
+
+        {/* Expandable API Configuration Section */}
+        <ClientOnly>
+          {() => (
+            <div className={props.isApiConfigExpanded ? '' : 'hidden'}>
+              {(props.providerList || []).length > 0 &&
+                props.provider &&
+                !LOCAL_PROVIDERS.includes(props.provider.name) && (
+                  <APIKeyManager
+                    provider={props.provider}
+                    apiKey={props.apiKeys[props.provider.name] || ''}
+                    setApiKey={(key) => {
+                      props.onApiKeysChange(props.provider.name, key);
+                    }}
+                  />
+                )}
+            </div>
+          )}
         </ClientOnly>
       </div>
       <FilePreview
@@ -207,7 +256,7 @@ export const ChatBox: React.FC<ChatBoxProps> = (props) => {
             <SendButton
               show={props.input.length > 0 || props.isStreaming || props.uploadedFiles.length > 0}
               isStreaming={props.isStreaming}
-              disabled={false}
+              disabled={!props.providerList || props.providerList.length === 0}
               onClick={(event) => {
                 if (props.isStreaming) {
                   props.handleStop?.();
@@ -229,13 +278,6 @@ export const ChatBox: React.FC<ChatBoxProps> = (props) => {
               <div className="i-ph:paperclip text-xl"></div>
             </IconButton>
             <IconButton
-              title="API Key Configuration"
-              onClick={() => setIsApiKeySetupOpen(true)}
-              className="transition-all"
-            >
-              <div className="i-ph:key text-xl"></div>
-            </IconButton>
-            <IconButton
               title="Enhance prompt"
               disabled={props.input.length === 0 || props.enhancingPrompt}
               className={classNames('transition-all', props.enhancingPrompt ? 'opacity-100' : '')}
@@ -249,6 +291,21 @@ export const ChatBox: React.FC<ChatBoxProps> = (props) => {
               ) : (
                 <div className="i-bolt:stars text-xl"></div>
               )}
+            </IconButton>
+
+            <IconButton
+              title="API Configuration"
+              className={classNames('transition-all', {
+                'bg-bolt-elements-item-backgroundAccent text-bolt-elements-item-contentAccent':
+                  props.isApiConfigExpanded,
+                'bg-bolt-elements-item-backgroundDefault text-bolt-elements-item-contentDefault':
+                  !props.isApiConfigExpanded,
+              })}
+              onClick={() => {
+                props.setIsApiConfigExpanded(!props.isApiConfigExpanded);
+              }}
+            >
+              <div className="i-ph:key text-xl"></div>
             </IconButton>
 
             <SpeechRecognitionButton
@@ -274,6 +331,20 @@ export const ChatBox: React.FC<ChatBoxProps> = (props) => {
                 {props.chatMode === 'discuss' ? <span>Discuss</span> : <span />}
               </IconButton>
             )}
+            <IconButton
+              title="Model Settings"
+              className={classNames('transition-all flex items-center gap-1', {
+                'bg-bolt-elements-item-backgroundAccent text-bolt-elements-item-contentAccent':
+                  props.isModelSettingsCollapsed,
+                'bg-bolt-elements-item-backgroundDefault text-bolt-elements-item-contentDefault':
+                  !props.isModelSettingsCollapsed,
+              })}
+              onClick={() => props.setIsModelSettingsCollapsed(!props.isModelSettingsCollapsed)}
+              disabled={!props.providerList || props.providerList.length === 0}
+            >
+              <div className={`i-ph:caret-${props.isModelSettingsCollapsed ? 'right' : 'down'} text-lg`} />
+              {props.isModelSettingsCollapsed ? <span className="text-xs">{props.model}</span> : <span />}
+            </IconButton>
           </div>
           {props.input.length > 3 ? (
             <div className="text-xs text-bolt-elements-textTertiary">
@@ -285,7 +356,6 @@ export const ChatBox: React.FC<ChatBoxProps> = (props) => {
           <ExpoQrModal open={props.qrModalOpen} onClose={() => props.setQrModalOpen(false)} />
         </div>
       </div>
-      <ApiKeySetup isOpen={isApiKeySetupOpen} onClose={() => setIsApiKeySetupOpen(false)} />
     </div>
   );
 };

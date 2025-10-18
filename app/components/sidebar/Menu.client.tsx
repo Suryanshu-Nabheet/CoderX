@@ -13,6 +13,7 @@ import { useSearchFilter } from '~/lib/hooks/useSearchFilter';
 import { classNames } from '~/utils/classNames';
 import { useStore } from '@nanostores/react';
 import { profileStore } from '~/lib/stores/profile';
+import { ApiKeySetupModal } from './ApiKeySetupModal';
 
 const menuVariants = {
   closed: {
@@ -51,6 +52,7 @@ export const Menu = () => {
   const [open, setOpen] = useState(false);
   const [dialogContent, setDialogContent] = useState<DialogContent>(null);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [isApiKeyModalOpen, setIsApiKeyModalOpen] = useState(false);
   const profile = useStore(profileStore);
   const [selectionMode, setSelectionMode] = useState(false);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
@@ -517,13 +519,29 @@ export const Menu = () => {
               </div>
             </div>
 
-            {/* Settings Button */}
-            <SettingsButton onClick={handleSettingsClick} />
+            {/* Settings and API Key Setup Buttons */}
+            <div className="flex items-center justify-between gap-3">
+              {/* Settings Button - Left */}
+              <SettingsButton onClick={handleSettingsClick} />
+
+              {/* API Key Setup Button - Right */}
+              <button
+                onClick={() => {
+                  setIsApiKeyModalOpen(true);
+                }}
+                className="flex items-center gap-2 bg-gray-700 hover:bg-gray-600 text-gray-200 hover:text-white rounded-lg px-3 py-2 transition-colors"
+                title="API Key Setup"
+              >
+                <span className="i-ph:key h-4 w-4" />
+                <span className="text-sm font-medium">API Keys</span>
+              </button>
+            </div>
           </div>
         </div>
       </motion.div>
 
       <ControlPanel open={isSettingsOpen} onClose={handleSettingsClose} />
+      <ApiKeySetupModal open={isApiKeyModalOpen} onClose={() => setIsApiKeyModalOpen(false)} />
     </>
   );
 };

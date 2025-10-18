@@ -1,6 +1,7 @@
 import type { LoaderFunction } from '@remix-run/cloudflare';
 import { LLMManager } from '~/lib/modules/llm/manager';
 import { getApiKeysFromCookie } from '~/lib/api/cookies';
+import { hasEnvApiKey } from '~/lib/utils/env-api-keys';
 
 export const loader: LoaderFunction = async ({ context, request }) => {
   const url = new URL(request.url);
@@ -26,12 +27,14 @@ export const loader: LoaderFunction = async ({ context, request }) => {
   /*
    * Check API key in order of precedence:
    * 1. Client-side API keys (from cookies)
-   * 2. Server environment variables (from Cloudflare env)
-   * 3. Process environment variables (from .env.local)
-   * 4. LLMManager environment variables
+   * 2. Environment variables (from .env file)
+   * 3. Server environment variables (from Cloudflare env)
+   * 4. Process environment variables (from .env.local)
+   * 5. LLMManager environment variables
    */
   const isSet = !!(
     apiKeys?.[provider] ||
+    hasEnvApiKey(provider) ||
     (context?.cloudflare?.env as Record<string, any>)?.[envVarName] ||
     process.env[envVarName] ||
     llmManager.env[envVarName]
