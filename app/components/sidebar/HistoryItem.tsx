@@ -88,7 +88,6 @@ export function HistoryItem({
     (event: React.MouseEvent) => {
       event.preventDefault();
       event.stopPropagation();
-      console.log('3-dot menu clicked, current state:', isMenuOpen);
       setIsMenuOpen(!isMenuOpen);
     },
     [isMenuOpen],
@@ -146,10 +145,10 @@ export function HistoryItem({
             <span className="truncate pr-24">{currentDescription}</span>
           </WithTooltip>
           {/* 3-Dot Menu */}
-          <div className="absolute right-2 top-1/2 -translate-y-1/2" ref={menuRef}>
+          <div className="relative" ref={menuRef}>
             <button
               onClick={handleMenuToggle}
-              className="p-1 text-gray-400 hover:text-white opacity-60 hover:opacity-100 transition-all duration-200 bg-transparent border-none outline-none"
+              className="p-2 text-gray-400 hover:text-white hover:bg-gray-700 rounded transition-all duration-200"
               title="More options"
             >
               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -159,7 +158,7 @@ export function HistoryItem({
 
             {/* Dropdown Menu */}
             {isMenuOpen && (
-              <div className="absolute right-0 top-full mt-1 w-48 bg-gray-800 border border-gray-700 rounded-lg shadow-lg z-[9999]">
+              <div className="absolute right-0 top-full mt-1 w-48 bg-gray-800 border border-gray-600 rounded-lg shadow-xl z-[9999]">
                 <div className="py-1">
                   {/* Export Option */}
                   <button
