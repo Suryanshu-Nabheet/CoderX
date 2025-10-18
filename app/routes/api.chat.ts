@@ -89,6 +89,23 @@ async function chatAction({ context, request }: ActionFunctionArgs) {
   let progressCounter: number = 1;
 
   try {
+    // Force free model selection - reject paid models
+    const modelRegex = /\[Model: (.*?)\]\n\n/;
+
+    for (const message of messages) {
+      const modelMatch = message.content.match(modelRegex);
+
+      if (modelMatch) {
+        const modelName = modelMatch[1];
+
+        // If user tries to use paid OpenAI model, force them to use free version
+        if (modelName === 'openai/gpt-oss-20b' && !modelName.includes('free')) {
+          logger.warn(`Detected paid model selection: ${modelName}, forcing free model`);
+          message.content = message.content.replace(`[Model: ${modelName}]`, '[Model: openai/gpt-oss-20b:free]');
+        }
+      }
+    }
+
     const mcpService = MCPService.getInstance();
     const totalMessageContent = messages.reduce((acc, message) => acc + message.content, '');
     logger.debug(`Total message length: ${totalMessageContent.split(' ').length}, words`);
