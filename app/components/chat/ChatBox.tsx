@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ClientOnly } from 'remix-utils/client-only';
 import { classNames } from '~/utils/classNames';
 import FilePreview from './FilePreview';
@@ -14,6 +14,7 @@ import { ColorSchemeDialog } from '~/components/ui/ColorSchemeDialog';
 import type { DesignScheme } from '~/types/design-scheme';
 import type { ElementInfo } from '~/components/workbench/Inspector';
 import { McpTools } from './MCPTools';
+import { ApiKeySetup } from '~/components/sidebar/ApiKeySetup';
 
 interface ChatBoxProps {
   uploadedFiles: File[];
@@ -48,6 +49,7 @@ interface ChatBoxProps {
 }
 
 export const ChatBox: React.FC<ChatBoxProps> = (props) => {
+  const [isApiKeySetupOpen, setIsApiKeySetupOpen] = useState(false);
   return (
     <div
       className={classNames(
@@ -227,6 +229,13 @@ export const ChatBox: React.FC<ChatBoxProps> = (props) => {
               <div className="i-ph:paperclip text-xl"></div>
             </IconButton>
             <IconButton
+              title="API Key Configuration"
+              onClick={() => setIsApiKeySetupOpen(true)}
+              className="transition-all"
+            >
+              <div className="i-ph:key text-xl"></div>
+            </IconButton>
+            <IconButton
               title="Enhance prompt"
               disabled={props.input.length === 0 || props.enhancingPrompt}
               className={classNames('transition-all', props.enhancingPrompt ? 'opacity-100' : '')}
@@ -276,6 +285,7 @@ export const ChatBox: React.FC<ChatBoxProps> = (props) => {
           <ExpoQrModal open={props.qrModalOpen} onClose={() => props.setQrModalOpen(false)} />
         </div>
       </div>
+      <ApiKeySetup isOpen={isApiKeySetupOpen} onClose={() => setIsApiKeySetupOpen(false)} />
     </div>
   );
 };

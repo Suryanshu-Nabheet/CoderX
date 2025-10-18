@@ -485,7 +485,20 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
   const [selectedModel, setSelectedModel] = useState<ExtendedModelInfo | null>(null);
   const [modelList, setModelList] = useState<ExtendedModelInfo[]>([]);
   const [isLoadingModels, setIsLoadingModels] = useState(false);
-  const [apiKeys, setApiKeys] = useState<Record<string, string>>({});
+  const [apiKeys, setApiKeys] = useState<Record<string, string>>(() => {
+    // Load existing API keys from localStorage
+    const keys: Record<string, string> = {};
+    Object.keys(API_KEY_MAPPING).forEach((providerName) => {
+      const envKey = API_KEY_MAPPING[providerName];
+      const storedKey = localStorage.getItem(`CODERX_API_KEY_${envKey}`);
+
+      if (storedKey) {
+        keys[envKey] = storedKey;
+      }
+    });
+
+    return keys;
+  });
   const [isProviderDropdownOpen, setIsProviderDropdownOpen] = useState(false);
   const [isModelDropdownOpen, setIsModelDropdownOpen] = useState(false);
   const [providerSearchQuery, setProviderSearchQuery] = useState('');
@@ -519,6 +532,13 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
     }
   }, [selectedProvider]);
 
+  // Reload models when API keys change
+  useEffect(() => {
+    if (selectedProvider && Object.keys(apiKeys).length > 0) {
+      loadModelsForProvider(selectedProvider);
+    }
+  }, [apiKeys]);
+
   const loadModelsForProvider = async (provider: ExtendedProviderInfo) => {
     setIsLoadingModels(true);
 
@@ -527,7 +547,8 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ isOpen, onClose }) => 
       const providerInstance = getProviderInstance(provider.name);
 
       if (providerInstance && typeof providerInstance.getDynamicModels === 'function') {
-        const dynamicModels = await providerInstance.getDynamicModels();
+        // Pass the current API keys to the provider
+        const dynamicModels = await providerInstance.getDynamicModels(apiKeys);
         setModelList(dynamicModels);
       } else {
         // Fallback to empty array if no dynamic loading available

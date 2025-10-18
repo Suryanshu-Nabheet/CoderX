@@ -13,7 +13,6 @@ import { useSearchFilter } from '~/lib/hooks/useSearchFilter';
 import { classNames } from '~/utils/classNames';
 import { useStore } from '@nanostores/react';
 import { profileStore } from '~/lib/stores/profile';
-import { ApiKeySetup } from './ApiKeySetup';
 
 const menuVariants = {
   closed: {
@@ -52,7 +51,6 @@ export const Menu = () => {
   const [open, setOpen] = useState(false);
   const [dialogContent, setDialogContent] = useState<DialogContent>(null);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-  const [isApiKeySetupOpen, setIsApiKeySetupOpen] = useState(false);
   const profile = useStore(profileStore);
   const [selectionMode, setSelectionMode] = useState(false);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
@@ -300,14 +298,6 @@ export const Menu = () => {
     setIsSettingsOpen(false);
   };
 
-  const handleApiKeySetupClick = () => {
-    setIsApiKeySetupOpen(true);
-  };
-
-  const handleApiKeySetupClose = () => {
-    setIsApiKeySetupOpen(false);
-  };
-
   const setDialogContentWithLogging = useCallback((content: DialogContent) => {
     console.log('Setting dialog content:', content);
     setDialogContent(content);
@@ -527,32 +517,13 @@ export const Menu = () => {
               </div>
             </div>
 
-            {/* Settings and API Key Buttons */}
-            <div className="flex items-center justify-between gap-2">
-              {/* Settings Button - Left */}
-              <div className="flex-1">
-                <SettingsButton onClick={handleSettingsClick} />
-              </div>
-
-              {/* API Key Button - Right */}
-              <div className="flex-1">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={handleApiKeySetupClick}
-                  className="w-full flex items-center gap-2 bg-gray-800 hover:bg-gray-700 text-white border-gray-600 hover:border-gray-500"
-                >
-                  <div className="i-ph:key text-sm" />
-                  <span className="text-sm">API Keys</span>
-                </Button>
-              </div>
-            </div>
+            {/* Settings Button */}
+            <SettingsButton onClick={handleSettingsClick} />
           </div>
         </div>
       </motion.div>
 
       <ControlPanel open={isSettingsOpen} onClose={handleSettingsClose} />
-      <ApiKeySetup isOpen={isApiKeySetupOpen} onClose={handleApiKeySetupClose} />
     </>
   );
 };
