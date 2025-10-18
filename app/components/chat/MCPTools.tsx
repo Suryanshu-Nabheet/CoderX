@@ -52,13 +52,9 @@ export function McpTools() {
           onClick={() => setIsDialogOpen(!isDialogOpen)}
           title="MCP Tools Available"
           disabled={!isInitialized}
-          className="transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          className="text-teal-500 hover:text-teal-600 transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {!isInitialized ? (
-            <div className="i-svg-spinners:90-ring-with-bg text-bolt-elements-loader-progress text-xl animate-spin"></div>
-          ) : (
-            <div className="i-bolt:mcp text-xl"></div>
-          )}
+          <div className="i-bolt:mcp text-xl"></div>
         </IconButton>
       </div>
 

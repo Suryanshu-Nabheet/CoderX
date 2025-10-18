@@ -179,88 +179,77 @@ export const ApiKeySetupModal: React.FC<ApiKeySetupModalProps> = ({ open, onClos
   return (
     <DialogRoot open={open}>
       <Dialog onBackdrop={onClose} onClose={onClose}>
-        <div className="p-6 bg-white dark:bg-gray-950 max-w-4xl max-h-[80vh] overflow-y-auto">
-          <DialogTitle className="text-gray-900 dark:text-white text-xl font-semibold mb-2">
-            API Key Configuration
-          </DialogTitle>
-          <DialogDescription className="text-gray-600 dark:text-gray-400 mb-6">
-            Configure your API keys for different AI providers. You can either set them here (stored in browser cookies)
-            or add them to your .env file for better security.
-          </DialogDescription>
+        <div className="p-6 bg-white dark:bg-gray-950 max-w-5xl max-h-[85vh] overflow-y-auto">
+          {/* Header */}
+          <div className="mb-6">
+            <DialogTitle className="text-gray-900 dark:text-white text-2xl font-bold mb-3">
+              API Key Configuration
+            </DialogTitle>
+            <DialogDescription className="text-gray-600 dark:text-gray-400 text-base leading-relaxed">
+              Configure your API keys for different AI providers. You can either set them here (stored in browser
+              cookies) or add them to your .env file for better security.
+            </DialogDescription>
+          </div>
 
-          <div className="space-y-4">
+          {/* Providers Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             {providers.map((provider) => (
-              <div key={provider.name} className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
-                <div className="flex items-center justify-between mb-2">
+              <div
+                key={provider.name}
+                className="border border-gray-200 dark:border-gray-700 rounded-xl p-5 bg-gray-50 dark:bg-gray-900"
+              >
+                {/* Provider Header */}
+                <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-3">
-                    <h3 className="font-semibold text-gray-900 dark:text-white">{provider.displayName}</h3>
+                    <h3 className="font-semibold text-gray-900 dark:text-white text-lg">{provider.displayName}</h3>
                     {provider.isEnvSet && (
-                      <span className="px-2 py-1 text-xs bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full">
-                        Environment Variable Set
+                      <span className="px-3 py-1 text-xs bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full font-medium">
+                        Configured via .env
                       </span>
-                    )}
-                    {provider.apiKey && !provider.isEnvSet && (
-                      <span className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full">
-                        Browser Storage
-                      </span>
-                    )}
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Button variant="ghost" size="sm" onClick={() => window.open(provider.getKeyUrl, '_blank')}>
-                      Get API Key
-                    </Button>
-                    {editingProvider === provider.name ? (
-                      <div className="flex items-center gap-2">
-                        <Button variant="ghost" size="sm" onClick={cancelEditing}>
-                          Cancel
-                        </Button>
-                        <Button size="sm" onClick={() => handleSaveApiKey(provider.name)} disabled={!tempApiKey.trim()}>
-                          Save
-                        </Button>
-                      </div>
-                    ) : (
-                      <div className="flex items-center gap-2">
-                        {provider.apiKey && !provider.isEnvSet && (
-                          <IconButton
-                            title="Delete API Key"
-                            onClick={() => handleDeleteApiKey(provider.name)}
-                            className="text-red-500 hover:text-red-700"
-                          >
-                            <span className="i-ph:trash h-4 w-4" />
-                          </IconButton>
-                        )}
-                        <Button variant="ghost" size="sm" onClick={() => startEditing(provider)}>
-                          {provider.apiKey ? 'Edit' : 'Add'} API Key
-                        </Button>
-                      </div>
                     )}
                   </div>
                 </div>
 
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">{provider.description}</p>
+                {/* Provider Description */}
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">{provider.description}</p>
 
+                {/* API Key Input */}
                 {editingProvider === provider.name ? (
-                  <div className="space-y-2">
+                  <div className="space-y-3">
                     <input
                       type="password"
                       value={tempApiKey}
                       onChange={(e) => setTempApiKey(e.target.value)}
                       placeholder={`Enter your ${provider.displayName} API key`}
-                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
-                    <p className="text-xs text-gray-500 dark:text-gray-400">
-                      Your API key will be stored in browser cookies. For better security, consider using environment
-                      variables.
-                    </p>
+                    <div className="flex items-center gap-2">
+                      <Button variant="ghost" size="sm" onClick={cancelEditing}>
+                        Cancel
+                      </Button>
+                      <Button size="sm" onClick={() => handleSaveApiKey(provider.name)} disabled={!tempApiKey.trim()}>
+                        Save API Key
+                      </Button>
+                    </div>
                   </div>
                 ) : (
-                  <div className="flex items-center gap-2">
-                    {provider.apiKey ? (
-                      <span className="text-sm text-gray-600 dark:text-gray-400 font-mono bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">
-                        {provider.apiKey.substring(0, 8)}...
-                      </span>
-                    ) : (
-                      <span className="text-sm text-gray-500 dark:text-gray-400 italic">No API key configured</span>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Button variant="ghost" size="sm" onClick={() => window.open(provider.getKeyUrl, '_blank')}>
+                        Get API Key
+                      </Button>
+                      <Button variant="ghost" size="sm" onClick={() => startEditing(provider)}>
+                        {provider.apiKey ? 'Edit' : 'Add'} API Key
+                      </Button>
+                    </div>
+                    {provider.apiKey && !provider.isEnvSet && (
+                      <IconButton
+                        title="Delete API Key"
+                        onClick={() => handleDeleteApiKey(provider.name)}
+                        className="text-red-500 hover:text-red-700 transition-colors"
+                      >
+                        <span className="i-ph:trash h-4 w-4" />
+                      </IconButton>
                     )}
                   </div>
                 )}
@@ -268,6 +257,7 @@ export const ApiKeySetupModal: React.FC<ApiKeySetupModalProps> = ({ open, onClos
             ))}
           </div>
 
+          {/* Environment Variables Info */}
           <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
             <h4 className="font-semibold text-blue-900 dark:text-blue-200 mb-2">
               Using Environment Variables (Recommended)
@@ -285,6 +275,7 @@ export const ApiKeySetupModal: React.FC<ApiKeySetupModalProps> = ({ open, onClos
           </div>
         </div>
 
+        {/* Footer */}
         <div className="flex justify-end gap-3 px-6 py-4 bg-gray-50 dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800">
           <DialogButton type="secondary" onClick={onClose}>
             Close

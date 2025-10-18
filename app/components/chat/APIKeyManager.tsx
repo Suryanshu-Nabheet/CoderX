@@ -86,10 +86,11 @@ export const APIKeyManager: React.FC<APIKeyManagerProps> = ({ provider, apiKey, 
   };
 
   return (
-    <div className="flex items-center justify-between py-3 px-1">
-      <div className="flex items-center gap-2 flex-1">
+    <div className="space-y-3 py-4 px-1">
+      {/* Label and Status */}
+      <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className="text-sm font-medium text-bolt-elements-textSecondary">{provider?.name} API Key:</span>
+          <span className="text-sm font-medium text-bolt-elements-textPrimary">{provider?.name} API Key</span>
           {!isEditing && (
             <div className="flex items-center gap-2">
               {apiKey ? (
@@ -113,55 +114,55 @@ export const APIKeyManager: React.FC<APIKeyManagerProps> = ({ provider, apiKey, 
         </div>
       </div>
 
-      <div className="flex items-center gap-2 shrink-0">
+      {/* Input Section */}
+      <div className="flex items-center gap-3">
         {isEditing ? (
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3 flex-1">
             <input
               type="password"
               value={tempKey}
               placeholder="Enter API Key"
               onChange={(e) => setTempKey(e.target.value)}
-              className="w-[300px] px-3 py-1.5 text-sm rounded border border-bolt-elements-borderColor 
+              className="flex-1 px-3 py-2 text-sm rounded-lg border border-bolt-elements-borderColor 
                         bg-bolt-elements-prompt-background text-bolt-elements-textPrimary 
-                        focus:outline-none focus:ring-2 focus:ring-bolt-elements-focus"
+                        focus:outline-none focus:ring-2 focus:ring-bolt-elements-focus
+                        placeholder:text-bolt-elements-textTertiary"
             />
             <IconButton
               onClick={handleSave}
               title="Save API Key"
-              className="bg-green-500/10 hover:bg-green-500/20 text-green-500"
+              className="bg-green-500/10 hover:bg-green-500/20 text-green-500 transition-colors"
             >
               <div className="i-ph:check w-4 h-4" />
             </IconButton>
             <IconButton
               onClick={() => setIsEditing(false)}
               title="Cancel"
-              className="bg-red-500/10 hover:bg-red-500/20 text-red-500"
+              className="bg-red-500/10 hover:bg-red-500/20 text-red-500 transition-colors"
             >
               <div className="i-ph:x w-4 h-4" />
             </IconButton>
           </div>
         ) : (
-          <>
-            {
-              <IconButton
-                onClick={() => setIsEditing(true)}
-                title="Edit API Key"
-                className="bg-blue-500/10 hover:bg-blue-500/20 text-blue-500"
-              >
-                <div className="i-ph:pencil-simple w-4 h-4" />
-              </IconButton>
-            }
+          <div className="flex items-center gap-3">
+            <IconButton
+              onClick={() => setIsEditing(true)}
+              title="Edit API Key"
+              className="bg-blue-500/10 hover:bg-blue-500/20 text-blue-500 transition-colors"
+            >
+              <div className="i-ph:pencil-simple w-4 h-4" />
+            </IconButton>
             {provider?.getApiKeyLink && !apiKey && (
               <IconButton
                 onClick={() => window.open(provider?.getApiKeyLink)}
                 title="Get API Key"
-                className="bg-blue-500/10 hover:bg-blue-500/20 text-blue-500 flex items-center gap-2"
+                className="bg-blue-500/10 hover:bg-blue-500/20 text-blue-500 flex items-center gap-2 transition-colors"
               >
                 <span className="text-xs whitespace-nowrap">{provider?.labelForGetApiKey || 'Get API Key'}</span>
                 <div className={`${provider?.icon || 'i-ph:key'} w-4 h-4`} />
               </IconButton>
             )}
-          </>
+          </div>
         )}
       </div>
     </div>

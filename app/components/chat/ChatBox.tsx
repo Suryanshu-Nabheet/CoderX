@@ -18,7 +18,6 @@ import type { ProviderInfo } from '~/types/model';
 import { ColorSchemeDialog } from '~/components/ui/ColorSchemeDialog';
 import type { DesignScheme } from '~/types/design-scheme';
 import type { ElementInfo } from '~/components/workbench/Inspector';
-import { McpTools } from './MCPTools';
 
 interface ChatBoxProps {
   isApiConfigExpanded: boolean;
@@ -102,21 +101,12 @@ export const ChatBox: React.FC<ChatBoxProps> = (props) => {
         <rect className={classNames(styles.PromptEffectLine)} pathLength="100" strokeLinecap="round"></rect>
         <rect className={classNames(styles.PromptShine)} x="48" y="24" width="70" height="1"></rect>
       </svg>
-      <div>
-        <ClientOnly>
-          {() => (
-            <div className={props.isApiConfigExpanded ? '' : 'hidden'}>
-              {!props.provider ? (
-                <div className="mb-2 p-4 rounded-lg border border-bolt-elements-borderColor bg-bolt-elements-prompt-background text-bolt-elements-textPrimary">
-                  <div className="text-center space-y-2">
-                    <p className="font-medium">No Model Selected</p>
-                    <p className="text-sm text-bolt-elements-textSecondary">
-                      Select a provider and model below to start chatting. API keys from your .env file will be used
-                      automatically.
-                    </p>
-                  </div>
-                </div>
-              ) : null}
+      {/* API Configuration Section */}
+      <ClientOnly>
+        {() => (
+          <div className={props.isApiConfigExpanded ? 'block' : 'hidden'}>
+            {/* Model Selector */}
+            <div className="mx-4 mb-4">
               <ModelSelector
                 key={props.provider?.name + ':' + props.modelList.length}
                 model={props.model}
@@ -128,9 +118,13 @@ export const ChatBox: React.FC<ChatBoxProps> = (props) => {
                 apiKeys={props.apiKeys}
                 modelLoading={props.isModelLoading}
               />
-              {(props.providerList || []).length > 0 &&
-                props.provider &&
-                !LOCAL_PROVIDERS.includes(props.provider.name) && (
+            </div>
+
+            {/* API Key Manager */}
+            {(props.providerList || []).length > 0 &&
+              props.provider &&
+              !LOCAL_PROVIDERS.includes(props.provider.name) && (
+                <div className="mx-4 mb-4">
                   <APIKeyManager
                     provider={props.provider}
                     apiKey={props.apiKeys[props.provider.name] || ''}
@@ -140,11 +134,11 @@ export const ChatBox: React.FC<ChatBoxProps> = (props) => {
                       }
                     }}
                   />
-                )}
-            </div>
-          )}
-        </ClientOnly>
-      </div>
+                </div>
+              )}
+          </div>
+        )}
+      </ClientOnly>
       <FilePreview
         files={props.uploadedFiles}
         imageDataList={props.imageDataList}
@@ -273,89 +267,92 @@ export const ChatBox: React.FC<ChatBoxProps> = (props) => {
             />
           )}
         </ClientOnly>
-        <div className="flex justify-between items-center text-sm p-4 pt-2">
-          <div className="flex gap-1 items-center">
+        <div className="flex justify-between items-center text-sm px-4 py-3">
+          {/* All action buttons with consistent spacing */}
+          <div className="flex items-center gap-3">
             <ColorSchemeDialog designScheme={props.designScheme} setDesignScheme={props.setDesignScheme} />
-            <McpTools />
-            <IconButton title="Upload file" className="transition-all" onClick={() => props.handleFileUpload()}>
+
+            {/* File upload button */}
+            <IconButton
+              title="Upload file"
+              className="text-blue-500 hover:text-blue-600 transition-colors duration-150"
+              onClick={() => props.handleFileUpload()}
+            >
               <div className="i-ph:paperclip text-xl"></div>
             </IconButton>
+
+            {/* Enhance prompt button */}
             <IconButton
               title="Enhance prompt"
               disabled={props.input.length === 0 || props.enhancingPrompt}
-              className={classNames('transition-all', props.enhancingPrompt ? 'opacity-100' : '')}
+              className={classNames(
+                'text-purple-500 hover:text-purple-600 transition-colors duration-150',
+                props.enhancingPrompt ? 'opacity-100' : '',
+              )}
               onClick={() => {
                 props.enhancePrompt?.();
                 toast.success('Prompt enhanced!');
               }}
             >
               {props.enhancingPrompt ? (
-                <div className="i-svg-spinners:90-ring-with-bg text-bolt-elements-loader-progress text-xl animate-spin"></div>
+                <div className="i-svg-spinners:90-ring-with-bg text-purple-500 text-xl animate-spin"></div>
               ) : (
-                <div className="i-bolt:stars text-xl"></div>
+                <div className="i-ph:sparkle text-xl"></div>
               )}
             </IconButton>
 
+            {/* API Configuration button */}
             <IconButton
               title="API Configuration & Model Settings"
-              className={classNames('transition-all flex items-center gap-1', {
-                'bg-bolt-elements-item-backgroundAccent text-bolt-elements-item-contentAccent':
-                  props.isApiConfigExpanded,
-                'bg-bolt-elements-item-backgroundDefault text-bolt-elements-item-contentDefault':
-                  !props.isApiConfigExpanded,
+              className={classNames('transition-colors duration-150', {
+                // Green when API keys are configured
+                'text-emerald-500 hover:text-emerald-600': Object.keys(props.apiKeys).length > 0,
+                'text-emerald-600': Object.keys(props.apiKeys).length > 0 && props.isApiConfigExpanded,
+
+                // Grey when no API keys are configured
+                'text-gray-500 hover:text-gray-600': Object.keys(props.apiKeys).length === 0,
+                'text-gray-600': Object.keys(props.apiKeys).length === 0 && props.isApiConfigExpanded,
               })}
               onClick={() => {
                 props.setIsApiConfigExpanded(!props.isApiConfigExpanded);
               }}
             >
               <div className="i-ph:key text-xl"></div>
-              {!props.isApiConfigExpanded ? (
-                <span className="text-xs">
-                  {props.provider ? `${props.provider.name} - ${props.model}` : 'Select Model'}
-                </span>
-              ) : (
-                <span />
-              )}
             </IconButton>
 
+            {/* Speech recognition button */}
             <SpeechRecognitionButton
               isListening={props.isListening}
               onStart={props.startListening}
               onStop={props.stopListening}
               disabled={props.isStreaming}
             />
+
+            {/* Discuss mode button */}
             {props.chatStarted && (
               <IconButton
-                title="Discuss"
-                className={classNames(
-                  'transition-all flex items-center gap-1 px-1.5',
-                  props.chatMode === 'discuss'
-                    ? '!bg-bolt-elements-item-backgroundAccent !text-bolt-elements-item-contentAccent'
-                    : 'bg-bolt-elements-item-backgroundDefault text-bolt-elements-item-contentDefault',
-                )}
+                title="Discuss Mode"
+                className={classNames('text-orange-500 hover:text-orange-600 transition-colors duration-150', {
+                  'text-orange-600': props.chatMode === 'discuss',
+                  'text-orange-500': props.chatMode !== 'discuss',
+                })}
                 onClick={() => {
                   props.setChatMode?.(props.chatMode === 'discuss' ? 'build' : 'discuss');
                 }}
               >
-                <div className={`i-ph:chats text-xl`} />
-                {props.chatMode === 'discuss' ? <span>Discuss</span> : <span />}
+                <div className="i-ph:chats text-xl" />
               </IconButton>
             )}
           </div>
-          {props.input.length > 3 ? (
-            <div className="text-xs text-bolt-elements-textTertiary">
-              {!props.provider || !props.model ? (
-                <span className="text-amber-500">Select a model above to start chatting</span>
-              ) : (
-                <>
-                  Use <kbd className="kdb px-1.5 py-0.5 rounded bg-bolt-elements-background-depth-2">Shift</kbd> +{' '}
-                  <kbd className="kdb px-1.5 py-0.5 rounded bg-bolt-elements-background-depth-2">Return</kbd> a new line
-                </>
-              )}
-            </div>
-          ) : null}
-          <SupabaseConnection />
-          <ExpoQrModal open={props.qrModalOpen} onClose={() => props.setQrModalOpen(false)} />
+
+          {/* Right side - Supabase connection and QR Modal */}
+          <div className="flex items-center gap-3">
+            {/* Supabase connection */}
+            <SupabaseConnection />
+
+            {/* QR Modal */}
+            <ExpoQrModal open={props.qrModalOpen} onClose={() => props.setQrModalOpen(false)} />
+          </div>
         </div>
       </div>
     </div>

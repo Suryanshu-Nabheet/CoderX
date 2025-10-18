@@ -5,6 +5,7 @@ import { useStore } from '@nanostores/react';
 import { chatId } from '~/lib/persistence/useChatHistory';
 import { fetchSupabaseStats } from '~/lib/stores/supabase';
 import { Dialog, DialogRoot, DialogClose, DialogTitle, DialogButton } from '~/components/ui/Dialog';
+import { IconButton } from '~/components/ui/IconButton';
 
 export function SupabaseConnection() {
   const {
@@ -77,25 +78,20 @@ export function SupabaseConnection() {
 
   return (
     <div className="relative">
-      <div className="flex border border-bolt-elements-borderColor rounded-md overflow-hidden mr-2 text-sm">
-        <Button
-          active
-          disabled={connecting}
-          onClick={() => setIsDialogOpen(!isDialogOpen)}
-          className="hover:bg-bolt-elements-item-backgroundActive !text-white flex items-center gap-2"
-        >
-          <img
-            className="w-4 h-4"
-            height="20"
-            width="20"
-            crossOrigin="anonymous"
-            src="https://cdn.simpleicons.org/supabase"
-          />
-          {isConnected && supabaseConn.project && (
-            <span className="ml-1 text-xs max-w-[100px] truncate">{supabaseConn.project.name}</span>
-          )}
-        </Button>
-      </div>
+      <IconButton
+        title={isConnected && supabaseConn.project ? `Supabase: ${supabaseConn.project.name}` : 'Supabase Connection'}
+        disabled={connecting}
+        className="text-green-500 hover:text-green-600 transition-colors duration-150"
+        onClick={() => setIsDialogOpen(!isDialogOpen)}
+      >
+        <img
+          className="w-5 h-5"
+          height="20"
+          width="20"
+          crossOrigin="anonymous"
+          src="https://cdn.simpleicons.org/supabase"
+        />
+      </IconButton>
 
       <DialogRoot open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         {isDialogOpen && (
@@ -306,34 +302,5 @@ export function SupabaseConnection() {
         )}
       </DialogRoot>
     </div>
-  );
-}
-
-interface ButtonProps {
-  active?: boolean;
-  disabled?: boolean;
-  children?: any;
-  onClick?: VoidFunction;
-  className?: string;
-}
-
-function Button({ active = false, disabled = false, children, onClick, className }: ButtonProps) {
-  return (
-    <button
-      className={classNames(
-        'flex items-center p-1.5',
-        {
-          'bg-bolt-elements-item-backgroundDefault hover:bg-bolt-elements-item-backgroundActive text-bolt-elements-textTertiary hover:text-bolt-elements-textPrimary':
-            !active,
-          'bg-bolt-elements-item-backgroundDefault text-bolt-elements-item-contentAccent': active && !disabled,
-          'bg-bolt-elements-item-backgroundDefault text-alpha-gray-20 dark:text-alpha-white-20 cursor-not-allowed':
-            disabled,
-        },
-        className,
-      )}
-      onClick={onClick}
-    >
-      {children}
-    </button>
   );
 }

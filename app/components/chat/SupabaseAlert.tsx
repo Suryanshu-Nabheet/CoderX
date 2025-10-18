@@ -61,8 +61,7 @@ export function SupabaseChatAlert({ alert, clearAlert, postMessage }: Props) {
         throw new Error(`Supabase query failed: ${errorData.error?.message || response.statusText}`);
       }
 
-      const result = await response.json();
-      console.log('Supabase query executed successfully:', result);
+      await response.json();
       clearAlert();
     } catch (error) {
       console.error('Failed to execute Supabase action:', error);

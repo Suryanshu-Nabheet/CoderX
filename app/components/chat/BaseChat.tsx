@@ -141,7 +141,6 @@ export const BaseChat = React.forwardRef<HTMLDivElement, BaseChatProps>(
     const [isApiConfigExpanded, setIsApiConfigExpanded] = useState(false);
     const [isListening, setIsListening] = useState(false);
     const [recognition, setRecognition] = useState<SpeechRecognition | null>(null);
-    const [transcript, setTranscript] = useState('');
     const [isModelLoading, setIsModelLoading] = useState<string | undefined>('all');
     const [progressAnnotations, setProgressAnnotations] = useState<ProgressAnnotation[]>([]);
     const expoUrl = useStore(expoUrlAtom);
@@ -161,9 +160,6 @@ export const BaseChat = React.forwardRef<HTMLDivElement, BaseChatProps>(
         setProgressAnnotations(progressList);
       }
     }, [data]);
-    useEffect(() => {
-      console.log(transcript);
-    }, [transcript]);
 
     useEffect(() => {
       onStreamingChange?.(isStreaming);
@@ -181,8 +177,6 @@ export const BaseChat = React.forwardRef<HTMLDivElement, BaseChatProps>(
             .map((result) => result[0])
             .map((result) => result.transcript)
             .join('');
-
-          setTranscript(transcript);
 
           if (handleInputChange) {
             const syntheticEvent = {
@@ -275,7 +269,6 @@ export const BaseChat = React.forwardRef<HTMLDivElement, BaseChatProps>(
 
         if (recognition) {
           recognition.abort(); // Stop current recognition
-          setTranscript(''); // Clear transcript
           setIsListening(false);
 
           // Clear the input by triggering handleInputChange with empty value

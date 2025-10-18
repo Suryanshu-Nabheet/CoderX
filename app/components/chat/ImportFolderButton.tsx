@@ -94,7 +94,6 @@ export const ImportFolderButton: React.FC<ImportFolderButtonProps> = ({ classNam
       toast.success('Folder imported successfully');
     } catch (error) {
       logStore.logError('Failed to import folder', error, { folderName });
-      console.error('Failed to import folder:', error);
       toast.error('Failed to import folder');
     } finally {
       setIsLoading(false);

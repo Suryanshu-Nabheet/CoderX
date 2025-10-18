@@ -272,7 +272,11 @@ export const ColorSchemeDialog: React.FC<ColorSchemeDialogProps> = ({ setDesignS
 
   return (
     <div>
-      <IconButton title="Design Palette" className="transition-all" onClick={() => setIsDialogOpen(!isDialogOpen)}>
+      <IconButton
+        title="Design Palette"
+        className="text-indigo-500 hover:text-indigo-600 transition-colors duration-150"
+        onClick={() => setIsDialogOpen(!isDialogOpen)}
+      >
         <div className="i-ph:palette text-xl"></div>
       </IconButton>
 

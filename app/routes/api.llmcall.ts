@@ -239,8 +239,6 @@ async function llmCallAction({ context, request }: ActionFunctionArgs) {
         },
       });
     } catch (error: unknown) {
-      console.log(error);
-
       const errorResponse = {
         error: true,
         message: error instanceof Error ? error.message : 'An unexpected error occurred',
