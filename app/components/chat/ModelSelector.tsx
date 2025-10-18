@@ -401,6 +401,27 @@ export const ModelSelector = ({
     }
   }, [providerList, provider, setProvider, modelList, setModel]);
 
+  // Auto-select free model when available
+  useEffect(() => {
+    if (provider && modelList.length > 0 && !model) {
+      // Look for free models first
+      const freeModels = modelList.filter((m) => m.provider === provider.name && isModelLikelyFree(m, provider.name));
+
+      if (freeModels.length > 0) {
+        // Prefer OpenAI free model if available
+        const openaiFreeModel = freeModels.find((m) => m.name.includes('openai') && m.name.includes('free'));
+
+        if (openaiFreeModel) {
+          setModel?.(openaiFreeModel.name);
+          return;
+        }
+
+        // Otherwise select the first free model
+        setModel?.(freeModels[0].name);
+      }
+    }
+  }, [provider, modelList, model, setModel]);
+
   if (providerList.length === 0) {
     return (
       <div className="mb-2 p-4 rounded-lg border border-bolt-elements-borderColor bg-bolt-elements-prompt-background text-bolt-elements-textPrimary">
