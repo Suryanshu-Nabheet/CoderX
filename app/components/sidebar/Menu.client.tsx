@@ -415,22 +415,34 @@ export const Menu = () => {
                   </div>
                 </div>
               ))}
-              <Dialog onBackdrop={closeDialog} onClose={closeDialog}>
+              <Dialog onBackdrop={closeDialog} onClose={closeDialog} showCloseButton={false}>
                 {dialogContent?.type === 'delete' && (
-                  <>
-                    <div className="p-6 bg-white dark:bg-gray-950">
-                      <DialogTitle className="text-gray-900 dark:text-white">Delete Chat?</DialogTitle>
-                      <DialogDescription className="mt-2 text-gray-600 dark:text-gray-400">
-                        <p>
-                          You are about to delete{' '}
-                          <span className="font-medium text-gray-900 dark:text-white">
-                            {dialogContent.item.description}
-                          </span>
-                        </p>
-                        <p className="mt-2">Are you sure you want to delete this chat?</p>
-                      </DialogDescription>
+                  <div className="p-6">
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="flex-1">
+                        <DialogTitle className="text-gray-900 dark:text-white text-xl font-semibold">
+                          Delete Chat?
+                        </DialogTitle>
+                        <DialogDescription className="mt-3 text-gray-600 dark:text-gray-400">
+                          <p>
+                            You are about to delete{' '}
+                            <span className="font-medium text-gray-900 dark:text-white">
+                              "{dialogContent.item.description}"
+                            </span>
+                          </p>
+                          <p className="mt-2">This action cannot be undone.</p>
+                        </DialogDescription>
+                      </div>
+                      <button
+                        onClick={closeDialog}
+                        className="ml-4 p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                      >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      </button>
                     </div>
-                    <div className="flex justify-end gap-3 px-6 py-4 bg-gray-50 dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800">
+                    <div className="flex justify-end gap-3">
                       <DialogButton type="secondary" onClick={closeDialog}>
                         Cancel
                       </DialogButton>
@@ -442,33 +454,45 @@ export const Menu = () => {
                           closeDialog();
                         }}
                       >
-                        Delete
+                        Delete Chat
                       </DialogButton>
                     </div>
-                  </>
+                  </div>
                 )}
                 {dialogContent?.type === 'bulkDelete' && (
-                  <>
-                    <div className="p-6 bg-white dark:bg-gray-950">
-                      <DialogTitle className="text-gray-900 dark:text-white">Delete Selected Chats?</DialogTitle>
-                      <DialogDescription className="mt-2 text-gray-600 dark:text-gray-400">
-                        <p>
-                          You are about to delete {dialogContent.items.length}{' '}
-                          {dialogContent.items.length === 1 ? 'chat' : 'chats'}:
-                        </p>
-                        <div className="mt-2 max-h-32 overflow-auto border border-gray-100 dark:border-gray-800 rounded-md bg-gray-50 dark:bg-gray-900 p-2">
-                          <ul className="list-disc pl-5 space-y-1">
-                            {dialogContent.items.map((item) => (
-                              <li key={item.id} className="text-sm">
-                                <span className="font-medium text-gray-900 dark:text-white">{item.description}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                        <p className="mt-3">Are you sure you want to delete these chats?</p>
-                      </DialogDescription>
+                  <div className="p-6">
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="flex-1">
+                        <DialogTitle className="text-gray-900 dark:text-white text-xl font-semibold">
+                          Delete Selected Chats?
+                        </DialogTitle>
+                        <DialogDescription className="mt-3 text-gray-600 dark:text-gray-400">
+                          <p>
+                            You are about to delete {dialogContent.items.length}{' '}
+                            {dialogContent.items.length === 1 ? 'chat' : 'chats'}:
+                          </p>
+                          <div className="mt-3 max-h-32 overflow-auto border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-800 p-3">
+                            <ul className="space-y-1">
+                              {dialogContent.items.map((item) => (
+                                <li key={item.id} className="text-sm text-gray-700 dark:text-gray-300">
+                                  • {item.description}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                          <p className="mt-3 font-medium">This action cannot be undone.</p>
+                        </DialogDescription>
+                      </div>
+                      <button
+                        onClick={closeDialog}
+                        className="ml-4 p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                      >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      </button>
                     </div>
-                    <div className="flex justify-end gap-3 px-6 py-4 bg-gray-50 dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800">
+                    <div className="flex justify-end gap-3">
                       <DialogButton type="secondary" onClick={closeDialog}>
                         Cancel
                       </DialogButton>
@@ -485,10 +509,10 @@ export const Menu = () => {
                           closeDialog();
                         }}
                       >
-                        Delete
+                        Delete {dialogContent.items.length} Chat{dialogContent.items.length === 1 ? '' : 's'}
                       </DialogButton>
                     </div>
-                  </>
+                  </div>
                 )}
               </Dialog>
             </DialogRoot>
