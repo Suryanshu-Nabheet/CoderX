@@ -118,7 +118,7 @@ export function HistoryItem({
           </WithTooltip>
           <div
             className={classNames(
-              'absolute right-0 top-0 bottom-0 flex items-center bg-transparent px-2 transition-colors',
+              'absolute right-0 top-1/2 -translate-y-1/2 flex items-center bg-transparent px-2 transition-colors',
             )}
           >
             <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-all duration-300 ease-out">
