@@ -166,8 +166,8 @@ export function HistoryItem({
                 className="fixed w-48 bg-red-500 border-4 border-yellow-400 rounded-lg shadow-2xl z-[9999] overflow-hidden"
                 style={{ top: '100px', right: '20px' }}
               >
+                <div className="px-4 py-2 text-white font-bold text-center">MENU IS WORKING!</div>
                 <div className="py-1">
-                  <div className="px-4 py-2 text-white font-bold text-center">MENU IS WORKING!</div>
                   {/* Export Option */}
                   <button
                     onClick={(event) => {
