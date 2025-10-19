@@ -15,6 +15,7 @@ import type { DesignScheme } from '~/types/design-scheme';
 import { MCPService } from '~/lib/services/mcpService';
 import { StreamRecoveryManager } from '~/lib/.server/llm/stream-recovery';
 import { loadApiKeysFromEnv } from '~/lib/utils/env-api-keys';
+import { generateDefaultResponse, shouldUseDefaultResponse } from '~/lib/default-chatbot';
 
 export async function action(args: ActionFunctionArgs) {
   return chatAction(args);
@@ -89,23 +90,6 @@ async function chatAction({ context, request }: ActionFunctionArgs) {
   let progressCounter: number = 1;
 
   try {
-    // Force free model selection - reject paid models
-    const modelRegex = /\[Model: (.*?)\]\n\n/;
-
-    for (const message of messages) {
-      const modelMatch = message.content.match(modelRegex);
-
-      if (modelMatch) {
-        const modelName = modelMatch[1];
-
-        // If user tries to use paid OpenAI model, force them to use free version
-        if (modelName === 'openai/gpt-oss-20b' && !modelName.includes('free')) {
-          logger.warn(`Detected paid model selection: ${modelName}, forcing free model`);
-          message.content = message.content.replace(`[Model: ${modelName}]`, '[Model: openai/gpt-oss-20b:free]');
-        }
-      }
-    }
-
     const mcpService = MCPService.getInstance();
     const totalMessageContent = messages.reduce((acc, message) => acc + message.content, '');
     logger.debug(`Total message length: ${totalMessageContent.split(' ').length}, words`);
@@ -288,6 +272,32 @@ async function chatAction({ context, request }: ActionFunctionArgs) {
               content: `[Model: ${model}]\n\n[Provider: ${provider}]\n\n${CONTINUE_PROMPT}`,
             });
 
+            // Check if we should use default chatbot for continue prompt
+            const hasApiKey =
+              Object.keys(apiKeys).length > 0 &&
+              Object.values(apiKeys).some((key) => key && typeof key === 'string' && key.trim() !== '');
+
+            if (shouldUseDefaultResponse(hasApiKey, CONTINUE_PROMPT)) {
+              // Use default chatbot response for continue
+              const defaultResponse = generateDefaultResponse(CONTINUE_PROMPT);
+
+              // Write the response as a single chunk
+              dataStream.writeData({
+                type: 'text-delta',
+                textDelta: defaultResponse,
+              });
+
+              dataStream.writeData({
+                type: 'progress',
+                label: 'response',
+                status: 'complete',
+                order: progressCounter++,
+                message: 'Response Complete',
+              } satisfies ProgressAnnotation);
+
+              return;
+            }
+
             const result = await streamText({
               messages: [...processedMessages],
               env: context.cloudflare?.env,
@@ -328,6 +338,33 @@ async function chatAction({ context, request }: ActionFunctionArgs) {
           order: progressCounter++,
           message: 'Generating Response',
         } satisfies ProgressAnnotation);
+
+        // Check if we should use default chatbot instead of LLM
+        const lastMessage = processedMessages[processedMessages.length - 1];
+        const hasApiKey =
+          Object.keys(apiKeys).length > 0 &&
+          Object.values(apiKeys).some((key) => key && typeof key === 'string' && key.trim() !== '');
+
+        if (shouldUseDefaultResponse(hasApiKey, lastMessage?.content || '')) {
+          // Use default chatbot response
+          const defaultResponse = generateDefaultResponse(lastMessage?.content || '');
+
+          // Write the response as a single chunk
+          dataStream.writeData({
+            type: 'text-delta',
+            textDelta: defaultResponse,
+          });
+
+          dataStream.writeData({
+            type: 'progress',
+            label: 'response',
+            status: 'complete',
+            order: progressCounter++,
+            message: 'Response Complete',
+          } satisfies ProgressAnnotation);
+
+          return;
+        }
 
         const result = await streamText({
           messages: [...processedMessages],
