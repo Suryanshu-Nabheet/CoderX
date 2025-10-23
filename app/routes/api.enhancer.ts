@@ -12,6 +12,49 @@ export async function action(args: ActionFunctionArgs) {
 
 const logger = createScopedLogger('api.enhancher');
 
+/**
+ * Simple prompt enhancement fallback when no API keys are available
+ */
+function enhancePromptFallback(message: string): string {
+  // Basic prompt enhancement rules
+  let enhanced = message.trim();
+
+  // Add context if the prompt is too short
+  if (enhanced.length < 20) {
+    enhanced = `Please provide more details about: ${enhanced}`;
+    return enhanced;
+  }
+
+  // Add specificity if the prompt lacks detail
+  if (
+    !enhanced.includes('?') &&
+    !enhanced.includes('please') &&
+    !enhanced.includes('how') &&
+    !enhanced.includes('what')
+  ) {
+    enhanced = `Please explain: ${enhanced}`;
+    return enhanced;
+  }
+
+  // Add action-oriented language if missing
+  if (
+    !enhanced.toLowerCase().includes('create') &&
+    !enhanced.toLowerCase().includes('build') &&
+    !enhanced.toLowerCase().includes('make') &&
+    !enhanced.toLowerCase().includes('generate')
+  ) {
+    if (
+      enhanced.toLowerCase().includes('app') ||
+      enhanced.toLowerCase().includes('website') ||
+      enhanced.toLowerCase().includes('project')
+    ) {
+      enhanced = `Create a ${enhanced}`;
+    }
+  }
+
+  return enhanced;
+}
+
 async function enhancerAction({ context, request }: ActionFunctionArgs) {
   const { message, model, provider } = await request.json<{
     message: string;
@@ -44,6 +87,22 @@ async function enhancerAction({ context, request }: ActionFunctionArgs) {
   // Merge environment API keys as fallback
   const envApiKeys = loadApiKeysFromEnv();
   const apiKeys = { ...envApiKeys, ...cookieApiKeys };
+
+  // Check if we have any API keys available
+  const hasApiKey =
+    Object.keys(apiKeys).length > 0 &&
+    Object.values(apiKeys).some((key) => key && typeof key === 'string' && key.trim() !== '');
+
+  // If no API keys are available, provide a simple enhancement fallback
+  if (!hasApiKey) {
+    const enhancedPrompt = enhancePromptFallback(message);
+    return new Response(enhancedPrompt, {
+      status: 200,
+      headers: {
+        'Content-Type': 'text/plain',
+      },
+    });
+  }
 
   try {
     const result = await streamText({
