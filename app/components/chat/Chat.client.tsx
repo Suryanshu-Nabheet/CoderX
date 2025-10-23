@@ -39,6 +39,35 @@ const logger = createScopedLogger('Chat');
 export function Chat() {
   renderLogger.trace('Chat');
 
+  // Add global fetch error logging
+  useEffect(() => {
+    const originalFetch = window.fetch;
+
+    window.fetch = async (...args) => {
+      try {
+        const response = await originalFetch(...args);
+
+        if (!response.ok) {
+          console.error('Fetch error:', {
+            url: args[0],
+            status: response.status,
+            statusText: response.statusText,
+            method: args[1]?.method || 'GET',
+          });
+        }
+
+        return response;
+      } catch (error) {
+        console.error('Fetch exception:', {
+          url: args[0],
+          error,
+          method: args[1]?.method || 'GET',
+        });
+        throw error;
+      }
+    };
+  }, []);
+
   const { ready, initialMessages, storeMessageHistory, importChat, exportChat } = useChatHistory();
   const title = useStore(description);
   useEffect(() => {

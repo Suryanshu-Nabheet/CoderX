@@ -102,13 +102,22 @@ export const selectStarterTemplate = async (options: { message: string; model: s
   };
 
   try {
+    console.log('Making request to /api/llmcall with body:', requestBody);
+
     const response = await fetch('/api/llmcall', {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify(requestBody),
     });
 
+    console.log('Response status:', response.status, response.statusText);
+
     if (!response.ok) {
-      console.error('API request failed:', response.status, response.statusText);
+      const errorText = await response.text();
+      console.error('API request failed:', response.status, response.statusText, errorText);
+
       return {
         template: 'blank',
         title: '',
@@ -152,9 +161,15 @@ export const selectStarterTemplate = async (options: { message: string; model: s
 const getGitHubRepoContent = async (repoName: string): Promise<{ name: string; path: string; content: string }[]> => {
   try {
     // Instead of directly fetching from GitHub, use our own API endpoint as a proxy
+    console.log('Fetching GitHub template for repo:', repoName);
+
     const response = await fetch(`/api/github-template?repo=${encodeURIComponent(repoName)}`);
 
+    console.log('GitHub template response status:', response.status, response.statusText);
+
     if (!response.ok) {
+      const errorText = await response.text();
+      console.error('GitHub template fetch failed:', response.status, response.statusText, errorText);
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
