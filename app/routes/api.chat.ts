@@ -366,21 +366,62 @@ async function chatAction({ context, request }: ActionFunctionArgs) {
           return;
         }
 
-        const result = await streamText({
-          messages: [...processedMessages],
-          env: context.cloudflare?.env,
-          options,
-          apiKeys,
-          files,
-          providerSettings,
-          promptId,
-          contextOptimization,
-          contextFiles: filteredFiles,
-          chatMode,
-          designScheme,
-          summary,
-          messageSliceId,
-        });
+        let result;
+
+        try {
+          result = await streamText({
+            messages: [...processedMessages],
+            env: context.cloudflare?.env,
+            options,
+            apiKeys,
+            files,
+            providerSettings,
+            promptId,
+            contextOptimization,
+            contextFiles: filteredFiles,
+            chatMode,
+            designScheme,
+            summary,
+            messageSliceId,
+          });
+        } catch (error: any) {
+          // Handle billing errors by falling back to default chatbot
+          const errorMessage = error.message || 'Unknown error';
+          const errorCode = error.code || error.status || 'UNKNOWN';
+
+          if (
+            errorMessage.includes('Payment Required') ||
+            errorMessage.includes('payment') ||
+            errorMessage.includes('billing') ||
+            errorMessage.includes('quota') ||
+            errorMessage.includes('credit') ||
+            errorCode === 402
+          ) {
+            logger.warn('Billing error detected, falling back to default chatbot:', errorMessage);
+
+            // Use default chatbot response
+            const defaultResponse = generateDefaultResponse(lastMessage?.content || '');
+
+            // Write the response as a single chunk
+            dataStream.writeData({
+              type: 'text-delta',
+              textDelta: defaultResponse,
+            });
+
+            dataStream.writeData({
+              type: 'progress',
+              label: 'response',
+              status: 'complete',
+              order: progressCounter++,
+              message: 'Response Complete (Fallback Mode)',
+            } satisfies ProgressAnnotation);
+
+            return;
+          }
+
+          // Re-throw other errors to be handled by the outer catch block
+          throw error;
+        }
 
         (async () => {
           for await (const part of result.fullStream) {
@@ -441,17 +482,6 @@ async function chatAction({ context, request }: ActionFunctionArgs) {
 
         if (errorMessage.includes('rate limit') || errorMessage.includes('429') || errorCode === 429) {
           return `Rate Limit Error: Too many requests to the AI service. Please wait a moment before trying again. Consider upgrading your API plan if this persists.`;
-        }
-
-        if (
-          errorMessage.includes('Payment Required') ||
-          errorMessage.includes('payment') ||
-          errorMessage.includes('billing') ||
-          errorMessage.includes('quota') ||
-          errorMessage.includes('credit') ||
-          errorCode === 402
-        ) {
-          return `Billing Error: Your API account has insufficient credits or billing issues. Please check your account balance and billing settings. You may need to add credits or update your payment method.`;
         }
 
         if (errorMessage.includes('network') || errorMessage.includes('timeout') || errorCode === 'NETWORK_ERROR') {
