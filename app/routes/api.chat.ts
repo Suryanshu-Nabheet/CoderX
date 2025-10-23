@@ -389,15 +389,33 @@ async function chatAction({ context, request }: ActionFunctionArgs) {
           const errorMessage = error.message || 'Unknown error';
           const errorCode = error.code || error.status || 'UNKNOWN';
 
+          logger.error('Inner try-catch error:', {
+            message: errorMessage,
+            code: errorCode,
+            status: error.status,
+            statusCode: error.statusCode,
+            type: error.type,
+          });
+
           if (
             errorMessage.includes('Payment Required') ||
             errorMessage.includes('payment') ||
             errorMessage.includes('billing') ||
             errorMessage.includes('quota') ||
             errorMessage.includes('credit') ||
-            errorCode === 402
+            errorMessage.includes('insufficient') ||
+            errorMessage.includes('exceeded') ||
+            errorMessage.includes('limit') ||
+            errorCode === 402 ||
+            error.status === 402 ||
+            error.statusCode === 402
           ) {
-            logger.warn('Billing error detected, falling back to default chatbot:', errorMessage);
+            logger.warn('Billing error detected, falling back to default chatbot:', {
+              message: errorMessage,
+              code: errorCode,
+              status: error.status,
+              statusCode: error.statusCode,
+            });
 
             // Use default chatbot response
             const defaultResponse = generateDefaultResponse(lastMessage?.content || '');
@@ -555,7 +573,14 @@ async function chatAction({ context, request }: ActionFunctionArgs) {
       },
     });
   } catch (error: any) {
-    logger.error(error);
+    logger.error('Main catch block error:', {
+      message: error.message,
+      statusCode: error.statusCode,
+      status: error.status,
+      code: error.code,
+      type: error.type,
+      stack: error.stack,
+    });
 
     const errorResponse = {
       error: true,
@@ -588,9 +613,19 @@ async function chatAction({ context, request }: ActionFunctionArgs) {
       error.message?.includes('billing') ||
       error.message?.includes('quota') ||
       error.message?.includes('credit') ||
-      error.statusCode === 402
+      error.message?.includes('insufficient') ||
+      error.message?.includes('exceeded') ||
+      error.message?.includes('limit') ||
+      error.statusCode === 402 ||
+      error.status === 402 ||
+      error.code === 402
     ) {
-      logger.warn('Billing error detected in outer catch, falling back to default chatbot:', error.message);
+      logger.warn('Billing error detected in outer catch, falling back to default chatbot:', {
+        message: error.message,
+        statusCode: error.statusCode,
+        status: error.status,
+        code: error.code,
+      });
 
       // Create a simple response stream with default chatbot response
       const defaultResponse = generateDefaultResponse('Hello');
