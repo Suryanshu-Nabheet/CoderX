@@ -161,11 +161,22 @@ $code-font-size: 13px;
 
     :is(th, td) {
       padding: 6px 13px;
-      border: 1px solid #dfe2e5;
+      border: 1px solid var(--bolt-elements-borderColor);
+      color: var(--bolt-elements-textPrimary);
+    }
+
+    th {
+      background-color: var(--bolt-elements-background-depth-2);
+      font-weight: 600;
+      color: var(--bolt-elements-textPrimary);
     }
 
     tr:nth-child(2n) {
-      background-color: #f6f8fa;
+      background-color: var(--bolt-elements-background-depth-1);
+    }
+
+    tr:nth-child(2n+1) {
+      background-color: var(--bolt-elements-background-depth-2);
     }
   }
 }
