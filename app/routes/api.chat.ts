@@ -581,6 +581,38 @@ async function chatAction({ context, request }: ActionFunctionArgs) {
       );
     }
 
+    // Handle billing errors in outer catch block as well
+    if (
+      error.message?.includes('Payment Required') ||
+      error.message?.includes('payment') ||
+      error.message?.includes('billing') ||
+      error.message?.includes('quota') ||
+      error.message?.includes('credit') ||
+      error.statusCode === 402
+    ) {
+      logger.warn('Billing error detected in outer catch, falling back to default chatbot:', error.message);
+
+      // Create a simple response stream with default chatbot response
+      const defaultResponse = generateDefaultResponse('Hello');
+      const encoder = new TextEncoder();
+
+      const stream = new ReadableStream({
+        start(controller) {
+          controller.enqueue(encoder.encode(`0: ${defaultResponse}\n`));
+          controller.close();
+        },
+      });
+
+      return new Response(stream, {
+        status: 200,
+        headers: {
+          'Content-Type': 'text/event-stream; charset=utf-8',
+          Connection: 'keep-alive',
+          'Cache-Control': 'no-cache',
+        },
+      });
+    }
+
     return new Response(JSON.stringify(errorResponse), {
       status: errorResponse.statusCode,
       headers: { 'Content-Type': 'application/json' },
