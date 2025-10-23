@@ -670,6 +670,7 @@ export const ChatImpl = memo(
         })}
         enhancePrompt={() => {
           const fallbackProvider = PROVIDER_LIST.find((p) => p.name) || PROVIDER_LIST[0];
+          const validProvider = provider || (fallbackProvider as ProviderInfo);
           enhancePrompt(
             input,
             (input) => {
@@ -677,7 +678,7 @@ export const ChatImpl = memo(
               scrollTextArea();
             },
             model,
-            provider || (fallbackProvider as ProviderInfo),
+            validProvider,
             apiKeys,
           );
         }}
