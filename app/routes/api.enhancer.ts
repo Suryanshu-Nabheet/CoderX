@@ -202,6 +202,27 @@ async function enhancerAction({ context, request }: ActionFunctionArgs) {
         });
       }
 
+      if (
+        error.message?.includes('Payment Required') ||
+        error.message?.includes('payment') ||
+        error.message?.includes('billing') ||
+        error.message?.includes('quota') ||
+        error.message?.includes('credit') ||
+        error.message?.includes('402')
+      ) {
+        // Fall back to simple enhancement when billing issues occur
+        logger.warn('Billing error detected, falling back to simple enhancement:', error.message);
+
+        const enhancedPrompt = enhancePromptFallback(message);
+
+        return new Response(enhancedPrompt, {
+          status: 200,
+          headers: {
+            'Content-Type': 'text/plain',
+          },
+        });
+      }
+
       if (error.message?.includes('token') || error.message?.includes('limit')) {
         throw new Response('Token limit exceeded. Please try with a shorter prompt.', {
           status: 400,

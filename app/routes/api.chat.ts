@@ -443,6 +443,17 @@ async function chatAction({ context, request }: ActionFunctionArgs) {
           return `Rate Limit Error: Too many requests to the AI service. Please wait a moment before trying again. Consider upgrading your API plan if this persists.`;
         }
 
+        if (
+          errorMessage.includes('Payment Required') ||
+          errorMessage.includes('payment') ||
+          errorMessage.includes('billing') ||
+          errorMessage.includes('quota') ||
+          errorMessage.includes('credit') ||
+          errorCode === 402
+        ) {
+          return `Billing Error: Your API account has insufficient credits or billing issues. Please check your account balance and billing settings. You may need to add credits or update your payment method.`;
+        }
+
         if (errorMessage.includes('network') || errorMessage.includes('timeout') || errorCode === 'NETWORK_ERROR') {
           return `Network Error: Unable to connect to the AI service. Please check your internet connection and try again.`;
         }
