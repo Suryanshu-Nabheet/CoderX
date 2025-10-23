@@ -448,15 +448,23 @@ async function chatAction({ context, request }: ActionFunctionArgs) {
         }
 
         if (errorMessage.includes('Bad Request') || errorCode === 400) {
-          return `Request Error: The request format is invalid. This might be due to malformed input or unsupported parameters. Please try rephrasing your request.`;
+          // Only show this error for actual malformed requests, not for token limits
+          if (!errorMessage.includes('token') && !errorMessage.includes('limit')) {
+            return `Request Error: The request format is invalid. This might be due to malformed input or unsupported parameters. Please try rephrasing your request.`;
+          }
         }
 
         if (errorCode === 500) {
           return `Server Error: The AI service is experiencing internal issues. Please try again in a few moments.`;
         }
 
-        // Provide more context for unknown errors
-        return `Error (${errorCode}): ${errorMessage}. If this persists, try selecting a different model or check your API key configuration.`;
+        // Provide more context for unknown errors, but be more helpful
+        if (errorMessage.includes('timeout') || errorMessage.includes('connection')) {
+          return `Connection Error: The request timed out or failed to connect. Please try again in a moment.`;
+        }
+
+        // For any other unknown errors, provide a generic but helpful message
+        return `An error occurred: ${errorMessage}. Please try again or contact support if the issue persists.`;
       },
     }).pipeThrough(
       new TransformStream({

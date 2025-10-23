@@ -186,14 +186,39 @@ async function enhancerAction({ context, request }: ActionFunctionArgs) {
   } catch (error: unknown) {
     console.log(error);
 
-    if (error instanceof Error && error.message?.includes('API key')) {
-      throw new Response('Invalid or missing API key', {
-        status: 401,
-        statusText: 'Unauthorized',
-      });
+    if (error instanceof Error) {
+      // Handle specific error types with helpful messages
+      if (error.message?.includes('API key')) {
+        throw new Response('Invalid or missing API key', {
+          status: 401,
+          statusText: 'Unauthorized',
+        });
+      }
+
+      if (error.message?.includes('rate limit') || error.message?.includes('429')) {
+        throw new Response('Rate limit exceeded. Please try again in a moment.', {
+          status: 429,
+          statusText: 'Too Many Requests',
+        });
+      }
+
+      if (error.message?.includes('token') || error.message?.includes('limit')) {
+        throw new Response('Token limit exceeded. Please try with a shorter prompt.', {
+          status: 400,
+          statusText: 'Bad Request',
+        });
+      }
+
+      if (error.message?.includes('network') || error.message?.includes('timeout')) {
+        throw new Response('Network error. Please check your connection and try again.', {
+          status: 503,
+          statusText: 'Service Unavailable',
+        });
+      }
     }
 
-    throw new Response(null, {
+    // Generic error fallback
+    throw new Response('An error occurred while enhancing your prompt. Please try again.', {
       status: 500,
       statusText: 'Internal Server Error',
     });
