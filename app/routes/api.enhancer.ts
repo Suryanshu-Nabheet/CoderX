@@ -3,6 +3,7 @@ import { streamText } from '~/lib/.server/llm/stream-text';
 import { stripIndents } from '~/utils/stripIndent';
 import type { ProviderInfo } from '~/types/model';
 import { getApiKeysFromCookie, getProviderSettingsFromCookie } from '~/lib/api/cookies';
+import { loadApiKeysFromEnv } from '~/lib/utils/env-api-keys';
 import { createScopedLogger } from '~/utils/logger';
 
 export async function action(args: ActionFunctionArgs) {
@@ -37,8 +38,12 @@ async function enhancerAction({ context, request }: ActionFunctionArgs) {
   }
 
   const cookieHeader = request.headers.get('Cookie');
-  const apiKeys = getApiKeysFromCookie(cookieHeader);
+  const cookieApiKeys = getApiKeysFromCookie(cookieHeader);
   const providerSettings = getProviderSettingsFromCookie(cookieHeader);
+
+  // Merge environment API keys as fallback
+  const envApiKeys = loadApiKeysFromEnv();
+  const apiKeys = { ...envApiKeys, ...cookieApiKeys };
 
   try {
     const result = await streamText({

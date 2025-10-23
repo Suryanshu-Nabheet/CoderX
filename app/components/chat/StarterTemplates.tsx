@@ -6,19 +6,43 @@ interface FrameworkLinkProps {
   template: Template;
 }
 
-const FrameworkLink: React.FC<FrameworkLinkProps> = ({ template }) => (
-  <a
-    href={`/git?url=https://github.com/${template.githubRepo}.git`}
-    data-state="closed"
-    data-discover="true"
-    className="items-center justify-center"
-  >
-    <div
-      className={`inline-block ${template.icon} w-8 h-8 text-4xl transition-theme hover:text-blue-500 dark:text-white dark:opacity-50 dark:hover:opacity-100 dark:hover:text-blue-400 transition-all grayscale hover:grayscale-0 transition`}
-      title={template.label}
-    />
-  </a>
-);
+const FrameworkLink: React.FC<FrameworkLinkProps> = ({ template }) => {
+  // Map template names to actual icon files
+  const iconMap: Record<string, string> = {
+    'Expo App': '/icons/expo.svg',
+    'Basic Astro': '/icons/astro.svg',
+    'NextJS Shadcn': '/icons/nextjs.svg',
+    'Vite Shadcn': '/icons/shadcn.svg',
+    'Qwik Typescript': '/icons/qwik.svg',
+    'Remix Typescript': '/icons/remix.svg',
+    Slidev: '/icons/slidev.svg',
+    Sveltekit: '/icons/svelte.svg',
+    'Vanilla Vite': '/icons/vite.svg',
+    'Vite React': '/icons/react.svg',
+    'Vite Typescript': '/icons/typescript.svg',
+    Vue: '/icons/vue.svg',
+    Angular: '/icons/angular.svg',
+    SolidJS: '/icons/solidjs.svg',
+  };
+
+  const iconSrc = iconMap[template.name] || '/icons/vite.svg'; // fallback to vite icon
+
+  return (
+    <a
+      href={`/git?url=https://github.com/${template.githubRepo}.git`}
+      data-state="closed"
+      data-discover="true"
+      className="items-center justify-center"
+    >
+      <img
+        src={iconSrc}
+        alt={template.label}
+        className="w-8 h-8 transition-all duration-200 grayscale hover:grayscale-0 hover:scale-110 opacity-60 hover:opacity-100"
+        title={template.label}
+      />
+    </a>
+  );
+};
 
 const StarterTemplates: React.FC = () => {
   return (

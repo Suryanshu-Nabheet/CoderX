@@ -87,20 +87,6 @@ export const APIKeyManager: React.FC<APIKeyManagerProps> = ({ provider, apiKey, 
 
   return (
     <div className="space-y-3 py-4 px-1">
-      {/* Default Chatbot Info */}
-      <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-3">
-        <div className="flex items-start gap-2">
-          <div className="i-ph:info text-blue-400 w-4 h-4 mt-0.5 flex-shrink-0" />
-          <div className="text-sm text-blue-300">
-            <p className="font-medium mb-1">✨ No API Key Required!</p>
-            <p className="text-xs">
-              CoderX includes a built-in AI assistant that works without any setup. Add an API key for enhanced features
-              and unlimited usage.
-            </p>
-          </div>
-        </div>
-      </div>
-
       {/* Label and Status */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">

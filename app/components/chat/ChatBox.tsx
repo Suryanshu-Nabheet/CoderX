@@ -105,19 +105,6 @@ export const ChatBox: React.FC<ChatBoxProps> = (props) => {
       <ClientOnly>
         {() => (
           <div className={props.isApiConfigExpanded ? 'block' : 'hidden'}>
-            {/* Default Chatbot Status */}
-            {Object.keys(props.apiKeys).length === 0 && (
-              <div className="mx-4 mb-4 p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
-                <div className="flex items-center gap-2">
-                  <div className="i-ph:robot text-blue-400 w-4 h-4" />
-                  <div className="text-sm text-blue-300">
-                    <span className="font-medium">Using Built-in Assistant</span>
-                    <span className="text-xs block">No API key required - CoderX is ready to help!</span>
-                  </div>
-                </div>
-              </div>
-            )}
-
             {/* Model Selector */}
             <div className="mx-4 mb-4">
               <ModelSelector

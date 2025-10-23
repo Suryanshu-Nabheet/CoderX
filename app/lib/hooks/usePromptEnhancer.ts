@@ -17,11 +17,20 @@ export function usePromptEnhancer() {
     input: string,
     setInput: (value: string) => void,
     model: string,
-    provider: ProviderInfo,
+    provider: ProviderInfo | null,
     apiKeys?: Record<string, string>,
   ) => {
     setEnhancingPrompt(true);
     setPromptEnhanced(false);
+
+    // Validate required parameters
+    if (!model || !provider || !provider.name) {
+      logger.error('Missing required parameters: model or provider with name', { model, provider });
+      setEnhancingPrompt(false);
+      setPromptEnhanced(false);
+
+      return;
+    }
 
     const requestBody: any = {
       message: input,
@@ -35,8 +44,20 @@ export function usePromptEnhancer() {
 
     const response = await fetch('/api/enhancer', {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify(requestBody),
     });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      logger.error(`Enhancer API error: ${response.status} ${response.statusText}`, errorText);
+      setEnhancingPrompt(false);
+      setPromptEnhanced(false);
+
+      return;
+    }
 
     const reader = response.body?.getReader();
 
