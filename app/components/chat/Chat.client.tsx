@@ -166,6 +166,40 @@ export const ChatImpl = memo(
     const [llmErrorAlert, setLlmErrorAlert] = useState<LlmErrorAlertType | undefined>(undefined);
     const [model, setModel] = useState<string>('');
     const [provider, setProvider] = useState<ProviderInfo | null>(null);
+
+    // Initialize model and provider from cookies or use defaults
+    useEffect(() => {
+      const savedModel = Cookies.get('selectedModel');
+      const savedProviderName = Cookies.get('selectedProvider');
+
+      if (savedModel) {
+        setModel(savedModel);
+      } else {
+        // Set a default model if none is saved
+        const defaultModel = 'gpt-4o-mini';
+        setModel(defaultModel);
+        Cookies.set('selectedModel', defaultModel, { expires: 30 });
+      }
+
+      if (savedProviderName) {
+        const savedProvider = PROVIDER_LIST.find((p) => p.name === savedProviderName);
+
+        if (savedProvider) {
+          setProvider(savedProvider as ProviderInfo);
+        } else {
+          // Set default provider if saved one is not found
+          const defaultProvider = PROVIDER_LIST[0];
+          setProvider(defaultProvider as ProviderInfo);
+          Cookies.set('selectedProvider', defaultProvider.name, { expires: 30 });
+        }
+      } else {
+        // Set default provider if none is saved
+        const defaultProvider = PROVIDER_LIST[0];
+        setProvider(defaultProvider as ProviderInfo);
+        Cookies.set('selectedProvider', defaultProvider.name, { expires: 30 });
+      }
+    }, []);
+
     const { showChat } = useStore(chatStore);
     const [animationScope, animate] = useAnimate();
     const [apiKeys, setApiKeys] = useState<Record<string, string>>({});
@@ -468,11 +502,11 @@ export const ChatImpl = memo(
       if (!chatStarted) {
         setFakeLoading(true);
 
-        if (autoSelectTemplate) {
+        if (autoSelectTemplate && model && provider) {
           const { template, title } = await selectStarterTemplate({
             message: finalMessageContent,
             model,
-            provider: provider || (PROVIDER_LIST[0] as ProviderInfo),
+            provider,
           });
 
           if (template !== 'blank') {
