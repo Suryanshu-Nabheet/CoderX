@@ -408,36 +408,55 @@ async function chatAction({ context, request }: ActionFunctionArgs) {
       onError: (error: any) => {
         // Provide more specific error messages for common issues
         const errorMessage = error.message || 'Unknown error';
+        const errorCode = error.code || error.status || 'UNKNOWN';
+
+        // Log the full error for debugging
+        logger.error('Stream error details:', {
+          message: errorMessage,
+          code: errorCode,
+          stack: error.stack,
+          type: error.type,
+        });
 
         if (errorMessage.includes('model') && errorMessage.includes('not found')) {
-          return 'Custom error: Invalid model selected. Please check that the model name is correct and available.';
+          return `Model Error: The selected model "${error.model || 'unknown'}" is not available. Please check your model selection and try again.`;
         }
 
         if (errorMessage.includes('Invalid JSON response')) {
-          return 'Custom error: The AI service returned an invalid response. This may be due to an invalid model name, API rate limiting, or server issues. Try selecting a different model or check your API key.';
+          return `API Response Error: The AI service returned malformed data. This could be due to model issues, API rate limiting, or server problems. Try selecting a different model or check your API key configuration.`;
         }
 
         if (
           errorMessage.includes('API key') ||
           errorMessage.includes('unauthorized') ||
-          errorMessage.includes('authentication')
+          errorMessage.includes('authentication') ||
+          errorCode === 401
         ) {
-          return 'Custom error: Invalid or missing API key. Please check your API key configuration.';
+          return `Authentication Error: Invalid or missing API key for ${error.provider || 'the selected provider'}. Please check your API key configuration in the settings.`;
         }
 
-        if (errorMessage.includes('token') && errorMessage.includes('limit')) {
-          return 'Custom error: Token limit exceeded. The conversation is too long for the selected model. Try using a model with larger context window or start a new conversation.';
+        if ((errorMessage.includes('token') && errorMessage.includes('limit')) || errorCode === 400) {
+          return `Token Limit Error: The conversation has exceeded the token limit for the selected model. Try using a model with a larger context window or start a new conversation.`;
         }
 
-        if (errorMessage.includes('rate limit') || errorMessage.includes('429')) {
-          return 'Custom error: API rate limit exceeded. Please wait a moment before trying again.';
+        if (errorMessage.includes('rate limit') || errorMessage.includes('429') || errorCode === 429) {
+          return `Rate Limit Error: Too many requests to the AI service. Please wait a moment before trying again. Consider upgrading your API plan if this persists.`;
         }
 
-        if (errorMessage.includes('network') || errorMessage.includes('timeout')) {
-          return 'Custom error: Network error. Please check your internet connection and try again.';
+        if (errorMessage.includes('network') || errorMessage.includes('timeout') || errorCode === 'NETWORK_ERROR') {
+          return `Network Error: Unable to connect to the AI service. Please check your internet connection and try again.`;
         }
 
-        return `Custom error: ${errorMessage}`;
+        if (errorMessage.includes('Bad Request') || errorCode === 400) {
+          return `Request Error: The request format is invalid. This might be due to malformed input or unsupported parameters. Please try rephrasing your request.`;
+        }
+
+        if (errorCode === 500) {
+          return `Server Error: The AI service is experiencing internal issues. Please try again in a few moments.`;
+        }
+
+        // Provide more context for unknown errors
+        return `Error (${errorCode}): ${errorMessage}. If this persists, try selecting a different model or check your API key configuration.`;
       },
     }).pipeThrough(
       new TransformStream({
