@@ -66,13 +66,86 @@ function validateTokenLimits(modelDetails: ModelInfo, requestedTokens: number): 
 }
 
 async function llmCallAction({ context, request }: ActionFunctionArgs) {
-  const { system, message, model, provider, streamOutput } = await request.json<{
-    system: string;
-    message: string;
-    model: string;
-    provider: ProviderInfo;
-    streamOutput?: boolean;
-  }>();
+  let requestData;
+
+  try {
+    requestData = await request.json<{
+      system: string;
+      message: string;
+      model: string;
+      provider: ProviderInfo;
+      streamOutput?: boolean;
+    }>();
+  } catch (error) {
+    logger.error('Failed to parse request JSON:', error);
+    return new Response(
+      JSON.stringify({
+        error: true,
+        message: 'Invalid request format. Please check your input and try again.',
+        statusCode: 400,
+        isRetryable: false,
+      }),
+      {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+        statusText: 'Bad Request',
+      },
+    );
+  }
+
+  const { system, message, model, provider, streamOutput } = requestData;
+
+  // Validate required fields
+  if (!system || typeof system !== 'string') {
+    logger.error('Invalid system field:', { system });
+    return new Response(
+      JSON.stringify({
+        error: true,
+        message: 'Invalid system format. System must be a non-empty string.',
+        statusCode: 400,
+        isRetryable: false,
+      }),
+      {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+        statusText: 'Bad Request',
+      },
+    );
+  }
+
+  if (!message || typeof message !== 'string') {
+    logger.error('Invalid message field:', { message });
+    return new Response(
+      JSON.stringify({
+        error: true,
+        message: 'Invalid message format. Message must be a non-empty string.',
+        statusCode: 400,
+        isRetryable: false,
+      }),
+      {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+        statusText: 'Bad Request',
+      },
+    );
+  }
+
+  if (!provider || typeof provider !== 'object' || !provider.name) {
+    logger.error('Invalid provider field:', { provider });
+    return new Response(
+      JSON.stringify({
+        error: true,
+        message: 'Invalid provider format. Provider must be an object with a name property.',
+        statusCode: 400,
+        isRetryable: false,
+      }),
+      {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+        statusText: 'Bad Request',
+      },
+    );
+  }
 
   const { name: providerName } = provider;
 
@@ -92,8 +165,22 @@ async function llmCallAction({ context, request }: ActionFunctionArgs) {
   }
 
   const cookieHeader = request.headers.get('Cookie');
-  const cookieApiKeys = getApiKeysFromCookie(cookieHeader);
-  const providerSettings = getProviderSettingsFromCookie(cookieHeader);
+  let cookieApiKeys: Record<string, string> = {};
+  let providerSettings: Record<string, IProviderSetting> = {};
+
+  try {
+    cookieApiKeys = getApiKeysFromCookie(cookieHeader);
+  } catch (error) {
+    logger.warn('Failed to parse API keys from cookies:', error);
+    cookieApiKeys = {};
+  }
+
+  try {
+    providerSettings = getProviderSettingsFromCookie(cookieHeader);
+  } catch (error) {
+    logger.warn('Failed to parse provider settings from cookies:', error);
+    providerSettings = {};
+  }
 
   // Merge environment API keys as fallback
   const envApiKeys = loadApiKeysFromEnv();
