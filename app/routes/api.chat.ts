@@ -50,8 +50,10 @@ async function chatAction({ context, request }: ActionFunctionArgs) {
     },
   });
 
-  const { messages, files, promptId, contextOptimization, supabase, chatMode, designScheme, maxLLMSteps } =
-    await request.json<{
+  let requestData;
+
+  try {
+    requestData = await request.json<{
       messages: Messages;
       files: any;
       promptId?: string;
@@ -68,12 +70,94 @@ async function chatAction({ context, request }: ActionFunctionArgs) {
       };
       maxLLMSteps: number;
     }>();
+  } catch (error) {
+    logger.error('Failed to parse request JSON:', error);
+    return new Response(
+      JSON.stringify({
+        error: true,
+        message: 'Invalid request format. Please check your input and try again.',
+        statusCode: 400,
+        isRetryable: false,
+      }),
+      {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+        statusText: 'Bad Request',
+      },
+    );
+  }
+
+  const { messages, files, promptId, contextOptimization, supabase, chatMode, designScheme, maxLLMSteps } = requestData;
+
+  // Validate required fields
+  if (!messages || !Array.isArray(messages)) {
+    logger.error('Invalid messages field:', { messages });
+    return new Response(
+      JSON.stringify({
+        error: true,
+        message: 'Invalid messages format. Messages must be an array.',
+        statusCode: 400,
+        isRetryable: false,
+      }),
+      {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+        statusText: 'Bad Request',
+      },
+    );
+  }
+
+  if (typeof contextOptimization !== 'boolean') {
+    logger.error('Invalid contextOptimization field:', { contextOptimization });
+    return new Response(
+      JSON.stringify({
+        error: true,
+        message: 'Invalid contextOptimization format. Must be a boolean.',
+        statusCode: 400,
+        isRetryable: false,
+      }),
+      {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+        statusText: 'Bad Request',
+      },
+    );
+  }
+
+  if (typeof maxLLMSteps !== 'number' || maxLLMSteps < 1) {
+    logger.error('Invalid maxLLMSteps field:', { maxLLMSteps });
+    return new Response(
+      JSON.stringify({
+        error: true,
+        message: 'Invalid maxLLMSteps format. Must be a positive number.',
+        statusCode: 400,
+        isRetryable: false,
+      }),
+      {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+        statusText: 'Bad Request',
+      },
+    );
+  }
 
   const cookieHeader = request.headers.get('Cookie');
-  const cookieApiKeys = JSON.parse(parseCookies(cookieHeader || '').apiKeys || '{}');
-  const providerSettings: Record<string, IProviderSetting> = JSON.parse(
-    parseCookies(cookieHeader || '').providers || '{}',
-  );
+  let cookieApiKeys: Record<string, string> = {};
+  let providerSettings: Record<string, IProviderSetting> = {};
+
+  try {
+    cookieApiKeys = JSON.parse(parseCookies(cookieHeader || '').apiKeys || '{}');
+  } catch (error) {
+    logger.warn('Failed to parse API keys from cookies:', error);
+    cookieApiKeys = {};
+  }
+
+  try {
+    providerSettings = JSON.parse(parseCookies(cookieHeader || '').providers || '{}');
+  } catch (error) {
+    logger.warn('Failed to parse provider settings from cookies:', error);
+    providerSettings = {};
+  }
 
   // Merge environment API keys as fallback
   const envApiKeys = loadApiKeysFromEnv();
