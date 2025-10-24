@@ -42,8 +42,8 @@ function ProviderCard({
   return (
     <Card className="bg-bolt-elements-background-depth-2 hover:bg-bolt-elements-background-depth-3 transition-all duration-300 shadow-sm hover:shadow-md border border-bolt-elements-borderColor hover:border-blue-500/30">
       <CardContent className="p-6">
-        <div className="flex items-start justify-between gap-4 min-h-[120px]">
-          <div className="flex items-start gap-4 flex-1">
+        <div className="flex items-center justify-between gap-4 min-h-[100px]">
+          <div className="flex items-center gap-4 flex-1">
             <div
               className={classNames(
                 'w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 flex-shrink-0',
@@ -59,7 +59,7 @@ function ProviderCard({
                 )}
               />
             </div>
-            <div className="flex-1 min-w-0 flex flex-col justify-center">
+            <div className="flex-1 min-w-0">
               <div className="flex items-center gap-3 mb-2">
                 <h3 className="text-lg font-semibold text-bolt-elements-textPrimary">{provider.name}</h3>
                 <span className="px-2 py-1 text-xs rounded-full bg-green-500/10 text-green-500 font-medium">Local</span>
@@ -106,7 +106,7 @@ function ProviderCard({
               )}
             </div>
           </div>
-          <div className="flex-shrink-0 flex items-center h-full">
+          <div className="flex-shrink-0">
             <Switch
               checked={provider.settings.enabled}
               onCheckedChange={onToggle}
