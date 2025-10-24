@@ -46,7 +46,7 @@ function ProviderCard({
           <div className="flex items-start gap-4 flex-1">
             <div
               className={classNames(
-                'w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300',
+                'w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 flex-shrink-0 mt-1',
                 provider.settings.enabled
                   ? 'bg-gradient-to-br from-blue-500/20 to-blue-600/20 ring-1 ring-blue-500/30'
                   : 'bg-bolt-elements-background-depth-3',
@@ -59,7 +59,7 @@ function ProviderCard({
                 )}
               />
             </div>
-            <div className="flex-1">
+            <div className="flex-1 min-w-0">
               <div className="flex items-center gap-3 mb-2">
                 <h3 className="text-lg font-semibold text-bolt-elements-textPrimary">{provider.name}</h3>
                 <span className="px-2 py-1 text-xs rounded-full bg-green-500/10 text-green-500 font-medium">Local</span>
@@ -106,11 +106,13 @@ function ProviderCard({
               )}
             </div>
           </div>
-          <Switch
-            checked={provider.settings.enabled}
-            onCheckedChange={onToggle}
-            aria-label={`Toggle ${provider.name} provider`}
-          />
+          <div className="flex-shrink-0 mt-1">
+            <Switch
+              checked={provider.settings.enabled}
+              onCheckedChange={onToggle}
+              aria-label={`Toggle ${provider.name} provider`}
+            />
+          </div>
         </div>
       </CardContent>
     </Card>

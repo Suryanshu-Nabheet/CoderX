@@ -193,7 +193,7 @@ const CloudProvidersTab = () => {
                 )}
               </div>
 
-              <div className="flex items-start gap-4 p-4">
+              <div className="flex items-center gap-4 p-4 min-h-[80px]">
                 <motion.div
                   className={classNames(
                     'w-10 h-10 flex items-center justify-center rounded-xl',
