@@ -348,7 +348,7 @@ export default function LocalProvidersTab() {
         {/* Provider Cards */}
         <div className="space-y-6">
           {filteredProviders.map((provider) => (
-            <div key={provider.name} className="space-y-4">
+            <div key={provider.name}>
               <ProviderCard
                 provider={provider}
                 onToggle={(enabled) => handleToggleProvider(provider, enabled)}
