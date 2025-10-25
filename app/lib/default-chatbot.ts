@@ -2,7 +2,8 @@ import { generateSystemResponse, isSystemQuestion } from '~/lib/system-responses
 
 // Default responses for common coding questions
 const DEFAULT_CODING_RESPONSES = {
-  hello: "Hello! I'm CoderX, your AI coding assistant. How can I help you build something amazing today?",
+  hello:
+    "Hello! I'm CoderX, your AI coding assistant created by Suryanshu Nabheet. I'm powered by various AI models through OpenRouter, but I always maintain my identity as CoderX. How can I help you build something amazing today?",
   hi: "Hi there! I'm here to help you with coding, development, and building projects. What would you like to work on?",
   help: 'I can help you with:\n• Writing and debugging code\n• Explaining programming concepts\n• Building web applications\n• Setting up development environments\n• Code reviews and optimization\n\nWhat specific help do you need?',
   'what can you do':
@@ -74,7 +75,7 @@ export const generateDefaultResponse = (message: string): string => {
   }
 
   // Default fallback response
-  return "I'm CoderX, your AI coding assistant! I can help you with programming, debugging, building projects, and learning new technologies. How can I assist you today?";
+  return "I'm CoderX, your AI coding assistant created by Suryanshu Nabheet! I'm powered by various AI models through OpenRouter, but I always maintain my identity as CoderX. I can help you with programming, debugging, building projects, and learning new technologies. How can I assist you today?";
 };
 
 // Check if we should use default responses (when no API key is available)

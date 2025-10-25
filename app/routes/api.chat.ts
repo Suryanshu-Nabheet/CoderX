@@ -562,7 +562,7 @@ async function chatAction({ context, request }: ActionFunctionArgs) {
         });
 
         if (errorMessage.includes('model') && errorMessage.includes('not found')) {
-          return `Model Error: The selected model "${error.model || 'unknown'}" is not available. Please check your model selection and try again.`;
+          return `Model Error: The selected model "${error.model || 'unknown'}" is not available through OpenRouter. Please check your model selection and try again. Available models include Grok, Qwen, Claude, GPT, and many others through OpenRouter.`;
         }
 
         if (errorMessage.includes('Invalid JSON response')) {
@@ -575,7 +575,7 @@ async function chatAction({ context, request }: ActionFunctionArgs) {
           errorMessage.includes('authentication') ||
           errorCode === 401
         ) {
-          return `Authentication Error: Invalid or missing API key for ${error.provider || 'the selected provider'}. Please check your API key configuration in the settings.`;
+          return `Authentication Error: Invalid or missing OpenRouter API key. Please check your API key configuration in the settings. You can get your API key from https://openrouter.ai/settings/keys`;
         }
 
         if ((errorMessage.includes('token') && errorMessage.includes('limit')) || errorCode === 400) {

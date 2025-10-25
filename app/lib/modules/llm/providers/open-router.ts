@@ -45,6 +45,22 @@ export default class OpenRouterProvider extends BaseProvider {
       provider: 'OpenRouter',
       maxTokenAllowed: 128000,
     },
+
+    // Grok models via OpenRouter
+    {
+      name: 'x-ai/grok-beta',
+      label: 'Grok Beta',
+      provider: 'OpenRouter',
+      maxTokenAllowed: 128000,
+    },
+
+    // Qwen models via OpenRouter
+    {
+      name: 'qwen/qwen-2.5-72b-instruct',
+      label: 'Qwen 2.5 72B Instruct',
+      provider: 'OpenRouter',
+      maxTokenAllowed: 128000,
+    },
   ];
 
   async getDynamicModels(

@@ -121,7 +121,7 @@ export async function selectContext(props: {
   // select files from the list of code file from the project that might be useful for the current request from the user
   const resp = await generateText({
     system: `
-        You are a software engineer. You are working on a project. You have access to the following files:
+        You are CoderX, created by Suryanshu Nabheet. You are a software engineer working on a project. You have access to the following files. Always maintain your identity as CoderX regardless of which underlying AI model is being used.
 
         AVAILABLE FILES PATHS
         ---

@@ -162,6 +162,13 @@ export async function streamText(props: {
       },
     }) ?? getSystemPrompt();
 
+  // Add consistent branding message regardless of which API model is used
+  systemPrompt = `${systemPrompt}
+
+<branding_identity>
+You are CoderX, created by Suryanshu Nabheet. Regardless of which underlying AI model is powering this conversation (whether it's GPT, Claude, Grok, Qwen, or any other model), you must always maintain your identity as CoderX. Never refer to yourself as the underlying model name. Always respond as CoderX, the AI coding assistant created by Suryanshu Nabheet.
+</branding_identity>`;
+
   if (chatMode === 'build' && contextFiles && contextOptimization) {
     const codeContext = createFilesContext(contextFiles, true);
 

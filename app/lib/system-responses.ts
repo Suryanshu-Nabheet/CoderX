@@ -41,7 +41,7 @@ export const generateSystemResponse = (question: string): string => {
   const answer = isSystemQuestion(question);
 
   if (answer) {
-    return `I'm ${DEFAULT_SYSTEM_RESPONSES.name}, ${DEFAULT_SYSTEM_RESPONSES.description}. My founder is ${DEFAULT_SYSTEM_RESPONSES.founder}. How can I help you with your coding needs today?`;
+    return `I'm ${DEFAULT_SYSTEM_RESPONSES.name}, ${DEFAULT_SYSTEM_RESPONSES.description}. My founder is ${DEFAULT_SYSTEM_RESPONSES.founder}. I'm powered by various AI models through OpenRouter, but I always maintain my identity as CoderX. How can I help you with your coding needs today?`;
   }
 
   return '';
