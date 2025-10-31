@@ -10,12 +10,12 @@ import { getFilePaths, selectContext } from '~/lib/.server/llm/select-context';
 import type { ContextAnnotation, ProgressAnnotation } from '~/types/context';
 import { WORK_DIR } from '~/utils/constants';
 import { createSummary } from '~/lib/.server/llm/create-summary';
-import { extractPropertiesFromMessage } from '~/lib/.server/llm/utils';
+import { extractPropertiesFromMessage, extractTextContent } from '~/lib/.server/llm/utils';
 import type { DesignScheme } from '~/types/design-scheme';
 import { MCPService } from '~/lib/services/mcpService';
 import { StreamRecoveryManager } from '~/lib/.server/llm/stream-recovery';
 import { loadApiKeysFromEnv } from '~/lib/utils/env-api-keys';
-import { generateDefaultResponse, shouldUseDefaultResponse } from '~/lib/default-chatbot';
+import { generateDefaultResponse } from '~/lib/default-chatbot';
 
 export async function action(args: ActionFunctionArgs) {
   return chatAction(args);
@@ -356,32 +356,7 @@ async function chatAction({ context, request }: ActionFunctionArgs) {
               content: `[Model: ${model}]\n\n[Provider: ${provider}]\n\n${CONTINUE_PROMPT}`,
             });
 
-            // Check if we should use default chatbot for continue prompt
-            const hasApiKey =
-              Object.keys(apiKeys).length > 0 &&
-              Object.values(apiKeys).some((key) => key && typeof key === 'string' && key.trim() !== '');
-
-            if (shouldUseDefaultResponse(hasApiKey, CONTINUE_PROMPT)) {
-              // Use default chatbot response for continue
-              const defaultResponse = generateDefaultResponse(CONTINUE_PROMPT);
-
-              // Write the response as a single chunk
-              dataStream.writeData({
-                type: 'text-delta',
-                textDelta: defaultResponse,
-              });
-
-              dataStream.writeData({
-                type: 'progress',
-                label: 'response',
-                status: 'complete',
-                order: progressCounter++,
-                message: 'Response Complete',
-              } satisfies ProgressAnnotation);
-
-              return;
-            }
-
+            // Continue prompt also goes through LLM (no hardcoded responses)
             const result = await streamText({
               messages: [...processedMessages],
               env: context.cloudflare?.env,
@@ -423,32 +398,52 @@ async function chatAction({ context, request }: ActionFunctionArgs) {
           message: 'Generating Response',
         } satisfies ProgressAnnotation);
 
-        // Check if we should use default chatbot instead of LLM
-        const lastMessage = processedMessages[processedMessages.length - 1];
+        // Check if we have an API key - only use default responses if NO API key is available
         const hasApiKey =
           Object.keys(apiKeys).length > 0 &&
           Object.values(apiKeys).some((key) => key && typeof key === 'string' && key.trim() !== '');
 
-        if (shouldUseDefaultResponse(hasApiKey, lastMessage?.content || '')) {
-          // Use default chatbot response
-          const defaultResponse = generateDefaultResponse(lastMessage?.content || '');
+        /**
+         * Only use default chatbot if NO API key is available (fallback mode).
+         * ALL queries with API keys will go through the LLM, including founder questions.
+         */
+        if (!hasApiKey) {
+          const lastMessage = processedMessages[processedMessages.length - 1];
+          const messageText = lastMessage ? extractTextContent(lastMessage) : '';
+          const defaultResponse = generateDefaultResponse(messageText);
 
-          // Write the response as a single chunk
-          dataStream.writeData({
-            type: 'text-delta',
-            textDelta: defaultResponse,
-          });
+          if (defaultResponse && typeof defaultResponse === 'string' && defaultResponse.trim().length > 0) {
+            // Write response in word chunks for fallback mode
+            const words = defaultResponse.split(/(\s+)/);
 
-          dataStream.writeData({
-            type: 'progress',
-            label: 'response',
-            status: 'complete',
-            order: progressCounter++,
-            message: 'Response Complete',
-          } satisfies ProgressAnnotation);
+            for (let i = 0; i < words.length; i++) {
+              const chunk = words[i];
 
-          return;
+              if (chunk.length > 0) {
+                dataStream.writeData({
+                  type: 'text-delta',
+                  textDelta: chunk,
+                });
+
+                if (i % 5 === 0) {
+                  await new Promise((resolve) => setTimeout(resolve, 0));
+                }
+              }
+            }
+
+            dataStream.writeData({
+              type: 'progress',
+              label: 'response',
+              status: 'complete',
+              order: progressCounter++,
+              message: 'Response Complete',
+            } satisfies ProgressAnnotation);
+
+            return;
+          }
         }
+
+        // All queries with API keys OR when default response fails will go through LLM
 
         let result;
 
@@ -501,8 +496,10 @@ async function chatAction({ context, request }: ActionFunctionArgs) {
               statusCode: error.statusCode,
             });
 
-            // Use default chatbot response
-            const defaultResponse = generateDefaultResponse(lastMessage?.content || '');
+            // Use default chatbot response (fallback when billing error occurs)
+            const fallbackLastMessage = processedMessages[processedMessages.length - 1];
+            const fallbackMessageText = fallbackLastMessage ? extractTextContent(fallbackLastMessage) : '';
+            const defaultResponse = generateDefaultResponse(fallbackMessageText);
 
             // Write the response as a single chunk
             dataStream.writeData({

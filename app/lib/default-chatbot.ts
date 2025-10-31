@@ -80,8 +80,20 @@ export const generateDefaultResponse = (message: string): string => {
 
 // Check if we should use default responses (when no API key is available)
 export const shouldUseDefaultResponse = (hasApiKey: boolean, message: string): boolean => {
-  // Always use default for system questions
-  if (isSystemQuestion(message)) {
+  // Safety check: handle non-string input
+  if (typeof message !== 'string') {
+    console.error('shouldUseDefaultResponse received non-string:', typeof message, message);
+    return !hasApiKey; // Use default if no API key
+  }
+
+  // Always use default for system questions (CRITICAL - this must work!)
+  const systemCheck = isSystemQuestion(message);
+  if (systemCheck) {
+    console.error('✅ SYSTEM QUESTION DETECTED - Using default response:', {
+      message,
+      answer: systemCheck,
+      hasApiKey,
+    });
     return true;
   }
 

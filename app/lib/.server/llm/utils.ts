@@ -4,6 +4,40 @@ import { IGNORE_PATTERNS, type FileMap } from './constants';
 import ignore from 'ignore';
 import type { ContextAnnotation } from '~/types/context';
 
+/**
+ * Helper function to extract text content from a message (handles both string and array formats).
+ * Also strips Model/Provider metadata prefixes and artifact tags for clean text matching.
+ */
+export function extractTextContent(
+  message: Omit<Message, 'id'> | { content: string | Array<{ type: string; text?: string }> },
+): string {
+  if (!message.content) {
+    return '';
+  }
+
+  let text: string;
+
+  if (Array.isArray(message.content)) {
+    const textItem = message.content.find((item) => item.type === 'text');
+    text = textItem?.text || '';
+  } else {
+    text = message.content;
+  }
+
+  // Strip Model and Provider metadata prefixes
+  text = text.replace(MODEL_REGEX, '').replace(PROVIDER_REGEX, '');
+
+  // Strip boltArtifact tags (similar to UserMessage.stripMetadata)
+  const artifactRegex = /<boltArtifact\s+[^>]*>[\s\S]*?<\/boltArtifact>/gm;
+  text = text.replace(artifactRegex, '');
+
+  // Strip boltAction tags that might interfere
+  const actionRegex = /<boltAction[^>]*>[\s\S]*?<\/boltAction>/gm;
+  text = text.replace(actionRegex, '');
+
+  return text.trim();
+}
+
 export function extractPropertiesFromMessage(message: Omit<Message, 'id'>): {
   model: string;
   provider: string;
@@ -63,7 +97,10 @@ export function createFilesContext(files: FileMap, useRelativePath?: boolean) {
   });
 
   const fileContexts = filePaths
-    .filter((x) => files[x] && files[x].type == 'file')
+    .filter((x) => {
+      const file = files[x];
+      return file && file.type == 'file';
+    })
     .map((path) => {
       const dirent = files[path];
 
