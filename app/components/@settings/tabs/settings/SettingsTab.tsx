@@ -23,7 +23,7 @@ const getModifierSymbol = (modifier: string): string => {
 export default function SettingsTab() {
   const [currentTimezone, setCurrentTimezone] = useState('');
   const [settings, setSettings] = useState<UserProfile>(() => {
-    const saved = localStorage.getItem('bolt_user_profile');
+    const saved = localStorage.getItem('coderx_user_profile');
     return saved
       ? JSON.parse(saved)
       : {
@@ -51,7 +51,7 @@ export default function SettingsTab() {
         timezone: settings.timezone,
       };
 
-      localStorage.setItem('bolt_user_profile', JSON.stringify(updatedProfile));
+      localStorage.setItem('coderx_user_profile', JSON.stringify(updatedProfile));
       toast.success('Settings updated');
     } catch (error) {
       console.error('Error saving settings:', error);
@@ -124,7 +124,7 @@ export default function SettingsTab() {
                   ...existingProfile,
                   notifications: checked,
                 };
-                localStorage.setItem('bolt_user_profile', JSON.stringify(updatedProfile));
+                localStorage.setItem('coderx_user_profile', JSON.stringify(updatedProfile));
 
                 // Dispatch storage event for other components
                 window.dispatchEvent(

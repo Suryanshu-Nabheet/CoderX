@@ -6,7 +6,7 @@ import type {
   ShellAction,
   SupabaseAction,
 } from '~/types/actions';
-import type { BoltArtifactData } from '~/types/artifact';
+import type { CoderXArtifactData } from '~/types/artifact';
 import { createScopedLogger } from '~/utils/logger';
 import { unreachable } from '~/utils/unreachable';
 
@@ -19,7 +19,7 @@ const CODERX_QUICK_ACTIONS_CLOSE = '</coderx-quick-actions>';
 
 const logger = createScopedLogger('MessageParser');
 
-export interface ArtifactCallbackData extends BoltArtifactData {
+export interface ArtifactCallbackData extends CoderXArtifactData {
   messageId: string;
   artifactId?: string;
 }
@@ -59,7 +59,7 @@ interface MessageState {
   insideArtifact: boolean;
   insideAction: boolean;
   artifactCounter: number;
-  currentArtifact?: BoltArtifactData;
+  currentArtifact?: CoderXArtifactData;
   currentAction: CoderXActionData;
   actionId: number;
 }
@@ -287,7 +287,7 @@ export class StreamingMessageParser {
                 id: artifactId,
                 title: artifactTitle,
                 type,
-              } satisfies BoltArtifactData;
+              } satisfies CoderXArtifactData;
 
               state.currentArtifact = currentArtifact;
 

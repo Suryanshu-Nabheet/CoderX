@@ -56,7 +56,7 @@ npmRebuild: false
 publish:
   provider: github
   owner: Derek-X-Wang
-  repo: bolt.local
+  repo: coderx
   private: true
   releaseType: release
 

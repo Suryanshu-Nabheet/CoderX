@@ -1,10 +1,10 @@
 services:
   app-prod:
-    image: bolt-ai:production
+    image: coderx:production
     build:
       context: .
       dockerfile: Dockerfile
-      target: bolt-ai-production
+      target: coderx-production
     ports:
       - '5173:5173'
     env_file: 
@@ -36,9 +36,9 @@ services:
       - production
 
   app-dev:
-    image: bolt-ai:development
+    image: coderx:development
     build:
-      target: bolt-ai-development
+      target: coderx-development
     env_file: 
       - '.env'
       - '.env.local'
