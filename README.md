@@ -509,3 +509,608 @@ For answers to common questions, issues, and to see a list of recommended models
 
 CoderX source code is distributed as MIT, but it uses WebContainers API that [requires licensing](https://webcontainers.io/enterprise) for production usage in a commercial, for-profit setting. (Prototypes or POCs do not require a commercial license.) If you're using the API to meet the needs of your customers, prospective customers, and/or employees, you need a license to ensure compliance with our Terms of Service. Usage of the API in violation of these terms may result in your access being revoked.
 # Test commit to trigger Security Analysis workflow
+
+```
+CoderX
+├─ .depcheckrc.json
+├─ .dockerignore
+├─ .editorconfig
+├─ .husky
+│  ├─ _
+│  │  ├─ applypatch-msg
+│  │  ├─ commit-msg
+│  │  ├─ h
+│  │  ├─ husky.sh
+│  │  ├─ post-applypatch
+│  │  ├─ post-checkout
+│  │  ├─ post-commit
+│  │  ├─ post-merge
+│  │  ├─ post-rewrite
+│  │  ├─ pre-applypatch
+│  │  ├─ pre-auto-gc
+│  │  ├─ pre-commit
+│  │  ├─ pre-merge-commit
+│  │  ├─ pre-push
+│  │  ├─ pre-rebase
+│  │  └─ prepare-commit-msg
+│  └─ pre-commit
+├─ .lighthouserc.json
+├─ .prettierignore
+├─ .prettierrc
+├─ CHANGES.md
+├─ CODE_OF_CONDUCT.md
+├─ CONTRIBUTING.md
+├─ Dockerfile
+├─ FAQ.md
+├─ FREE_MODELS_GUIDE.md
+├─ LICENSE
+├─ PROJECT.md
+├─ README.md
+├─ SECURITY.md
+├─ app
+│  ├─ components
+│  │  ├─ @settings
+│  │  │  ├─ core
+│  │  │  │  ├─ AvatarDropdown.tsx
+│  │  │  │  ├─ ControlPanel.tsx
+│  │  │  │  ├─ constants.tsx
+│  │  │  │  └─ types.ts
+│  │  │  ├─ index.ts
+│  │  │  ├─ shared
+│  │  │  │  ├─ components
+│  │  │  │  │  └─ TabTile.tsx
+│  │  │  │  └─ service-integration
+│  │  │  │     ├─ ConnectionForm.tsx
+│  │  │  │     ├─ ConnectionTestIndicator.tsx
+│  │  │  │     ├─ ErrorState.tsx
+│  │  │  │     ├─ LoadingState.tsx
+│  │  │  │     ├─ ServiceHeader.tsx
+│  │  │  │     └─ index.ts
+│  │  │  ├─ tabs
+│  │  │  │  ├─ data
+│  │  │  │  │  ├─ DataTab.tsx
+│  │  │  │  │  └─ DataVisualization.tsx
+│  │  │  │  ├─ features
+│  │  │  │  │  └─ FeaturesTab.tsx
+│  │  │  │  ├─ github
+│  │  │  │  │  ├─ GitHubTab.tsx
+│  │  │  │  │  └─ components
+│  │  │  │  │     ├─ GitHubAuthDialog.tsx
+│  │  │  │  │     ├─ GitHubCacheManager.tsx
+│  │  │  │  │     ├─ GitHubConnection.tsx
+│  │  │  │  │     ├─ GitHubErrorBoundary.tsx
+│  │  │  │  │     ├─ GitHubProgressiveLoader.tsx
+│  │  │  │  │     ├─ GitHubRepositoryCard.tsx
+│  │  │  │  │     ├─ GitHubRepositorySelector.tsx
+│  │  │  │  │     ├─ GitHubStats.tsx
+│  │  │  │  │     ├─ GitHubUserProfile.tsx
+│  │  │  │  │     └─ shared
+│  │  │  │  │        ├─ GitHubStateIndicators.tsx
+│  │  │  │  │        ├─ RepositoryCard.tsx
+│  │  │  │  │        └─ index.ts
+│  │  │  │  ├─ gitlab
+│  │  │  │  │  ├─ GitLabTab.tsx
+│  │  │  │  │  └─ components
+│  │  │  │  │     ├─ GitLabAuthDialog.tsx
+│  │  │  │  │     ├─ GitLabConnection.tsx
+│  │  │  │  │     ├─ GitLabRepositorySelector.tsx
+│  │  │  │  │     ├─ RepositoryCard.tsx
+│  │  │  │  │     ├─ RepositoryList.tsx
+│  │  │  │  │     ├─ StatsDisplay.tsx
+│  │  │  │  │     └─ index.ts
+│  │  │  │  ├─ mcp
+│  │  │  │  │  ├─ McpServerList.tsx
+│  │  │  │  │  ├─ McpServerListItem.tsx
+│  │  │  │  │  ├─ McpStatusBadge.tsx
+│  │  │  │  │  └─ McpTab.tsx
+│  │  │  │  ├─ netlify
+│  │  │  │  │  ├─ NetlifyTab.tsx
+│  │  │  │  │  └─ components
+│  │  │  │  │     ├─ NetlifyConnection.tsx
+│  │  │  │  │     └─ index.ts
+│  │  │  │  ├─ notifications
+│  │  │  │  │  └─ NotificationsTab.tsx
+│  │  │  │  ├─ profile
+│  │  │  │  │  └─ ProfileTab.tsx
+│  │  │  │  ├─ providers
+│  │  │  │  │  ├─ cloud
+│  │  │  │  │  │  └─ CloudProvidersTab.tsx
+│  │  │  │  │  └─ local
+│  │  │  │  │     ├─ ErrorBoundary.tsx
+│  │  │  │  │     ├─ HealthStatusBadge.tsx
+│  │  │  │  │     ├─ LoadingSkeleton.tsx
+│  │  │  │  │     ├─ LocalProvidersTab.tsx
+│  │  │  │  │     ├─ ModelCard.tsx
+│  │  │  │  │     ├─ ProviderCard.tsx
+│  │  │  │  │     ├─ SetupGuide.tsx
+│  │  │  │  │     ├─ StatusDashboard.tsx
+│  │  │  │  │     └─ types.ts
+│  │  │  │  ├─ settings
+│  │  │  │  │  └─ SettingsTab.tsx
+│  │  │  │  ├─ supabase
+│  │  │  │  │  └─ SupabaseTab.tsx
+│  │  │  │  └─ vercel
+│  │  │  │     ├─ VercelTab.tsx
+│  │  │  │     └─ components
+│  │  │  │        ├─ VercelConnection.tsx
+│  │  │  │        └─ index.ts
+│  │  │  └─ utils
+│  │  │     └─ tab-helpers.ts
+│  │  ├─ chat
+│  │  │  ├─ APIKeyManager.tsx
+│  │  │  ├─ Artifact.tsx
+│  │  │  ├─ AssistantMessage.tsx
+│  │  │  ├─ BaseChat.module.scss
+│  │  │  ├─ BaseChat.tsx
+│  │  │  ├─ Chat.client.tsx
+│  │  │  ├─ ChatAlert.tsx
+│  │  │  ├─ ChatBox.tsx
+│  │  │  ├─ CodeBlock.module.scss
+│  │  │  ├─ CodeBlock.tsx
+│  │  │  ├─ DicussMode.tsx
+│  │  │  ├─ ExamplePrompts.tsx
+│  │  │  ├─ FilePreview.tsx
+│  │  │  ├─ GitCloneButton.tsx
+│  │  │  ├─ ImportFolderButton.tsx
+│  │  │  ├─ LLMApiAlert.tsx
+│  │  │  ├─ MCPTools.tsx
+│  │  │  ├─ Markdown.module.scss
+│  │  │  ├─ Markdown.spec.ts
+│  │  │  ├─ Markdown.tsx
+│  │  │  ├─ Messages.client.tsx
+│  │  │  ├─ ModelSelector.tsx
+│  │  │  ├─ NetlifyDeploymentLink.client.tsx
+│  │  │  ├─ ProgressCompilation.tsx
+│  │  │  ├─ ScreenshotStateManager.tsx
+│  │  │  ├─ SendButton.client.tsx
+│  │  │  ├─ SpeechRecognition.tsx
+│  │  │  ├─ StarterTemplates.tsx
+│  │  │  ├─ SupabaseAlert.tsx
+│  │  │  ├─ SupabaseConnection.tsx
+│  │  │  ├─ ThoughtBox.tsx
+│  │  │  ├─ ToolInvocations.tsx
+│  │  │  ├─ UserMessage.tsx
+│  │  │  ├─ VercelDeploymentLink.client.tsx
+│  │  │  └─ chatExportAndImport
+│  │  │     ├─ ExportChatButton.tsx
+│  │  │     └─ ImportButtons.tsx
+│  │  ├─ deploy
+│  │  │  ├─ DeployAlert.tsx
+│  │  │  ├─ DeployButton.tsx
+│  │  │  ├─ GitHubDeploy.client.tsx
+│  │  │  ├─ GitHubDeploymentDialog.tsx
+│  │  │  ├─ GitLabDeploy.client.tsx
+│  │  │  ├─ GitLabDeploymentDialog.tsx
+│  │  │  ├─ NetlifyDeploy.client.tsx
+│  │  │  └─ VercelDeploy.client.tsx
+│  │  ├─ editor
+│  │  │  └─ codemirror
+│  │  │     ├─ BinaryContent.tsx
+│  │  │     ├─ CodeMirrorEditor.tsx
+│  │  │     ├─ EnvMasking.ts
+│  │  │     ├─ cm-theme.ts
+│  │  │     ├─ indent.ts
+│  │  │     └─ languages.ts
+│  │  ├─ git
+│  │  │  └─ GitUrlImport.client.tsx
+│  │  ├─ header
+│  │  │  ├─ Header.tsx
+│  │  │  └─ HeaderActionButtons.client.tsx
+│  │  ├─ sidebar
+│  │  │  ├─ ApiKeySetupModal.tsx
+│  │  │  ├─ HistoryItem.tsx
+│  │  │  ├─ Menu.client.tsx
+│  │  │  └─ date-binning.ts
+│  │  ├─ ui
+│  │  │  ├─ BackgroundRays
+│  │  │  │  ├─ index.tsx
+│  │  │  │  └─ styles.module.scss
+│  │  │  ├─ Badge.tsx
+│  │  │  ├─ BranchSelector.tsx
+│  │  │  ├─ Breadcrumbs.tsx
+│  │  │  ├─ Button.tsx
+│  │  │  ├─ Card.tsx
+│  │  │  ├─ Checkbox.tsx
+│  │  │  ├─ CloseButton.tsx
+│  │  │  ├─ CodeBlock.tsx
+│  │  │  ├─ Collapsible.tsx
+│  │  │  ├─ ColorSchemeDialog.tsx
+│  │  │  ├─ Dialog.tsx
+│  │  │  ├─ Dropdown.tsx
+│  │  │  ├─ EmptyState.tsx
+│  │  │  ├─ FileIcon.tsx
+│  │  │  ├─ FilterChip.tsx
+│  │  │  ├─ GlowingEffect.tsx
+│  │  │  ├─ GradientCard.tsx
+│  │  │  ├─ IconButton.tsx
+│  │  │  ├─ Input.tsx
+│  │  │  ├─ Label.tsx
+│  │  │  ├─ LoadingDots.tsx
+│  │  │  ├─ LoadingOverlay.tsx
+│  │  │  ├─ PanelHeader.tsx
+│  │  │  ├─ PanelHeaderButton.tsx
+│  │  │  ├─ Popover.tsx
+│  │  │  ├─ Progress.tsx
+│  │  │  ├─ RepositoryStats.tsx
+│  │  │  ├─ ScrollArea.tsx
+│  │  │  ├─ SearchInput.tsx
+│  │  │  ├─ SearchResultItem.tsx
+│  │  │  ├─ Separator.tsx
+│  │  │  ├─ SettingsButton.tsx
+│  │  │  ├─ Slider.tsx
+│  │  │  ├─ StatusIndicator.tsx
+│  │  │  ├─ Switch.tsx
+│  │  │  ├─ Tabs.tsx
+│  │  │  ├─ TabsWithSlider.tsx
+│  │  │  ├─ ThemeSwitch.tsx
+│  │  │  ├─ Tooltip.tsx
+│  │  │  ├─ index.ts
+│  │  │  └─ use-toast.ts
+│  │  └─ workbench
+│  │     ├─ DiffView.tsx
+│  │     ├─ EditorPanel.tsx
+│  │     ├─ ExpoQrModal.tsx
+│  │     ├─ FileBreadcrumb.tsx
+│  │     ├─ FileTree.tsx
+│  │     ├─ Inspector.tsx
+│  │     ├─ InspectorPanel.tsx
+│  │     ├─ LockManager.tsx
+│  │     ├─ PortDropdown.tsx
+│  │     ├─ Preview.tsx
+│  │     ├─ ScreenshotSelector.tsx
+│  │     ├─ Search.tsx
+│  │     ├─ Workbench.client.tsx
+│  │     └─ terminal
+│  │        ├─ Terminal.tsx
+│  │        ├─ TerminalManager.tsx
+│  │        ├─ TerminalTabs.tsx
+│  │        └─ theme.ts
+│  ├─ entry.client.tsx
+│  ├─ entry.server.tsx
+│  ├─ lib
+│  │  ├─ .server
+│  │  │  └─ llm
+│  │  │     ├─ constants.ts
+│  │  │     ├─ create-summary.ts
+│  │  │     ├─ select-context.ts
+│  │  │     ├─ stream-recovery.ts
+│  │  │     ├─ stream-text.ts
+│  │  │     ├─ switchable-stream.ts
+│  │  │     └─ utils.ts
+│  │  ├─ api
+│  │  │  ├─ connection.ts
+│  │  │  ├─ cookies.ts
+│  │  │  ├─ debug.ts
+│  │  │  ├─ features.ts
+│  │  │  ├─ notifications.ts
+│  │  │  └─ updates.ts
+│  │  ├─ common
+│  │  │  ├─ prompt-library.ts
+│  │  │  └─ prompts
+│  │  │     ├─ discuss-prompt.ts
+│  │  │     ├─ new-prompt.ts
+│  │  │     ├─ optimized.ts
+│  │  │     └─ prompts.ts
+│  │  ├─ crypto.ts
+│  │  ├─ default-chatbot.ts
+│  │  ├─ fetch.ts
+│  │  ├─ hooks
+│  │  │  ├─ StickToBottom.tsx
+│  │  │  ├─ index.ts
+│  │  │  ├─ useConnectionStatus.ts
+│  │  │  ├─ useConnectionTest.ts
+│  │  │  ├─ useDataOperations.ts
+│  │  │  ├─ useEditChatDescription.ts
+│  │  │  ├─ useFeatures.ts
+│  │  │  ├─ useGit.ts
+│  │  │  ├─ useGitHubAPI.ts
+│  │  │  ├─ useGitHubConnection.ts
+│  │  │  ├─ useGitHubStats.ts
+│  │  │  ├─ useGitLabAPI.ts
+│  │  │  ├─ useGitLabConnection.ts
+│  │  │  ├─ useIndexedDB.ts
+│  │  │  ├─ useLocalModelHealth.ts
+│  │  │  ├─ useLocalProviders.ts
+│  │  │  ├─ useMessageParser.ts
+│  │  │  ├─ useNotifications.ts
+│  │  │  ├─ usePromptEnhancer.ts
+│  │  │  ├─ useSearchFilter.ts
+│  │  │  ├─ useSettings.ts
+│  │  │  ├─ useShortcuts.ts
+│  │  │  ├─ useStickToBottom.tsx
+│  │  │  ├─ useSupabaseConnection.ts
+│  │  │  └─ useViewport.ts
+│  │  ├─ modules
+│  │  │  └─ llm
+│  │  │     ├─ base-provider.ts
+│  │  │     ├─ manager.ts
+│  │  │     ├─ providers
+│  │  │     │  ├─ amazon-bedrock.ts
+│  │  │     │  ├─ anthropic.ts
+│  │  │     │  ├─ cohere.ts
+│  │  │     │  ├─ deepseek.ts
+│  │  │     │  ├─ github.ts
+│  │  │     │  ├─ google.ts
+│  │  │     │  ├─ groq.ts
+│  │  │     │  ├─ huggingface.ts
+│  │  │     │  ├─ hyperbolic.ts
+│  │  │     │  ├─ lmstudio.ts
+│  │  │     │  ├─ mistral.ts
+│  │  │     │  ├─ moonshot.ts
+│  │  │     │  ├─ ollama.ts
+│  │  │     │  ├─ open-router.ts
+│  │  │     │  ├─ openai-like.ts
+│  │  │     │  ├─ openai.ts
+│  │  │     │  ├─ perplexity.ts
+│  │  │     │  ├─ together.ts
+│  │  │     │  └─ xai.ts
+│  │  │     ├─ registry.ts
+│  │  │     └─ types.ts
+│  │  ├─ persistence
+│  │  │  ├─ ChatDescription.client.tsx
+│  │  │  ├─ chats.ts
+│  │  │  ├─ db.ts
+│  │  │  ├─ index.ts
+│  │  │  ├─ localStorage.ts
+│  │  │  ├─ lockedFiles.ts
+│  │  │  ├─ types.ts
+│  │  │  └─ useChatHistory.ts
+│  │  ├─ runtime
+│  │  │  ├─ __snapshots__
+│  │  │  │  └─ message-parser.spec.ts.snap
+│  │  │  ├─ action-runner.ts
+│  │  │  ├─ enhanced-message-parser.ts
+│  │  │  ├─ message-parser.spec.ts
+│  │  │  └─ message-parser.ts
+│  │  ├─ security.ts
+│  │  ├─ services
+│  │  │  ├─ githubApiService.ts
+│  │  │  ├─ gitlabApiService.ts
+│  │  │  ├─ importExportService.ts
+│  │  │  ├─ localModelHealthMonitor.ts
+│  │  │  └─ mcpService.ts
+│  │  ├─ stores
+│  │  │  ├─ chat.ts
+│  │  │  ├─ editor.ts
+│  │  │  ├─ files.ts
+│  │  │  ├─ github.ts
+│  │  │  ├─ githubConnection.ts
+│  │  │  ├─ gitlabConnection.ts
+│  │  │  ├─ mcp.ts
+│  │  │  ├─ netlify.ts
+│  │  │  ├─ previews.ts
+│  │  │  ├─ profile.ts
+│  │  │  ├─ qrCodeStore.ts
+│  │  │  ├─ settings.ts
+│  │  │  ├─ streaming.ts
+│  │  │  ├─ supabase.ts
+│  │  │  ├─ tabConfigurationStore.ts
+│  │  │  ├─ terminal.ts
+│  │  │  ├─ theme.ts
+│  │  │  ├─ vercel.ts
+│  │  │  └─ workbench.ts
+│  │  ├─ system-responses.ts
+│  │  ├─ utils
+│  │  │  ├─ env-api-keys.ts
+│  │  │  ├─ projectValidator.ts
+│  │  │  └─ serviceErrorHandler.ts
+│  │  └─ webcontainer
+│  │     ├─ auth.client.ts
+│  │     └─ index.ts
+│  ├─ root.tsx
+│  ├─ routes
+│  │  ├─ _index.tsx
+│  │  ├─ api.bug-report.ts
+│  │  ├─ api.chat.ts
+│  │  ├─ api.check-env-key.ts
+│  │  ├─ api.configured-providers.ts
+│  │  ├─ api.enhancer.ts
+│  │  ├─ api.export-api-keys.ts
+│  │  ├─ api.health.ts
+│  │  ├─ api.llmcall.ts
+│  │  ├─ api.mcp-check.ts
+│  │  ├─ api.mcp-update-config.ts
+│  │  ├─ api.models.$provider.ts
+│  │  ├─ api.models.ts
+│  │  ├─ api.netlify-deploy.ts
+│  │  ├─ api.netlify-user.ts
+│  │  ├─ api.supabase-user.ts
+│  │  ├─ api.supabase.query.ts
+│  │  ├─ api.supabase.ts
+│  │  ├─ api.supabase.variables.ts
+│  │  ├─ api.system.diagnostics.ts
+│  │  ├─ api.system.disk-info.ts
+│  │  ├─ api.update.ts
+│  │  ├─ api.vercel-deploy.ts
+│  │  ├─ api.vercel-user.ts
+│  │  ├─ chat.$id.tsx
+│  │  ├─ git.tsx
+│  │  ├─ webcontainer.connect.$id.tsx
+│  │  └─ webcontainer.preview.$id.tsx
+│  ├─ styles
+│  │  ├─ animations.scss
+│  │  ├─ components
+│  │  │  ├─ code.scss
+│  │  │  ├─ editor.scss
+│  │  │  ├─ resize-handle.scss
+│  │  │  ├─ terminal.scss
+│  │  │  └─ toast.scss
+│  │  ├─ diff-view.css
+│  │  ├─ index.scss
+│  │  ├─ variables.scss
+│  │  └─ z-index.scss
+│  ├─ types
+│  │  ├─ GitHub.ts
+│  │  ├─ GitLab.ts
+│  │  ├─ actions.ts
+│  │  ├─ artifact.ts
+│  │  ├─ context.ts
+│  │  ├─ design-scheme.ts
+│  │  ├─ global.d.ts
+│  │  ├─ model.ts
+│  │  ├─ netlify.ts
+│  │  ├─ supabase.ts
+│  │  ├─ template.ts
+│  │  ├─ terminal.ts
+│  │  ├─ theme.ts
+│  │  └─ vercel.ts
+│  ├─ utils
+│  │  ├─ buffer.ts
+│  │  ├─ classNames.ts
+│  │  ├─ constants.ts
+│  │  ├─ debounce.ts
+│  │  ├─ debugLogger.ts
+│  │  ├─ diff.spec.ts
+│  │  ├─ diff.ts
+│  │  ├─ easings.ts
+│  │  ├─ fileLocks.ts
+│  │  ├─ fileUtils.ts
+│  │  ├─ folderImport.ts
+│  │  ├─ formatSize.ts
+│  │  ├─ getLanguageFromExtension.ts
+│  │  ├─ githubStats.ts
+│  │  ├─ gitlabStats.ts
+│  │  ├─ logger.ts
+│  │  ├─ markdown.ts
+│  │  ├─ mobile.ts
+│  │  ├─ os.ts
+│  │  ├─ path.ts
+│  │  ├─ projectCommands.ts
+│  │  ├─ promises.ts
+│  │  ├─ react.ts
+│  │  ├─ sampler.ts
+│  │  ├─ selectStarterTemplate.ts
+│  │  ├─ shell.ts
+│  │  ├─ stacktrace.ts
+│  │  ├─ stripIndent.ts
+│  │  ├─ terminal.ts
+│  │  └─ unreachable.ts
+│  └─ vite-env.d.ts
+├─ assets
+│  ├─ entitlements.mac.plist
+│  └─ icons
+│     ├─ icon.icns
+│     ├─ icon.ico
+│     └─ icon.png
+├─ bindings.sh
+├─ changelog.md
+├─ clear-cookies.sh
+├─ debug-api.sh
+├─ docker-compose.yaml
+├─ docs
+│  ├─ ENVIRONMENT_SETUP.md
+│  ├─ README.md
+│  ├─ SOCIAL_PREVIEW_UPDATE.md
+│  ├─ docs
+│  │  ├─ CONTRIBUTING.md
+│  │  ├─ FAQ.md
+│  │  └─ index.md
+│  ├─ images
+│  │  ├─ api-key-ui-section.png
+│  │  ├─ coderx-settings-button.png
+│  │  └─ provider-base-url.png
+│  ├─ mkdocs.yml
+│  ├─ poetry.lock
+│  └─ pyproject.toml
+├─ electron
+│  ├─ main
+│  │  ├─ index.ts
+│  │  ├─ tsconfig.json
+│  │  ├─ ui
+│  │  │  ├─ menu.ts
+│  │  │  └─ window.ts
+│  │  ├─ utils
+│  │  │  ├─ auto-update.ts
+│  │  │  ├─ constants.ts
+│  │  │  ├─ cookie.ts
+│  │  │  ├─ reload.ts
+│  │  │  ├─ serve.ts
+│  │  │  ├─ store.ts
+│  │  │  └─ vite-server.ts
+│  │  └─ vite.config.ts
+│  └─ preload
+│     ├─ index.ts
+│     ├─ tsconfig.json
+│     └─ vite.config.ts
+├─ electron-builder.yml
+├─ electron-update.yml
+├─ eslint.config.mjs
+├─ fix-400-error.sh
+├─ functions
+│  └─ [[path]].ts
+├─ icons
+│  ├─ angular.svg
+│  ├─ astro.svg
+│  ├─ chat.svg
+│  ├─ expo-brand.svg
+│  ├─ expo.svg
+│  ├─ logo-text.svg
+│  ├─ logo.svg
+│  ├─ mcp.svg
+│  ├─ nativescript.svg
+│  ├─ netlify.svg
+│  ├─ nextjs.svg
+│  ├─ nuxt.svg
+│  ├─ qwik.svg
+│  ├─ react.svg
+│  ├─ remix.svg
+│  ├─ remotion.svg
+│  ├─ shadcn.svg
+│  ├─ slidev.svg
+│  ├─ solidjs.svg
+│  ├─ stars.svg
+│  ├─ svelte.svg
+│  ├─ typescript.svg
+│  ├─ vite.svg
+│  └─ vue.svg
+├─ load-context.ts
+├─ notarize.cjs
+├─ package-lock.json
+├─ package.json
+├─ playwright.config.preview.ts
+├─ pnpm-lock.yaml
+├─ pre-start.cjs
+├─ public
+│  ├─ favicon.png
+│  ├─ icons
+│  │  ├─ AmazonBedrock.svg
+│  │  ├─ Anthropic.svg
+│  │  ├─ Cohere.svg
+│  │  ├─ Deepseek.svg
+│  │  ├─ Default.svg
+│  │  ├─ Google.svg
+│  │  ├─ Groq.svg
+│  │  ├─ HuggingFace.svg
+│  │  ├─ Hyperbolic.svg
+│  │  ├─ LMStudio.svg
+│  │  ├─ Mistral.svg
+│  │  ├─ Ollama.svg
+│  │  ├─ OpenAI.svg
+│  │  ├─ OpenAILike.svg
+│  │  ├─ OpenRouter.svg
+│  │  ├─ Perplexity.svg
+│  │  ├─ Together.svg
+│  │  └─ xAI.svg
+│  ├─ inspector-script.js
+│  ├─ logo.png
+│  ├─ logo.svg
+│  └─ social_preview_index.jpg
+├─ scripts
+│  ├─ clean.js
+│  ├─ electron-dev.mjs
+│  ├─ setup-env.sh
+│  ├─ update-imports.sh
+│  └─ update.sh
+├─ test-request.json
+├─ test-workflows.sh
+├─ tsconfig.json
+├─ types
+│  └─ istextorbinary.d.ts
+├─ uno.config.ts
+├─ vite-electron.config.ts
+├─ vite.config.ts
+├─ vite.config.ts.timestamp-1761814725277-492ebcac59f4d.mjs
+├─ worker-configuration.d.ts
+└─ wrangler.toml
+
+```
