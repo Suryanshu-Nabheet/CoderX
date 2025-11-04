@@ -88,6 +88,7 @@ export const shouldUseDefaultResponse = (hasApiKey: boolean, message: string): b
 
   // Always use default for system questions (CRITICAL - this must work!)
   const systemCheck = isSystemQuestion(message);
+
   if (systemCheck) {
     console.error('✅ SYSTEM QUESTION DETECTED - Using default response:', {
       message,

@@ -52,8 +52,10 @@ export const isSystemQuestion = (message: string): string | null => {
     }
   }
 
-  // Enhanced matching for founder-related questions
-  // Check for variations like "who is the founder", "tell me about founder", etc.
+  /*
+   * Enhanced matching for founder-related questions
+   * Check for variations like "who is the founder", "tell me about founder", etc.
+   */
   const founderPatterns = [
     /who\s+(is|was)\s+(the\s+)?founder/i,
     /tell\s+(me\s+)?(about\s+)?(the\s+)?founder/i,
@@ -63,6 +65,7 @@ export const isSystemQuestion = (message: string): string | null => {
     /about\s+(the\s+)?founder/i,
     /founder\s+information/i,
     /who\s+is\s+(the\s+)?person\s+who\s+(created|made|founded|built)/i,
+
     // Additional patterns for better coverage
     /^(founder|who.*founder|founder.*who)/i, // Simple patterns at start
   ];
@@ -78,6 +81,7 @@ export const isSystemQuestion = (message: string): string | null => {
   if (normalizedMessage.includes('founder')) {
     // Check if it's not part of a longer word
     const founderWord = /\bfounder\b/i.test(normalizedMessage);
+
     if (founderWord || normalizedMessage.length < 100) {
       console.error('✅ MATCHED FOUNDER FALLBACK');
       return DEFAULT_SYSTEM_RESPONSES.founder;
@@ -94,7 +98,7 @@ export const generateSystemResponse = (question: string): string => {
 
   if (answer) {
     // Check if this is specifically a founder-related question
-    const isFounderQuestion = 
+    const isFounderQuestion =
       normalizedQuestion.includes('founder') ||
       normalizedQuestion.includes('creator') ||
       normalizedQuestion.includes('developer') ||
