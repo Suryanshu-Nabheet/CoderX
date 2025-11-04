@@ -11,12 +11,51 @@ export interface IChatMetadata {
 
 const logger = createScopedLogger('ChatHistory');
 
+/**
+ * Delete old databases from previous installations
+ * This clears boltHistory, boltDB, and other old database names
+ */
+async function clearOldDatabases(): Promise<void> {
+  if (typeof indexedDB === 'undefined') {
+    return;
+  }
+
+  const oldDatabaseNames = ['boltHistory', 'boltDB'];
+  
+  for (const dbName of oldDatabaseNames) {
+    try {
+      const deleteRequest = indexedDB.deleteDatabase(dbName);
+      await new Promise<void>((resolve, reject) => {
+        deleteRequest.onsuccess = () => {
+          console.log(`Successfully deleted old database: ${dbName}`);
+          resolve();
+        };
+        deleteRequest.onerror = () => {
+          // Database might not exist, which is fine
+          console.log(`Could not delete database ${dbName} (may not exist)`);
+          resolve();
+        };
+        deleteRequest.onblocked = () => {
+          // Database is in use, skip it
+          console.log(`Database ${dbName} is in use, skipping deletion`);
+          resolve();
+        };
+      });
+    } catch (error) {
+      console.error(`Error deleting old database ${dbName}:`, error);
+    }
+  }
+}
+
 // this is used at the top level and never rejects
 export async function openDatabase(): Promise<IDBDatabase | undefined> {
   if (typeof indexedDB === 'undefined') {
     console.error('indexedDB is not available in this environment.');
     return undefined;
   }
+
+  // Clear old databases on first open
+  await clearOldDatabases();
 
   return new Promise((resolve) => {
     const request = indexedDB.open('coderxHistory', 2);

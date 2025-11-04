@@ -313,7 +313,7 @@ export const Menu = () => {
           'flex selection-accent flex-col side-menu fixed top-0 h-full rounded-r-2xl',
           'bg-black dark:bg-black border-r border-gray-800',
           'shadow-sm text-sm',
-          isSettingsOpen ? 'z-40' : 'z-sidebar',
+          isSettingsOpen ? 'z-40' : dialogContent !== null ? 'z-[9995]' : 'z-sidebar',
         )}
       >
         <div className="h-16 flex items-center justify-center px-4 bg-black rounded-tr-2xl relative">
@@ -415,10 +415,10 @@ export const Menu = () => {
                   </div>
                 </div>
               ))}
-              <Dialog onBackdrop={closeDialog} onClose={closeDialog}>
+              <Dialog onBackdrop={closeDialog} onClose={closeDialog} showCloseButton={false}>
                 {dialogContent?.type === 'delete' && (
                   <>
-                    <div className="p-6 bg-white dark:bg-gray-950">
+                    <div className="p-6 bg-white dark:bg-gray-950 rounded-t-lg">
                       <DialogTitle className="text-gray-900 dark:text-white">Delete Chat?</DialogTitle>
                       <DialogDescription className="mt-2 text-gray-600 dark:text-gray-400">
                         <p>
@@ -430,7 +430,7 @@ export const Menu = () => {
                         <p className="mt-2">Are you sure you want to delete this chat?</p>
                       </DialogDescription>
                     </div>
-                    <div className="flex justify-end gap-3 px-6 py-4 bg-gray-50 dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800">
+                    <div className="flex justify-end gap-3 px-6 py-4 bg-gray-50 dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 rounded-b-lg">
                       <DialogButton type="secondary" onClick={closeDialog}>
                         Cancel
                       </DialogButton>
@@ -493,33 +493,35 @@ export const Menu = () => {
               </Dialog>
             </DialogRoot>
           </div>
-          <div className="flex flex-col px-4 py-3 space-y-3 relative">
-            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-600 to-transparent"></div>
-            {/* Guest User Section */}
-            <div className="flex items-center justify-center px-3 py-2 bg-gray-800 rounded-lg">
-              <div className="flex items-center gap-3">
-                <div className="flex items-center justify-center w-[32px] h-[32px] overflow-hidden bg-gray-700 text-gray-200 rounded-full shrink-0">
-                  {profile?.avatar ? (
-                    <img
-                      src={profile.avatar}
-                      alt={profile?.username || 'User'}
-                      className="w-full h-full object-cover"
-                      loading="eager"
-                      decoding="sync"
-                    />
-                  ) : (
-                    <div className="i-ph:user-fill text-lg" />
-                  )}
+          {dialogContent === null && (
+            <div className="flex flex-col px-4 py-3 space-y-3 relative">
+              <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-600 to-transparent"></div>
+              {/* Guest User Section */}
+              <div className="flex items-center justify-center px-3 py-2 bg-gray-800 rounded-lg">
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center justify-center w-[32px] h-[32px] overflow-hidden bg-gray-700 text-gray-200 rounded-full shrink-0">
+                    {profile?.avatar ? (
+                      <img
+                        src={profile.avatar}
+                        alt={profile?.username || 'User'}
+                        className="w-full h-full object-cover"
+                        loading="eager"
+                        decoding="sync"
+                      />
+                    ) : (
+                      <div className="i-ph:user-fill text-lg" />
+                    )}
+                  </div>
+                  <span className="font-medium text-sm text-white truncate">{profile?.username || 'Guest User'}</span>
                 </div>
-                <span className="font-medium text-sm text-white truncate">{profile?.username || 'Guest User'}</span>
+              </div>
+
+              {/* Settings Button */}
+              <div className="flex items-center justify-center">
+                <SettingsButton onClick={handleSettingsClick} />
               </div>
             </div>
-
-            {/* Settings Button */}
-            <div className="flex items-center justify-center">
-              <SettingsButton onClick={handleSettingsClick} />
-            </div>
-          </div>
+          )}
         </div>
       </motion.div>
 

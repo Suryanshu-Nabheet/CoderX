@@ -265,8 +265,8 @@ export function GitLabDeploymentDialog({ isOpen, onClose, projectName, files }: 
     return (
       <Dialog.Root open={isOpen} onOpenChange={(open) => !open && handleClose()}>
         <Dialog.Portal>
-          <Dialog.Overlay className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[9999]" />
-          <div className="fixed inset-0 flex items-center justify-center z-[9999]">
+          <Dialog.Overlay className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[10000]" />
+          <div className="fixed inset-0 flex items-center justify-center z-[10000]">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -402,8 +402,8 @@ export function GitLabDeploymentDialog({ isOpen, onClose, projectName, files }: 
     return (
       <Dialog.Root open={isOpen} onOpenChange={(open) => !open && handleClose()}>
         <Dialog.Portal>
-          <Dialog.Overlay className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[9999]" />
-          <div className="fixed inset-0 flex items-center justify-center z-[9999]">
+          <Dialog.Overlay className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[10000]" />
+          <div className="fixed inset-0 flex items-center justify-center z-[10000]">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -477,8 +477,8 @@ export function GitLabDeploymentDialog({ isOpen, onClose, projectName, files }: 
   return (
     <Dialog.Root open={isOpen} onOpenChange={(open) => !open && handleClose()}>
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[9999]" />
-        <div className="fixed inset-0 flex items-center justify-center z-[9999]">
+        <Dialog.Overlay className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[10000]" />
+        <div className="fixed inset-0 flex items-center justify-center z-[10000]">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}

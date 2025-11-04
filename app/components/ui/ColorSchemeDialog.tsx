@@ -281,7 +281,7 @@ export const ColorSchemeDialog: React.FC<ColorSchemeDialogProps> = ({ setDesignS
       </IconButton>
 
       <DialogRoot open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <Dialog>
+        <Dialog showCloseButton={false}>
           <div className="py-4 px-4 min-w-[480px] max-w-[90vw] max-h-[85vh] flex flex-col gap-6 overflow-hidden">
             <div className="">
               <DialogTitle className="text-2xl font-bold text-bolt-elements-textPrimary">

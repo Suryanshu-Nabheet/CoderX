@@ -105,7 +105,7 @@ export const Dialog = memo(({ children, className, showCloseButton = true, onClo
     <RadixDialog.Portal>
       <RadixDialog.Overlay asChild>
         <motion.div
-          className={classNames('fixed inset-0 z-[9999] bg-black/70 dark:bg-black/80 backdrop-blur-sm')}
+          className={classNames('fixed inset-0 z-[10000] bg-black/70 dark:bg-black/80 backdrop-blur-sm')}
           initial="closed"
           animate="open"
           exit="closed"
@@ -116,21 +116,22 @@ export const Dialog = memo(({ children, className, showCloseButton = true, onClo
       <RadixDialog.Content asChild>
         <motion.div
           className={classNames(
-            'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white dark:bg-gray-950 rounded-lg shadow-xl border border-bolt-elements-borderColor z-[9999] w-[520px] focus:outline-none',
+            'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white dark:bg-gray-950 rounded-lg shadow-xl border border-bolt-elements-borderColor z-[10001] w-[520px] focus:outline-none overflow-hidden',
             className,
           )}
           initial="closed"
           animate="open"
           exit="closed"
           variants={dialogVariants}
+          style={{ maxHeight: '90vh', overflowY: 'auto' }}
         >
-          <div className="flex flex-col">
+          <div className="flex flex-col relative">
             {children}
             {showCloseButton && (
               <RadixDialog.Close asChild onClick={onClose}>
                 <IconButton
                   icon="i-ph:x"
-                  className="absolute top-3 right-3 text-bolt-elements-textTertiary hover:text-bolt-elements-textSecondary"
+                  className="absolute top-3 right-3 z-50 text-bolt-elements-textTertiary hover:text-bolt-elements-textSecondary"
                 />
               </RadixDialog.Close>
             )}

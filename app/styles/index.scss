@@ -71,3 +71,90 @@ body {
   // Firefox support for inverted colors
   scrollbar-color: color-mix(in srgb, var(--bolt-elements-textPrimary), transparent 50%) transparent;
 }
+
+// Hide any bottom bars/handles when dialogs are open
+[data-radix-dialog-content] {
+  // Ensure dialog content doesn't have any bottom elements
+  &::after {
+    display: none !important;
+    content: none !important;
+  }
+}
+
+// COMPLETELY HIDE SIDEBAR BOTTOM SECTION WHEN ANY DIALOG IS OPEN
+body:has([data-radix-dialog-content]) {
+  .side-menu {
+    // Hide the entire bottom section of sidebar
+    > div:last-child {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+      height: 0 !important;
+      overflow: hidden !important;
+      pointer-events: none !important;
+    }
+    
+    // Also hide any elements with bottom positioning
+    *[class*="bottom"],
+    *[style*="bottom"] {
+      &[class*="absolute"],
+      &[class*="fixed"] {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+      }
+    }
+  }
+  
+  // Hide any close buttons or handles at bottom when dialog is open
+  button[class*="close"][class*="bottom"],
+  button[style*="bottom"],
+  div[class*="handle"][style*="bottom"],
+  div[class*="bar"][style*="bottom"],
+  // Hide any bottom-positioned elements that might appear below dialogs
+  [data-radix-dialog-content] ~ *,
+  [data-radix-dialog-content] + * {
+    &[style*="bottom"],
+    &[class*="bottom"] {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
+  }
+}
+
+// AGGRESSIVE: Hide any element that appears directly below dialog content
+[data-radix-dialog-content] {
+  // Ensure no bottom bar appears below this dialog
+  &::after,
+  &::before {
+    display: none !important;
+    content: none !important;
+  }
+  
+  // Hide any sibling elements that might appear below
+  + * {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+}
+
+// Hide any elements that appear below dialog overlay
+[data-radix-dialog-overlay] {
+  + * {
+    &[style*="bottom"],
+    &[class*="bottom"],
+    &[class*="close"],
+    &[class*="handle"],
+    &[class*="bar"] {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
+  }
+}
