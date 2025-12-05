@@ -183,7 +183,7 @@ async function llmCallAction({ context, request }: ActionFunctionArgs) {
   }
 
   // Merge environment API keys as fallback
-  const envApiKeys = loadApiKeysFromEnv();
+  const envApiKeys = loadApiKeysFromEnv(context.cloudflare?.env as any);
   const apiKeys = { ...envApiKeys, ...cookieApiKeys };
 
   if (streamOutput) {

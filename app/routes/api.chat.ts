@@ -60,14 +60,6 @@ async function chatAction({ context, request }: ActionFunctionArgs) {
       contextOptimization: boolean;
       chatMode: 'discuss' | 'build';
       designScheme?: DesignScheme;
-      supabase?: {
-        isConnected: boolean;
-        hasSelectedProject: boolean;
-        credentials?: {
-          anonKey?: string;
-          supabaseUrl?: string;
-        };
-      };
       maxLLMSteps: number;
     }>();
   } catch (error) {
@@ -87,7 +79,7 @@ async function chatAction({ context, request }: ActionFunctionArgs) {
     );
   }
 
-  const { messages, files, promptId, contextOptimization, supabase, chatMode, designScheme, maxLLMSteps } = requestData;
+  const { messages, files, promptId, contextOptimization, chatMode, designScheme, maxLLMSteps } = requestData;
 
   // Validate required fields
   if (!messages || !Array.isArray(messages)) {
@@ -160,7 +152,7 @@ async function chatAction({ context, request }: ActionFunctionArgs) {
   }
 
   // Merge environment API keys as fallback
-  const envApiKeys = loadApiKeysFromEnv();
+  const envApiKeys = loadApiKeysFromEnv(context.cloudflare?.env as any);
   const apiKeys = { ...envApiKeys, ...cookieApiKeys };
 
   const stream = new SwitchableStream();
@@ -298,7 +290,6 @@ async function chatAction({ context, request }: ActionFunctionArgs) {
         }
 
         const options: StreamingOptions = {
-          supabaseConnection: supabase,
           toolChoice: 'auto',
           tools: mcpService.toolsWithoutExecute,
           maxSteps: maxLLMSteps,

@@ -13,16 +13,7 @@ import type { DesignScheme } from '~/types/design-scheme';
 
 export type Messages = Message[];
 
-export interface StreamingOptions extends Omit<Parameters<typeof _streamText>[0], 'model'> {
-  supabaseConnection?: {
-    isConnected: boolean;
-    hasSelectedProject: boolean;
-    credentials?: {
-      anonKey?: string;
-      supabaseUrl?: string;
-    };
-  };
-}
+export interface StreamingOptions extends Omit<Parameters<typeof _streamText>[0], 'model'> {}
 
 const logger = createScopedLogger('stream-text');
 
@@ -53,7 +44,7 @@ function sanitizeText(text: string): string {
 
 export async function streamText(props: {
   messages: Omit<Message, 'id'>[];
-  env?: Env;
+  env?: Record<string, any>;
   options?: StreamingOptions;
   apiKeys?: Record<string, string>;
   files?: FileMap;
@@ -156,9 +147,9 @@ export async function streamText(props: {
       modificationTagName: MODIFICATIONS_TAG_NAME,
       designScheme,
       supabase: {
-        isConnected: options?.supabaseConnection?.isConnected || false,
-        hasSelectedProject: options?.supabaseConnection?.hasSelectedProject || false,
-        credentials: options?.supabaseConnection?.credentials || undefined,
+        isConnected: false,
+        hasSelectedProject: false,
+        credentials: undefined,
       },
     }) ?? getSystemPrompt();
 

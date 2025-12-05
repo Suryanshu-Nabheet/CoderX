@@ -85,7 +85,7 @@ async function enhancerAction({ context, request }: ActionFunctionArgs) {
   const providerSettings = getProviderSettingsFromCookie(cookieHeader);
 
   // Merge environment API keys as fallback
-  const envApiKeys = loadApiKeysFromEnv();
+  const envApiKeys = loadApiKeysFromEnv(context.cloudflare?.env as any);
   const apiKeys = { ...envApiKeys, ...cookieApiKeys };
 
   // Check if we have any API keys available

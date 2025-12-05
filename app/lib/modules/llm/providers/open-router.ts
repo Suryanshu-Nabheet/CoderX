@@ -27,6 +27,32 @@ export default class OpenRouterProvider extends BaseProvider {
   };
 
   staticModels: ModelInfo[] = [
+    // Free models
+    {
+      name: 'google/gemini-2.0-flash-exp:free',
+      label: 'Gemini 2.0 Flash Exp (Free)',
+      provider: 'OpenRouter',
+      maxTokenAllowed: 1000000,
+    },
+    {
+      name: 'google/gemini-exp-1206:free',
+      label: 'Gemini Exp 1206 (Free)',
+      provider: 'OpenRouter',
+      maxTokenAllowed: 1000000,
+    },
+    {
+      name: 'meta-llama/llama-3.2-11b-vision-instruct:free',
+      label: 'Llama 3.2 11B Vision (Free)',
+      provider: 'OpenRouter',
+      maxTokenAllowed: 128000,
+    },
+    {
+      name: 'huggingfaceh4/zephyr-7b-beta:free',
+      label: 'Zephyr 7B Beta (Free)',
+      provider: 'OpenRouter',
+      maxTokenAllowed: 32000,
+    },
+
     /*
      * Essential fallback models - only the most stable/reliable ones
      * Claude 3.5 Sonnet via OpenRouter: 200k context
@@ -102,7 +128,7 @@ export default class OpenRouterProvider extends BaseProvider {
 
   getModelInstance(options: {
     model: string;
-    serverEnv: Env;
+    serverEnv: Record<string, any>;
     apiKeys?: Record<string, string>;
     providerSettings?: Record<string, IProviderSetting>;
   }): LanguageModelV1 {

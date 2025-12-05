@@ -46,7 +46,11 @@ export abstract class BaseProvider implements ProviderInfo {
 
     const apiTokenKey = this.config.apiTokenKey || defaultApiTokenKey;
     const apiKey =
-      apiKeys?.[this.name] || serverEnv?.[apiTokenKey] || process?.env?.[apiTokenKey] || manager.env?.[apiTokenKey];
+      apiKeys?.[this.name] ||
+      apiKeys?.[this.name.toLowerCase()] ||
+      serverEnv?.[apiTokenKey] ||
+      process?.env?.[apiTokenKey] ||
+      manager.env?.[apiTokenKey];
 
     return {
       baseUrl,
@@ -111,7 +115,7 @@ export abstract class BaseProvider implements ProviderInfo {
 
   abstract getModelInstance(options: {
     model: string;
-    serverEnv?: Env;
+    serverEnv?: Record<string, any>;
     apiKeys?: Record<string, string>;
     providerSettings?: Record<string, IProviderSetting>;
   }): LanguageModelV1;
