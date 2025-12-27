@@ -12,8 +12,14 @@ export interface EnvApiKeys {
  * This function should be called on the server side
  */
 export function loadApiKeysFromEnv(env?: Record<string, string>): EnvApiKeys {
+  const openRouterKey =
+    env?.OPEN_ROUTER_API_KEY ||
+    (typeof process !== 'undefined' ? process.env?.OPEN_ROUTER_API_KEY : undefined) ||
+    // @ts-ignore - Handle potential Vite client-side leak/access if needed
+    (typeof import.meta !== 'undefined' && import.meta.env ? import.meta.env.VITE_OPEN_ROUTER_API_KEY : undefined);
+
   return {
-    openrouter: env?.OPEN_ROUTER_API_KEY || process.env.OPEN_ROUTER_API_KEY,
+    openrouter: openRouterKey?.trim(),
   };
 }
 

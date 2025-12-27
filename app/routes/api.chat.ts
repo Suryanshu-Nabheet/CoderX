@@ -153,7 +153,26 @@ async function chatAction({ context, request }: ActionFunctionArgs) {
 
   // Merge environment API keys as fallback
   const envApiKeys = loadApiKeysFromEnv(context.cloudflare?.env as any);
-  const apiKeys = { ...envApiKeys, ...cookieApiKeys };
+  const apiKeys: Record<string, string> = {};
+
+  // Merge env keys first
+  if (envApiKeys.openrouter) {
+    apiKeys.openrouter = envApiKeys.openrouter;
+  }
+
+  // Merge cookie keys
+  Object.assign(apiKeys, cookieApiKeys);
+
+  // Normalize API keys casing for OpenRouter (provider expects "OpenRouter")
+  if (apiKeys.openrouter && !apiKeys.OpenRouter) {
+    apiKeys.OpenRouter = apiKeys.openrouter;
+  }
+
+  logger.info(
+    `Resolved API Keys: ${Object.keys(apiKeys)
+      .map((k) => `${k}:${Boolean(apiKeys[k]) ? 'SET' : 'UNSET'}`)
+      .join(', ')}`,
+  );
 
   const stream = new SwitchableStream();
 
@@ -557,10 +576,12 @@ async function chatAction({ context, request }: ActionFunctionArgs) {
           return `API Response Error: The AI service returned malformed data. This could be due to model issues, API rate limiting, or server problems. Try selecting a different model or check your API key configuration.`;
         }
 
+        const lowerErrorMessage = errorMessage.toLowerCase();
+
         if (
-          errorMessage.includes('API key') ||
-          errorMessage.includes('unauthorized') ||
-          errorMessage.includes('authentication') ||
+          lowerErrorMessage.includes('api key') ||
+          lowerErrorMessage.includes('unauthorized') ||
+          lowerErrorMessage.includes('authentication') ||
           errorCode === 401
         ) {
           return `Authentication Error: Invalid or missing OpenRouter API key. Please check your API key configuration in the settings. You can get your API key from https://openrouter.ai/settings/keys`;
