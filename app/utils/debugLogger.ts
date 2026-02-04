@@ -812,7 +812,7 @@ class DebugLogger {
     try {
       if (typeof window !== 'undefined') {
         // Access stores if available
-        const workbenchStore = (window as any).__bolt_workbench_store;
+        const workbenchStore = (window as any).__coderx_workbench_store;
 
         if (workbenchStore) {
           const state = workbenchStore.get?.() || {};
@@ -1018,7 +1018,7 @@ class DebugLogger {
 
     try {
       if (typeof window !== 'undefined') {
-        const workbenchStore = (window as any).__bolt_workbench_store;
+        const workbenchStore = (window as any).__coderx_workbench_store;
 
         if (workbenchStore) {
           const state = workbenchStore.get?.() || {};
@@ -1141,7 +1141,7 @@ export async function downloadDebugLog(filename?: string): Promise<void> {
 
     const link = document.createElement('a');
     link.href = url;
-    link.download = filename || `bolt-debug-${new Date().toISOString().split('T')[0]}.txt`;
+    link.download = filename || `coderx-debug-${new Date().toISOString().split('T')[0]}.txt`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

@@ -11,59 +11,27 @@ export interface EnvApiKeys {
  * Load API keys from environment variables
  * This function should be called on the server side
  */
-export function loadApiKeysFromEnv(env?: Record<string, string>): EnvApiKeys {
-  const openRouterKey =
-    env?.OPEN_ROUTER_API_KEY ||
-    (typeof process !== 'undefined' ? process.env?.OPEN_ROUTER_API_KEY : undefined) ||
-    // @ts-ignore - Handle potential Vite client-side leak/access if needed
-    (typeof import.meta !== 'undefined' && import.meta.env ? import.meta.env.VITE_OPEN_ROUTER_API_KEY : undefined);
-
-  return {
-    openrouter: openRouterKey?.trim(),
-  };
+export function loadApiKeysFromEnv(_env?: Record<string, string>): EnvApiKeys {
+  return {};
 }
 
 /**
  * Check if a specific provider has an API key set in environment variables
  */
-export function hasEnvApiKey(providerName: string): boolean {
-  const envKeys = loadApiKeysFromEnv();
-
-  const providerKeyMap: Record<string, keyof EnvApiKeys> = { openrouter: 'openrouter' };
-
-  const envKey = providerKeyMap[providerName.toLowerCase()];
-
-  if (!envKey) {
-    return false;
-  }
-
-  const keyValue = envKeys[envKey];
-
-  return Boolean(keyValue && keyValue.trim() !== '');
+export function hasEnvApiKey(_providerName: string): boolean {
+  return false;
 }
 
 /**
  * Get API key for a specific provider from environment variables
  */
-export function getEnvApiKey(providerName: string): string | undefined {
-  const envKeys = loadApiKeysFromEnv();
-
-  const providerKeyMap: Record<string, keyof EnvApiKeys> = { openrouter: 'openrouter' };
-
-  const envKey = providerKeyMap[providerName.toLowerCase()];
-
-  if (!envKey) {
-    return undefined;
-  }
-
-  return envKeys[envKey];
+export function getEnvApiKey(_providerName: string): string | undefined {
+  return undefined;
 }
 
 /**
  * Get all available providers that have API keys set in environment variables
  */
 export function getAvailableProvidersFromEnv(): string[] {
-  const providers = ['openrouter'];
-
-  return providers.filter((provider) => hasEnvApiKey(provider));
+  return [];
 }

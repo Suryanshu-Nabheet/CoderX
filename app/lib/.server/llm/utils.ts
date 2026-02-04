@@ -27,12 +27,12 @@ export function extractTextContent(
   // Strip Model and Provider metadata prefixes
   text = text.replace(MODEL_REGEX, '').replace(PROVIDER_REGEX, '');
 
-  // Strip boltArtifact tags (similar to UserMessage.stripMetadata)
-  const artifactRegex = /<boltArtifact\s+[^>]*>[\s\S]*?<\/boltArtifact>/gm;
+  // Strip coderxArtifact tags (similar to UserMessage.stripMetadata)
+  const artifactRegex = /<coderxArtifact\s+[^>]*>[\s\S]*?<\/coderxArtifact>/gm;
   text = text.replace(artifactRegex, '');
 
-  // Strip boltAction tags that might interfere
-  const actionRegex = /<boltAction[^>]*>[\s\S]*?<\/boltAction>/gm;
+  // Strip coderxAction tags that might interfere
+  const actionRegex = /<coderxAction[^>]*>[\s\S]*?<\/coderxAction>/gm;
   text = text.replace(actionRegex, '');
 
   return text.trim();
@@ -78,9 +78,9 @@ export function extractPropertiesFromMessage(message: Omit<Message, 'id'>): {
   return { model, provider, content: cleanedContent };
 }
 
-export function simplifyBoltActions(input: string): string {
-  // Using regex to match boltAction tags that have type="file"
-  const regex = /(<boltAction[^>]*type="file"[^>]*>)([\s\S]*?)(<\/boltAction>)/g;
+export function simplifyCoderXActions(input: string): string {
+  // Using regex to match coderxAction tags that have type="file"
+  const regex = /(<coderxAction[^>]*type="file"[^>]*>)([\s\S]*?)(<\/coderxAction>)/g;
 
   // Replace each matching occurrence
   return input.replace(regex, (_0, openingTag, _2, closingTag) => {
@@ -119,10 +119,10 @@ export function createFilesContext(files: FileMap, useRelativePath?: boolean) {
         filePath = path.replace('/home/project/', '');
       }
 
-      return `<boltAction type="file" filePath="${filePath}">${codeWithLinesNumbers}</boltAction>`;
+      return `<coderxAction type="file" filePath="${filePath}">${codeWithLinesNumbers}</coderxAction>`;
     });
 
-  return `<boltArtifact id="code-content" title="Code Content" >\n${fileContexts.join('\n')}\n</boltArtifact>`;
+  return `<coderxArtifact id="code-content" title="Code Content" >\n${fileContexts.join('\n')}\n</coderxArtifact>`;
 }
 
 export function extractCurrentContext(messages: Message[]) {

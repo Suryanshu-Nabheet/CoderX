@@ -3,6 +3,7 @@
 <div align="center">
 
 # CoderX
+
 ### AI-Powered Development Platform
 
 [![GitHub stars](https://img.shields.io/github/stars/Suryanshu-Nabheet/CoderX?style=social)](https://github.com/Suryanshu-Nabheet/CoderX)
@@ -52,7 +53,8 @@ CoderX is an AI-powered development platform created by [Suryanshu Nabheet](http
 
 **Suryanshu Nabheet** is a Full Stack Developer and AI/ML enthusiast who created CoderX to provide developers with a powerful, AI-driven development platform. With expertise in modern web technologies, blockchain development, and cloud architecture, Suryanshu has built CoderX to be a comprehensive solution for AI-powered development.
 
-**Connect with Suryanshu:**
+**Connect with Suryanshu Nabheet:**
+
 - 🌐 [LinkedIn](https://www.linkedin.com/in/suryanshu-nabheet/)
 - 💻 [GitHub](https://github.com/Suryanshu-Nabheet)
 - 🐦 [Twitter/X](https://x.com/suryanshuxdev)
@@ -131,17 +133,20 @@ For project management and roadmap information, check the [Project Management Gu
 ### Fastest Way to Get Started
 
 1. **Clone the repository:**
+
    ```bash
    git clone https://github.com/Suryanshu-Nabheet/CoderX.git
    cd CoderX
    ```
 
 2. **Install dependencies:**
+
    ```bash
    pnpm install
    ```
 
 3. **Start the development server:**
+
    ```bash
    pnpm run dev
    ```
@@ -188,6 +193,7 @@ For project management and roadmap information, check the [Project Management Gu
 #### Setup Steps
 
 1. **Clone the Repository:**
+
    ```bash
    git clone https://github.com/Suryanshu-Nabheet/CoderX.git
    cd CoderX
@@ -196,19 +202,6 @@ For project management and roadmap information, check the [Project Management Gu
 2. **Install Dependencies:**
    ```bash
    pnpm install
-   ```
-
-3. **Environment Setup (Optional):**
-   Create a `.env.local` file in the root directory for API keys:
-   ```bash
-   # API Keys (optional - can also be set via UI)
-   OPENAI_API_KEY=your_openai_key_here
-   ANTHROPIC_API_KEY=your_anthropic_key_here
-   GOOGLE_GENERATIVE_AI_API_KEY=your_google_key_here
-   
-   # Local Provider Base URLs
-   OLLAMA_BASE_URL=http://127.0.0.1:11434
-   LMSTUDIO_BASE_URL=http://127.0.0.1:1234
    ```
 
 ---
@@ -222,6 +215,7 @@ pnpm run dev
 ```
 
 This will:
+
 - Start the Remix development server
 - Enable hot module replacement (HMR)
 - Open the application at `http://localhost:5173`
@@ -349,19 +343,10 @@ The Local Providers tab manages local AI installations and custom endpoints:
 - **LM Studio**: Configure custom base URLs for LM Studio endpoints
 - **OpenAI-like**: Connect to any OpenAI-compatible API endpoint
 
-#### Environment Variables vs UI Configuration
-
-CoderX supports both methods for maximum flexibility:
-
-**Environment Variables (Recommended for Production):**
-Set API keys in your `.env.local` file:
-```bash
-OPENAI_API_KEY=your_openai_key_here
-ANTHROPIC_API_KEY=your_anthropic_key_here
-OLLAMA_BASE_URL=http://127.0.0.1:11434
-```
+#### Configuration Methods
 
 **UI-Based Configuration:**
+
 - Real-time updates
 - Secure storage in browser cookies
 - Visual feedback with status indicators
@@ -370,9 +355,11 @@ OLLAMA_BASE_URL=http://127.0.0.1:11434
 #### Supported Providers
 
 **Cloud Providers:**
+
 - OpenAI, Anthropic, Google (Gemini), Groq, xAI, DeepSeek, Mistral, Cohere, Together AI, Perplexity, HuggingFace, OpenRouter, Moonshot (Kimi), Hyperbolic, GitHub Models, Amazon Bedrock
 
 **Local Providers:**
+
 - Ollama, LM Studio, OpenAI-like
 
 > **💡 Pro Tip**: Start with OpenAI or Anthropic for the best results, then explore other providers based on your specific needs and budget considerations.
@@ -486,6 +473,7 @@ CoderX/
 ### Development Workflow
 
 1. **Clone and Setup:**
+
    ```bash
    git clone https://github.com/Suryanshu-Nabheet/CoderX.git
    cd CoderX
@@ -493,6 +481,7 @@ CoderX/
    ```
 
 2. **Start Development Server:**
+
    ```bash
    pnpm run dev
    ```
@@ -503,6 +492,7 @@ CoderX/
    - Check browser console for any errors
 
 4. **Run Tests:**
+
    ```bash
    pnpm test
    ```
@@ -525,12 +515,14 @@ CoderX/
 #### Common Issues
 
 **Port Already in Use:**
+
 ```bash
 # Find and kill the process using port 5173
 lsof -ti:5173 | xargs kill -9
 ```
 
 **Node Version Issues:**
+
 ```bash
 # Ensure you're using Node.js >= 18.18.0
 node --version
@@ -541,6 +533,7 @@ nvm use 18.18.0
 ```
 
 **Dependency Issues:**
+
 ```bash
 # Clean installation
 rm -rf node_modules pnpm-lock.yaml
@@ -549,6 +542,7 @@ pnpm install
 ```
 
 **Git Reset (if needed):**
+
 ```bash
 # Discard all local changes
 git reset --hard origin/main
@@ -578,6 +572,7 @@ docker compose --profile production up
 ### Environment Variables for Production
 
 Ensure all required environment variables are set in your deployment platform:
+
 - API keys for AI providers
 - Base URLs for local providers
 - Any service-specific configuration
@@ -607,6 +602,7 @@ For more details, see our [Contributing Guide](CONTRIBUTING.md) and [Code of Con
 For answers to common questions, issues, and to see a list of recommended models, visit our [FAQ Page](FAQ.md).
 
 Common questions include:
+
 - What are the best models for CoderX?
 - How do I get the best results?
 - How do I contribute?
@@ -620,7 +616,7 @@ CoderX source code is distributed under the **MIT License**.
 
 ### WebContainer API License
 
-**Important**: CoderX uses WebContainers API which [requires licensing](https://webcontainers.io/enterprise) for production usage in a commercial, for-profit setting. 
+**Important**: CoderX uses WebContainers API which [requires licensing](https://webcontainers.io/enterprise) for production usage in a commercial, for-profit setting.
 
 - **Prototypes or POCs** do not require a commercial license
 - **Commercial use** (serving customers, employees, or prospects) requires a commercial license

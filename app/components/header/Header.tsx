@@ -14,11 +14,11 @@ export function Header() {
         'flex items-center px-4 border-b h-[var(--header-height)] backdrop-blur-xl bg-black/30 border-black/20',
         {
           'border-transparent': !chat.started,
-          'border-bolt-elements-borderColor': chat.started,
+          'border-coderx-elements-borderColor': chat.started,
         },
       )}
     >
-      <div className="flex items-center gap-3 z-logo text-bolt-elements-textPrimary">
+      <div className="flex items-center gap-3 z-logo text-coderx-elements-textPrimary">
         <div className="flex items-center gap-2">
           <a href="/" className="cursor-pointer">
             <img
@@ -32,7 +32,7 @@ export function Header() {
 
       {chat.started && ( // Display ChatDescription and HeaderActionButtons only when the chat has started.
         <>
-          <span className="flex-1 px-4 truncate text-center text-bolt-elements-textPrimary">
+          <span className="flex-1 px-4 truncate text-center text-coderx-elements-textPrimary">
             <ClientOnly>{() => <ChatDescription />}</ClientOnly>
           </span>
           <ClientOnly>

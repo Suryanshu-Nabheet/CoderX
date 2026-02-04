@@ -10,10 +10,10 @@ import type { CoderXArtifactData } from '~/types/artifact';
 import { createScopedLogger } from '~/utils/logger';
 import { unreachable } from '~/utils/unreachable';
 
-const ARTIFACT_TAG_OPEN = '<boltArtifact';
-const ARTIFACT_TAG_CLOSE = '</boltArtifact>';
-const ARTIFACT_ACTION_TAG_OPEN = '<boltAction';
-const ARTIFACT_ACTION_TAG_CLOSE = '</boltAction>';
+const ARTIFACT_TAG_OPEN = '<coderxArtifact';
+const ARTIFACT_TAG_CLOSE = '</coderxArtifact>';
+const ARTIFACT_ACTION_TAG_OPEN = '<coderxAction';
+const ARTIFACT_ACTION_TAG_CLOSE = '</coderxAction>';
 const CODERX_QUICK_ACTIONS_OPEN = '<coderx-quick-actions>';
 const CODERX_QUICK_ACTIONS_CLOSE = '</coderx-quick-actions>';
 
@@ -395,7 +395,7 @@ export class StreamingMessageParser {
 
 const createArtifactElement: ElementFactory = (props) => {
   const elementProps = [
-    'class="__boltArtifact__"',
+    'class="__coderxArtifact__"',
     ...Object.entries(props).map(([key, value]) => {
       return `data-${camelToDashCase(key)}=${JSON.stringify(value)}`;
     }),
@@ -410,8 +410,8 @@ function camelToDashCase(input: string) {
 
 function createQuickActionElement(props: Record<string, string>, label: string) {
   const elementProps = [
-    'class="__boltQuickAction__"',
-    'data-bolt-quick-action="true"',
+    'class="__coderxQuickAction__"',
+    'data-coderx-quick-action="true"',
     ...Object.entries(props).map(([key, value]) => `data-${camelToDashCase(key)}=${JSON.stringify(value)}`),
   ];
 
@@ -419,5 +419,5 @@ function createQuickActionElement(props: Record<string, string>, label: string) 
 }
 
 function createQuickActionGroup(buttons: string[]) {
-  return `<div class=\"__boltQuickAction__\" data-bolt-quick-action=\"true\">${buttons.join('')}</div>`;
+  return `<div class=\"__coderxQuickAction__\" data-coderx-quick-action=\"true\">${buttons.join('')}</div>`;
 }

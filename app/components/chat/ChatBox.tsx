@@ -66,7 +66,7 @@ export const ChatBox: React.FC<ChatBoxProps> = (props) => {
   return (
     <div
       className={classNames(
-        'relative bg-bolt-elements-background-depth-2 backdrop-blur p-3 rounded-lg border border-bolt-elements-borderColor relative w-full max-w-chat mx-auto z-prompt',
+        'relative bg-coderx-elements-background-depth-2 backdrop-blur p-3 rounded-lg border border-coderx-elements-borderColor relative w-full max-w-chat mx-auto z-prompt',
 
         /*
          * {
@@ -158,7 +158,7 @@ export const ChatBox: React.FC<ChatBoxProps> = (props) => {
         )}
       </ClientOnly>
       {props.selectedElement && (
-        <div className="flex mx-1.5 gap-2 items-center justify-between rounded-lg rounded-b-none border border-b-none border-bolt-elements-borderColor text-bolt-elements-textPrimary flex py-1 px-2.5 font-medium text-xs">
+        <div className="flex mx-1.5 gap-2 items-center justify-between rounded-lg rounded-b-none border border-b-none border-coderx-elements-borderColor text-coderx-elements-textPrimary flex py-1 px-2.5 font-medium text-xs">
           <div className="flex gap-2 items-center lowercase">
             <code className="bg-accent-500 rounded-4px px-1.5 py-1 mr-0.5 text-white">
               {props?.selectedElement?.tagName}
@@ -174,14 +174,14 @@ export const ChatBox: React.FC<ChatBoxProps> = (props) => {
         </div>
       )}
       <div
-        className={classNames('relative shadow-xs border border-bolt-elements-borderColor backdrop-blur rounded-lg')}
+        className={classNames('relative shadow-xs border border-coderx-elements-borderColor backdrop-blur rounded-lg')}
       >
         <textarea
           ref={props.textareaRef}
           className={classNames(
-            'w-full pl-4 pt-4 pr-16 outline-none resize-none text-bolt-elements-textPrimary placeholder-bolt-elements-textTertiary bg-transparent text-sm',
+            'w-full pl-4 pt-4 pr-16 outline-none resize-none text-coderx-elements-textPrimary placeholder-coderx-elements-textTertiary bg-transparent text-sm',
             'transition-all duration-200',
-            'hover:border-bolt-elements-focus',
+            'hover:border-coderx-elements-focus',
           )}
           onDragEnter={(e) => {
             e.preventDefault();
@@ -193,11 +193,11 @@ export const ChatBox: React.FC<ChatBoxProps> = (props) => {
           }}
           onDragLeave={(e) => {
             e.preventDefault();
-            e.currentTarget.style.border = '1px solid var(--bolt-elements-borderColor)';
+            e.currentTarget.style.border = '1px solid var(--coderx-elements-borderColor)';
           }}
           onDrop={(e) => {
             e.preventDefault();
-            e.currentTarget.style.border = '1px solid var(--bolt-elements-borderColor)';
+            e.currentTarget.style.border = '1px solid var(--coderx-elements-borderColor)';
 
             const files = Array.from(e.dataTransfer.files);
             files.forEach((file) => {

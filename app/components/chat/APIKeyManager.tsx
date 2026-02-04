@@ -90,7 +90,7 @@ export const APIKeyManager: React.FC<APIKeyManagerProps> = ({ provider, apiKey, 
       {/* Label and Status */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className="text-sm font-medium text-bolt-elements-textPrimary">{provider?.name} API Key</span>
+          <span className="text-sm font-medium text-coderx-elements-textPrimary">{provider?.name} API Key</span>
           {!isEditing && (
             <div className="flex items-center gap-2">
               {apiKey ? (
@@ -123,10 +123,10 @@ export const APIKeyManager: React.FC<APIKeyManagerProps> = ({ provider, apiKey, 
               value={tempKey}
               placeholder="Enter API Key"
               onChange={(e) => setTempKey(e.target.value)}
-              className="flex-1 px-3 py-2 text-sm rounded-lg border border-bolt-elements-borderColor 
-                        bg-bolt-elements-prompt-background text-bolt-elements-textPrimary 
-                        focus:outline-none focus:ring-2 focus:ring-bolt-elements-focus
-                        placeholder:text-bolt-elements-textTertiary"
+              className="flex-1 px-3 py-2 text-sm rounded-lg border border-coderx-elements-borderColor 
+                        bg-coderx-elements-prompt-background text-coderx-elements-textPrimary 
+                        focus:outline-none focus:ring-2 focus:ring-coderx-elements-focus
+                        placeholder:text-coderx-elements-textTertiary"
             />
             <IconButton
               onClick={handleSave}

@@ -13,14 +13,14 @@ const logger = createScopedLogger('ChatHistory');
 
 /**
  * Delete old databases from previous installations
- * This clears boltHistory, boltDB, and other old database names
+ * This clears coderxHistory, coderxDB, and other old database names
  */
 async function clearOldDatabases(): Promise<void> {
   if (typeof indexedDB === 'undefined') {
     return;
   }
 
-  const oldDatabaseNames = ['boltHistory', 'boltDB'];
+  const oldDatabaseNames = ['coderxHistory', 'coderxDB'];
   
   for (const dbName of oldDatabaseNames) {
     try {

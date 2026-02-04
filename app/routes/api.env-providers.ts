@@ -1,9 +1,8 @@
 import type { LoaderFunction } from '@remix-run/cloudflare';
-import { getAvailableProvidersFromEnv } from '~/lib/utils/env-api-keys';
 
 export const loader: LoaderFunction = async () => {
   try {
-    const availableProviders = getAvailableProvidersFromEnv();
+    const availableProviders: string[] = [];
 
     return Response.json({
       success: true,

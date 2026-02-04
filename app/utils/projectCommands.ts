@@ -116,12 +116,12 @@ export function createCommandsMessage(commands: ProjectCommands): Message | null
 
   if (commands.setupCommand) {
     commandString += `
-<boltAction type="shell">${commands.setupCommand}</boltAction>`;
+<coderxAction type="shell">${commands.setupCommand}</coderxAction>`;
   }
 
   if (commands.startCommand) {
     commandString += `
-<boltAction type="start">${commands.startCommand}</boltAction>
+<coderxAction type="start">${commands.startCommand}</coderxAction>
 `;
   }
 
@@ -129,17 +129,17 @@ export function createCommandsMessage(commands: ProjectCommands): Message | null
     role: 'assistant',
     content: `
 ${commands.followupMessage ? `\n\n${commands.followupMessage}` : ''}
-<boltArtifact id="project-setup" title="Project Setup">
+<coderxArtifact id="project-setup" title="Project Setup">
 ${commandString}
-</boltArtifact>`,
+</coderxArtifact>`,
     id: generateId(),
     createdAt: new Date(),
   };
 }
 
-export function escapeBoltArtifactTags(input: string) {
-  // Regular expression to match boltArtifact tags and their content
-  const regex = /(<boltArtifact[^>]*>)([\s\S]*?)(<\/boltArtifact>)/g;
+export function escapeCoderXArtifactTags(input: string) {
+  // Regular expression to match coderxArtifact tags and their content
+  const regex = /(<coderxArtifact[^>]*>)([\s\S]*?)(<\/coderxArtifact>)/g;
 
   return input.replace(regex, (match, openTag, content, closeTag) => {
     // Escape the opening tag
@@ -153,9 +153,9 @@ export function escapeBoltArtifactTags(input: string) {
   });
 }
 
-export function escapeBoltAActionTags(input: string) {
-  // Regular expression to match boltArtifact tags and their content
-  const regex = /(<boltAction[^>]*>)([\s\S]*?)(<\/boltAction>)/g;
+export function escapeCoderXAActionTags(input: string) {
+  // Regular expression to match coderxArtifact tags and their content
+  const regex = /(<coderxAction[^>]*>)([\s\S]*?)(<\/coderxAction>)/g;
 
   return input.replace(regex, (match, openTag, content, closeTag) => {
     // Escape the opening tag
@@ -169,8 +169,8 @@ export function escapeBoltAActionTags(input: string) {
   });
 }
 
-export function escapeBoltTags(input: string) {
-  return escapeBoltArtifactTags(escapeBoltAActionTags(input));
+export function escapeCoderXTags(input: string) {
+  return escapeCoderXArtifactTags(escapeCoderXAActionTags(input));
 }
 
 // We have this seperate function to simplify the restore snapshot process in to one single artifact.
@@ -184,12 +184,12 @@ export function createCommandActionsString(commands: ProjectCommands): string {
 
   if (commands.setupCommand) {
     commandString += `
-<boltAction type="shell">${commands.setupCommand}</boltAction>`;
+<coderxAction type="shell">${commands.setupCommand}</coderxAction>`;
   }
 
   if (commands.startCommand) {
     commandString += `
-<boltAction type="start">${commands.startCommand}</boltAction>
+<coderxAction type="start">${commands.startCommand}</coderxAction>
 `;
   }
 

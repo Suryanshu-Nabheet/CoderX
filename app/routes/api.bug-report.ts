@@ -21,7 +21,7 @@ const bugReportSchema = z.object({
       browser: z.string().optional(),
       os: z.string().optional(),
       screenResolution: z.string().optional(),
-      boltVersion: z.string().optional(),
+      coderxVersion: z.string().optional(),
       aiProviders: z.string().optional(),
       projectType: z.string().optional(),
       currentModel: z.string().optional(),
@@ -113,8 +113,8 @@ function formatIssueBody(data: z.infer<typeof bugReportSchema>): string {
       body += `- Screen: ${data.environmentInfo.screenResolution}\n`;
     }
 
-    if (data.environmentInfo.boltVersion) {
-      body += `- CoderX: ${data.environmentInfo.boltVersion}\n`;
+    if (data.environmentInfo.coderxVersion) {
+      body += `- CoderX: ${data.environmentInfo.coderxVersion}\n`;
     }
 
     if (data.environmentInfo.aiProviders) {
