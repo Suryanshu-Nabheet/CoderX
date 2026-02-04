@@ -281,7 +281,7 @@ export function DataTab() {
       <div>
         <h2 className="text-xl font-semibold mb-4 text-coderx-elements-textPrimary">Chats</h2>
         {dbLoading ? (
-          <div className="flex items-center justify-center p-4">
+          <div className="flex items-center justify-center p-4 text-coderx-elements-textPrimary">
             <div className="i-ph-spinner-gap-bold animate-spin w-6 h-6 mr-2" />
             <span>Loading chats database...</span>
           </div>

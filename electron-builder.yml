@@ -22,11 +22,11 @@ mac:
   target:
     - dmg
   identity: null
-  category: "public.app-category.developer-tools"
-  type: "distribution"
+  category: 'public.app-category.developer-tools'
+  type: 'distribution'
   hardenedRuntime: true
-  entitlements: "assets/entitlements.mac.plist"
-  entitlementsInherit: "assets/entitlements.mac.plist"
+  entitlements: 'assets/entitlements.mac.plist'
+  entitlementsInherit: 'assets/entitlements.mac.plist'
   gatekeeperAssess: false
 
 win:
@@ -55,8 +55,8 @@ npmRebuild: false
 
 publish:
   provider: github
-  owner: Derek-X-Wang
-  repo: coderx
+  owner: Suryanshu-Nabheet
+  repo: CoderX
   private: true
   releaseType: release
 

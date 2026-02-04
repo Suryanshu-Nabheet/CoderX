@@ -134,26 +134,30 @@ const LogEntryItem = ({ log, isExpanded: forceExpanded, use24Hour, showTimestamp
   const renderDetails = (details: any) => {
     if (log.category === 'provider') {
       return (
-        <div className="flex flex-col gap-2">
-          <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
-            <span>Model: {details.model}</span>
-            <span>•</span>
-            <span>Tokens: {details.totalTokens}</span>
-            <span>•</span>
-            <span>Duration: {details.duration}ms</span>
+        <div className="flex flex-col gap-3 mt-3">
+          <div className="flex items-center gap-2 text-xs text-coderx-elements-textSecondary bg-coderx-elements-background-depth-2 p-2 rounded-md border border-coderx-elements-borderColor">
+            <span className="font-semibold text-coderx-elements-textPrimary">Model:</span> {details.model}
+            <span className="text-coderx-elements-borderColor mx-1">|</span>
+            <span className="font-semibold text-coderx-elements-textPrimary">Tokens:</span> {details.totalTokens}
+            <span className="text-coderx-elements-borderColor mx-1">|</span>
+            <span className="font-semibold text-coderx-elements-textPrimary">Duration:</span> {details.duration}ms
           </div>
           {details.prompt && (
-            <div className="flex flex-col gap-1">
-              <div className="text-xs font-medium text-gray-700 dark:text-gray-300">Prompt:</div>
-              <pre className="text-xs text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-800/50 rounded p-2 whitespace-pre-wrap">
+            <div className="flex flex-col gap-1.5">
+              <div className="text-xs font-medium text-coderx-elements-textSecondary uppercase tracking-wider">
+                Prompt
+              </div>
+              <pre className="text-xs text-coderx-elements-code-text bg-coderx-elements-code-background rounded-md p-3 whitespace-pre-wrap border border-coderx-elements-borderColor overflow-x-auto">
                 {details.prompt}
               </pre>
             </div>
           )}
           {details.response && (
-            <div className="flex flex-col gap-1">
-              <div className="text-xs font-medium text-gray-700 dark:text-gray-300">Response:</div>
-              <pre className="text-xs text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-800/50 rounded p-2 whitespace-pre-wrap">
+            <div className="flex flex-col gap-1.5">
+              <div className="text-xs font-medium text-coderx-elements-textSecondary uppercase tracking-wider">
+                Response
+              </div>
+              <pre className="text-xs text-coderx-elements-code-text bg-coderx-elements-code-background rounded-md p-3 whitespace-pre-wrap border border-coderx-elements-borderColor overflow-x-auto">
                 {details.response}
               </pre>
             </div>
@@ -164,35 +168,43 @@ const LogEntryItem = ({ log, isExpanded: forceExpanded, use24Hour, showTimestamp
 
     if (log.category === 'api') {
       return (
-        <div className="flex flex-col gap-2">
-          <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
-            <span className={details.method === 'GET' ? 'text-green-500' : 'text-blue-500'}>{details.method}</span>
-            <span>•</span>
-            <span>Status: {details.statusCode}</span>
-            <span>•</span>
-            <span>Duration: {details.duration}ms</span>
+        <div className="flex flex-col gap-3 mt-3">
+          <div className="flex items-center gap-2 text-xs text-coderx-elements-textSecondary bg-coderx-elements-background-depth-2 p-2 rounded-md border border-coderx-elements-borderColor">
+            <span className={classNames('font-bold', details.method === 'GET' ? 'text-green-500' : 'text-blue-500')}>
+              {details.method}
+            </span>
+            <span className="text-coderx-elements-borderColor mx-1">|</span>
+            <span className="font-semibold text-coderx-elements-textPrimary">Status:</span> {details.statusCode}
+            <span className="text-coderx-elements-borderColor mx-1">|</span>
+            <span className="font-semibold text-coderx-elements-textPrimary">Duration:</span> {details.duration}ms
           </div>
-          <div className="text-xs text-gray-600 dark:text-gray-400 break-all">{details.url}</div>
+          <div className="text-xs text-coderx-elements-textSecondary font-mono bg-coderx-elements-background-depth-2 p-2 rounded-md border border-coderx-elements-borderColor break-all">
+            {details.url}
+          </div>
           {details.request && (
-            <div className="flex flex-col gap-1">
-              <div className="text-xs font-medium text-gray-700 dark:text-gray-300">Request:</div>
-              <pre className="text-xs text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-800/50 rounded p-2 whitespace-pre-wrap">
+            <div className="flex flex-col gap-1.5">
+              <div className="text-xs font-medium text-coderx-elements-textSecondary uppercase tracking-wider">
+                Request
+              </div>
+              <pre className="text-xs text-coderx-elements-code-text bg-coderx-elements-code-background rounded-md p-3 whitespace-pre-wrap border border-coderx-elements-borderColor overflow-x-auto">
                 {JSON.stringify(details.request, null, 2)}
               </pre>
             </div>
           )}
           {details.response && (
-            <div className="flex flex-col gap-1">
-              <div className="text-xs font-medium text-gray-700 dark:text-gray-300">Response:</div>
-              <pre className="text-xs text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-800/50 rounded p-2 whitespace-pre-wrap">
+            <div className="flex flex-col gap-1.5">
+              <div className="text-xs font-medium text-coderx-elements-textSecondary uppercase tracking-wider">
+                Response
+              </div>
+              <pre className="text-xs text-coderx-elements-code-text bg-coderx-elements-code-background rounded-md p-3 whitespace-pre-wrap border border-coderx-elements-borderColor overflow-x-auto">
                 {JSON.stringify(details.response, null, 2)}
               </pre>
             </div>
           )}
           {details.error && (
-            <div className="flex flex-col gap-1">
-              <div className="text-xs font-medium text-red-500">Error:</div>
-              <pre className="text-xs text-red-400 bg-red-50 dark:bg-red-500/10 rounded p-2 whitespace-pre-wrap">
+            <div className="flex flex-col gap-1.5">
+              <div className="text-xs font-medium text-red-500 uppercase tracking-wider">Error</div>
+              <pre className="text-xs text-red-500 bg-red-500/10 rounded-md p-3 whitespace-pre-wrap border border-red-500/20 overflow-x-auto">
                 {JSON.stringify(details.error, null, 2)}
               </pre>
             </div>
@@ -202,7 +214,7 @@ const LogEntryItem = ({ log, isExpanded: forceExpanded, use24Hour, showTimestamp
     }
 
     return (
-      <pre className="text-xs text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-800/50 rounded whitespace-pre-wrap">
+      <pre className="mt-3 text-xs text-coderx-elements-code-text bg-coderx-elements-code-background rounded-md p-3 whitespace-pre-wrap border border-coderx-elements-borderColor overflow-x-auto">
         {JSON.stringify(details, null, 2)}
       </pre>
     );
@@ -230,9 +242,15 @@ const LogEntryItem = ({ log, isExpanded: forceExpanded, use24Hour, showTimestamp
               <>
                 <button
                   onClick={() => setLocalExpanded(!localExpanded)}
-                  className="text-xs text-gray-500 dark:text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
+                  className="flex items-center gap-1 text-xs font-medium text-coderx-elements-textSecondary hover:text-coderx-elements-textPrimary bg-coderx-elements-background-depth-2 hover:bg-coderx-elements-background-depth-3 px-2 py-1 rounded-md border border-coderx-elements-borderColor transition-all duration-200"
                 >
-                  {localExpanded ? 'Hide' : 'Show'} Details
+                  <div
+                    className={classNames(
+                      'i-ph-caret-right transition-transform duration-200',
+                      localExpanded ? 'rotate-90' : '',
+                    )}
+                  />
+                  {localExpanded ? 'Hide Details' : 'Show Details'}
                 </button>
                 {localExpanded && renderDetails(log.details)}
               </>

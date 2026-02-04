@@ -94,11 +94,14 @@ function ProviderCard({
                   ) : (
                     <button
                       onClick={onStartEditing}
-                      className="w-full px-4 py-3 rounded-lg text-sm bg-coderx-elements-background-depth-3 border border-coderx-elements-borderColor hover:border-blue-500/30 hover:bg-coderx-elements-background-depth-4 hover:shadow-sm transition-all duration-200 text-left group"
+                      className="w-full px-4 py-3 rounded-lg text-sm bg-coderx-elements-background-depth-1 border border-coderx-elements-borderColor hover:border-coderx-elements-item-backgroundAccent hover:bg-coderx-elements-background-depth-2 hover:shadow-sm transition-all duration-200 text-left group flex items-center justify-between"
                     >
-                      <div className="flex items-center gap-3 text-coderx-elements-textSecondary group-hover:text-coderx-elements-textPrimary">
-                        <Link className="w-4 h-4 group-hover:text-blue-500 transition-colors" />
-                        <span className="font-mono">{provider.settings.baseUrl || 'Click to set base URL'}</span>
+                      <span className="font-mono text-coderx-elements-textSecondary group-hover:text-coderx-elements-textPrimary transition-colors">
+                        {provider.settings.baseUrl || 'Click to set base URL'}
+                      </span>
+                      <div className="flex items-center gap-2 text-coderx-elements-textTertiary group-hover:text-coderx-elements-item-contentAccent transition-colors text-xs">
+                        <span className="opacity-0 group-hover:opacity-100 transition-opacity">Edit</span>
+                        <Link className="w-3 h-3" />
                       </div>
                     </button>
                   )}
