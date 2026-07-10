@@ -1,26 +1,18 @@
 const { execSync } = require('child_process');
 
-// Get git hash with fallback
 const getGitHash = () => {
   try {
     return execSync('git rev-parse --short HEAD').toString().trim();
   } catch {
-    return 'no-git-info';
+    return 'unknown';
   }
 };
 
-let commitJson = {
-  hash: JSON.stringify(getGitHash()),
-  version: JSON.stringify(process.env.npm_package_version),
-};
+const version = process.env.npm_package_version ?? '0.0.0';
+const hash = getGitHash();
 
-console.log(`
-★═══════════════════════════════════════★
-            C O D E R X
-         ⚡️  Welcome  ⚡️
-★═══════════════════════════════════════★
-`);
-console.log('📍 Current Version Tag:', `v${commitJson.version}`);
-console.log('📍 Current Commit Version:', commitJson.hash);
-console.log('  Please wait until the URL appears here');
-console.log('★═══════════════════════════════════════★');
+console.log('');
+console.log('CoderX');
+console.log(`Version: v${version} (${hash})`);
+console.log('Starting development server...');
+console.log('');

@@ -41,9 +41,9 @@ export const links: LinksFunction = () => [
 ];
 
 const inlineThemeCode = stripIndents`
-  setTutorialKitTheme();
+  setCoderXTheme();
 
-  function setTutorialKitTheme() {
+  function setCoderXTheme() {
     let theme = localStorage.getItem('coderx_theme');
 
     if (!theme) {

@@ -147,7 +147,9 @@ export const ColorSchemeDialog: React.FC<ColorSchemeDialogProps> = ({ setDesignS
               </div>
               <div
                 className={`text-sm font-medium transition-colors ${
-                  font.includes(f.key) ? 'text-coderx-elements-item-contentAccent' : 'text-coderx-elements-textSecondary'
+                  font.includes(f.key)
+                    ? 'text-coderx-elements-item-contentAccent'
+                    : 'text-coderx-elements-textSecondary'
                 }`}
               >
                 {f.label}

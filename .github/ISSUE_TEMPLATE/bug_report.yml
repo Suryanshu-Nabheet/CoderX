@@ -4,10 +4,10 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thank you for reporting an issue :pray:.
+        Thank you for reporting an issue.
 
         This issue tracker is for bugs and issues found with [CoderX](https://github.com/Suryanshu-Nabheet/CoderX).
-        If you experience issues related to WebContainer, please file an issue in the official [Suryanshu Nabheet WebContainer repo](https://github.com/stackblitz/webcontainer-core).
+        If you experience issues related to WebContainer, file an issue in the [WebContainer core repository](https://github.com/stackblitz/webcontainer-core).
 
         The more information you fill in, the better we can help you.
   - type: textarea

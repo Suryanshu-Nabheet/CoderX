@@ -285,7 +285,7 @@ function SetupGuide({ onBack }: { onBack: () => void }) {
             <div className="p-4 rounded-lg bg-blue-500/5 border border-blue-500/20">
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <h5 className="font-medium text-blue-500 mb-3">🖥️ User Interface</h5>
+                  <h5 className="font-medium text-blue-500 mb-3">User Interface</h5>
                   <ul className="text-sm text-coderx-elements-textSecondary space-y-1">
                     <li>• Model library browser</li>
                     <li>• One-click model downloads</li>
@@ -294,7 +294,7 @@ function SetupGuide({ onBack }: { onBack: () => void }) {
                   </ul>
                 </div>
                 <div>
-                  <h5 className="font-medium text-blue-500 mb-3">🔧 Management Tools</h5>
+                  <h5 className="font-medium text-blue-500 mb-3">Management Tools</h5>
                   <ul className="text-sm text-coderx-elements-textSecondary space-y-1">
                     <li>• Automatic updates</li>
                     <li>• Model size optimization</li>
@@ -422,7 +422,9 @@ function SetupGuide({ onBack }: { onBack: () => void }) {
                     <li>Set Network Interface to "0.0.0.0" for external access</li>
                     <li>
                       Alternatively, use CLI:{' '}
-                      <code className="bg-coderx-elements-background-depth-4 px-1 rounded">lms server start --cors</code>
+                      <code className="bg-coderx-elements-background-depth-4 px-1 rounded">
+                        lms server start --cors
+                      </code>
                     </li>
                   </ol>
                 </div>
@@ -629,7 +631,9 @@ function SetupGuide({ onBack }: { onBack: () => void }) {
                     <Cable className="w-4 h-4 text-blue-500" />
                     <span className="font-medium text-coderx-elements-textPrimary">KoboldAI</span>
                   </div>
-                  <p className="text-xs text-coderx-elements-textSecondary">Focus on creative writing and storytelling</p>
+                  <p className="text-xs text-coderx-elements-textSecondary">
+                    Focus on creative writing and storytelling
+                  </p>
                 </div>
               </div>
             </div>
@@ -641,7 +645,9 @@ function SetupGuide({ onBack }: { onBack: () => void }) {
                     <Globe className="w-4 h-4 text-orange-500" />
                     <span className="font-medium text-coderx-elements-textPrimary">OpenRouter</span>
                   </div>
-                  <p className="text-xs text-coderx-elements-textSecondary">Access to 100+ models through unified API</p>
+                  <p className="text-xs text-coderx-elements-textSecondary">
+                    Access to 100+ models through unified API
+                  </p>
                 </div>
                 <div className="p-3 rounded-lg bg-coderx-elements-background-depth-3">
                   <div className="flex items-center gap-2 mb-1">
@@ -655,7 +661,9 @@ function SetupGuide({ onBack }: { onBack: () => void }) {
                     <Activity className="w-4 h-4 text-pink-500" />
                     <span className="font-medium text-coderx-elements-textPrimary">Groq</span>
                   </div>
-                  <p className="text-xs text-coderx-elements-textSecondary">Ultra-fast LPU inference for Llama models</p>
+                  <p className="text-xs text-coderx-elements-textSecondary">
+                    Ultra-fast LPU inference for Llama models
+                  </p>
                 </div>
               </div>
             </div>

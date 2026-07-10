@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
+import { openDatabase } from '~/lib/persistence/db';
 
 /**
- * Hook to initialize and provide access to the IndexedDB database
+ * Hook to initialize and provide access to the primary IndexedDB database.
  */
 export function useIndexedDB() {
   const [db, setDb] = useState<IDBDatabase | null>(null);
@@ -9,48 +10,40 @@ export function useIndexedDB() {
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
+    let active = true;
+    let database: IDBDatabase | undefined;
+
     const initDB = async () => {
       try {
         setIsLoading(true);
+        database = await openDatabase();
 
-        const request = indexedDB.open('coderxDB', 1);
+        if (!active) {
+          database?.close();
+          return;
+        }
 
-        request.onupgradeneeded = (event) => {
-          const db = (event.target as IDBOpenDBRequest).result;
-
-          // Create object stores if they don't exist
-          if (!db.objectStoreNames.contains('chats')) {
-            const chatStore = db.createObjectStore('chats', { keyPath: 'id' });
-            chatStore.createIndex('updatedAt', 'updatedAt', { unique: false });
-          }
-
-          if (!db.objectStoreNames.contains('settings')) {
-            db.createObjectStore('settings', { keyPath: 'key' });
-          }
-        };
-
-        request.onsuccess = (event) => {
-          const database = (event.target as IDBOpenDBRequest).result;
+        if (database) {
           setDb(database);
-          setIsLoading(false);
-        };
-
-        request.onerror = (event) => {
-          setError(new Error(`Database error: ${(event.target as IDBOpenDBRequest).error?.message}`));
-          setIsLoading(false);
-        };
+        } else {
+          setError(new Error('Failed to open IndexedDB'));
+        }
       } catch (err) {
-        setError(err instanceof Error ? err : new Error('Unknown error initializing database'));
-        setIsLoading(false);
+        if (active) {
+          setError(err instanceof Error ? err : new Error('Unknown error initializing database'));
+        }
+      } finally {
+        if (active) {
+          setIsLoading(false);
+        }
       }
     };
 
     initDB();
 
     return () => {
-      if (db) {
-        db.close();
-      }
+      active = false;
+      database?.close();
     };
   }, []);
 

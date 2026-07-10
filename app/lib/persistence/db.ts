@@ -12,29 +12,32 @@ export interface IChatMetadata {
 const logger = createScopedLogger('ChatHistory');
 
 /**
- * Delete old databases from previous installations
- * This clears coderxHistory, coderxDB, and other old database names
+ * Delete legacy databases from previous installations.
+ * Only removes deprecated DB names — never the active coderxHistory store.
  */
-async function clearOldDatabases(): Promise<void> {
+async function clearLegacyDatabases(): Promise<void> {
   if (typeof indexedDB === 'undefined') {
     return;
   }
 
-  const oldDatabaseNames = ['coderxHistory', 'coderxDB'];
-  
-  for (const dbName of oldDatabaseNames) {
+  const legacyDatabaseNames = ['coderxDB'];
+
+  for (const dbName of legacyDatabaseNames) {
     try {
       const deleteRequest = indexedDB.deleteDatabase(dbName);
-      await new Promise<void>((resolve, reject) => {
+
+      await new Promise<void>((resolve) => {
         deleteRequest.onsuccess = () => {
           console.log(`Successfully deleted old database: ${dbName}`);
           resolve();
         };
+
         deleteRequest.onerror = () => {
           // Database might not exist, which is fine
           console.log(`Could not delete database ${dbName} (may not exist)`);
           resolve();
         };
+
         deleteRequest.onblocked = () => {
           // Database is in use, skip it
           console.log(`Database ${dbName} is in use, skipping deletion`);
@@ -54,8 +57,7 @@ export async function openDatabase(): Promise<IDBDatabase | undefined> {
     return undefined;
   }
 
-  // Clear old databases on first open
-  await clearOldDatabases();
+  await clearLegacyDatabases();
 
   return new Promise((resolve) => {
     const request = indexedDB.open('coderxHistory', 2);

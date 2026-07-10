@@ -170,12 +170,6 @@ export default function VercelConnection() {
                     in your .env.local for automatic connection.
                   </p>
                 </div>
-                {/* Debug info - remove this later */}
-                <div className="mt-2 text-xs text-gray-500">
-                  <p>Debug: Token present: {connection.token ? '✅' : '❌'}</p>
-                  <p>Debug: User present: {connection.user ? '✅' : '❌'}</p>
-                  <p>Debug: Env token: {import.meta.env?.VITE_VERCEL_ACCESS_TOKEN ? '✅' : '❌'}</p>
-                </div>
               </div>
             </div>
 

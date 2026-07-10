@@ -151,22 +151,8 @@ async function chatAction({ context, request }: ActionFunctionArgs) {
     providerSettings = {};
   }
 
-  // Merge environment API keys as fallback
   const envApiKeys = loadApiKeysFromEnv(context.cloudflare?.env as any);
-  const apiKeys: Record<string, string> = {};
-
-  // Merge env keys first
-  if (envApiKeys.openrouter) {
-    apiKeys.openrouter = envApiKeys.openrouter;
-  }
-
-  // Merge cookie keys
-  Object.assign(apiKeys, cookieApiKeys);
-
-  // Normalize API keys casing for OpenRouter (provider expects "OpenRouter")
-  if (apiKeys.openrouter && !apiKeys.OpenRouter) {
-    apiKeys.OpenRouter = apiKeys.openrouter;
-  }
+  const apiKeys: Record<string, string> = { ...envApiKeys, ...cookieApiKeys };
 
   logger.info(
     `Resolved API Keys: ${Object.keys(apiKeys)

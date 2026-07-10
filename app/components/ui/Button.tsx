@@ -7,7 +7,8 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: 'bg-coderx-elements-background text-coderx-elements-textPrimary hover:bg-coderx-elements-background-depth-2',
+        default:
+          'bg-coderx-elements-background text-coderx-elements-textPrimary hover:bg-coderx-elements-background-depth-2',
         destructive: 'bg-red-500 text-white hover:bg-red-600',
         outline:
           'border border-coderx-elements-borderColor bg-transparent hover:bg-coderx-elements-background-depth-2 hover:text-coderx-elements-textPrimary text-coderx-elements-textPrimary dark:border-coderx-elements-borderColorActive',

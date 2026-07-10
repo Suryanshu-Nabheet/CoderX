@@ -1,30 +1,14 @@
-# Code Owners for CoderX
-# These users/teams will automatically be requested for review when files are modified
+# Code Owners
 
-# Global ownership - repository maintainers
 * @Suryanshu-Nabheet
 
-# GitHub workflows and CI/CD configuration - require maintainer review
 /.github/ @Suryanshu-Nabheet
 /package.json @Suryanshu-Nabheet
 /pnpm-lock.yaml @Suryanshu-Nabheet
-
-# Security-sensitive configurations - require maintainer review
 /.env* @Suryanshu-Nabheet
-/wrangler.toml @Suryanshu-Nabheet  
-/Dockerfile @Suryanshu-Nabheet
-/docker-compose.yaml @Suryanshu-Nabheet
-
-# Core application architecture - require maintainer review
 /app/lib/.server/ @Suryanshu-Nabheet
 /app/routes/api.* @Suryanshu-Nabheet
-
-# Build and deployment configuration - require maintainer review
 /vite*.config.ts @Suryanshu-Nabheet
 /tsconfig.json @Suryanshu-Nabheet
 /uno.config.ts @Suryanshu-Nabheet
 /eslint.config.mjs @Suryanshu-Nabheet
-
-# Documentation (optional review)
-/*.md
-/docs/

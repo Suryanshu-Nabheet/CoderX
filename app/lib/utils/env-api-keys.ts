@@ -1,37 +1,41 @@
-/**
- * Environment API Key Manager
- * Handles loading API keys from environment variables
- */
+import { LLMManager } from '~/lib/modules/llm/manager';
 
-export interface EnvApiKeys {
-  openrouter?: string;
+export type EnvApiKeys = Record<string, string>;
+
+/**
+ * Load API keys from environment variables for all registered LLM providers.
+ * Server-side only — merges Cloudflare env, process.env, and LLMManager env.
+ */
+export function loadApiKeysFromEnv(env?: Record<string, string>): EnvApiKeys {
+  const llmManager = LLMManager.getInstance(env ?? {});
+  const apiKeys: EnvApiKeys = {};
+
+  for (const provider of llmManager.getAllProviders()) {
+    const envVarName = provider.config.apiTokenKey;
+
+    if (!envVarName) {
+      continue;
+    }
+
+    const envValue = env?.[envVarName] || process.env[envVarName] || llmManager.env[envVarName];
+
+    if (typeof envValue === 'string' && envValue.trim().length > 0) {
+      apiKeys[provider.name] = envValue;
+    }
+  }
+
+  return apiKeys;
 }
 
-/**
- * Load API keys from environment variables
- * This function should be called on the server side
- */
-export function loadApiKeysFromEnv(_env?: Record<string, string>): EnvApiKeys {
-  return {};
+export function hasEnvApiKey(providerName: string, env?: Record<string, string>): boolean {
+  const apiKeys = loadApiKeysFromEnv(env);
+  return Boolean(apiKeys[providerName]);
 }
 
-/**
- * Check if a specific provider has an API key set in environment variables
- */
-export function hasEnvApiKey(_providerName: string): boolean {
-  return false;
+export function getEnvApiKey(providerName: string, env?: Record<string, string>): string | undefined {
+  return loadApiKeysFromEnv(env)[providerName];
 }
 
-/**
- * Get API key for a specific provider from environment variables
- */
-export function getEnvApiKey(_providerName: string): string | undefined {
-  return undefined;
-}
-
-/**
- * Get all available providers that have API keys set in environment variables
- */
-export function getAvailableProvidersFromEnv(): string[] {
-  return [];
+export function getAvailableProvidersFromEnv(env?: Record<string, string>): string[] {
+  return Object.keys(loadApiKeysFromEnv(env));
 }

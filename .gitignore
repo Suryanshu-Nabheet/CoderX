@@ -1,48 +1,41 @@
+# Dependencies
+node_modules
+
+# Build output
+build
+dist
+dist-ssr
+
+# Environment
+.env
+.env.local
+*.local
+
+# Logs
 logs
 *.log
 npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
 pnpm-debug.log*
-lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
-
-.vscode/*
-.vscode/launch.json
-!.vscode/extensions.json
-.idea
+# OS / editor
 .DS_Store
+.idea
+.vscode/*
+!.vscode/extensions.json
+
+# Caches
+.cache
+.history
+node_modules/.cache
+node_modules/.vite
+
+# Electron
+dist
+
+# Misc
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
-
-/.history
-/.cache
-/build
-functions/build/
-.env.local
-.env
-.dev.vars
-*.vars
-.wrangler
-_worker.bundle
-
-Modelfile
-modelfiles
-
-# docs ignore
-site
-
-# commit file ignore
-app/commit.json
-changelogUI.md
-docs/instructions/Roadmap.md
-.cursorrules
-# *.md
 .qodo

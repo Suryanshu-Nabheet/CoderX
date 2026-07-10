@@ -95,7 +95,9 @@ export default function DeployChatAlert({ alert, clearAlert, postMessage }: Depl
                     <div
                       className={classNames(
                         'h-0.5 w-8',
-                        buildStatus === 'complete' ? 'bg-coderx-elements-icon-success' : 'bg-coderx-elements-textTertiary',
+                        buildStatus === 'complete'
+                          ? 'bg-coderx-elements-icon-success'
+                          : 'bg-coderx-elements-textTertiary',
                       )}
                     ></div>
 

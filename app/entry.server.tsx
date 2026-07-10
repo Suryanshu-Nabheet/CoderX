@@ -20,6 +20,7 @@ export default function handleRequest(
       {
         onShellReady() {
           shellRendered = true;
+
           const body = new PassThrough();
           const stream = createReadableStreamFromReadable(body);
 

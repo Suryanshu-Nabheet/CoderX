@@ -93,12 +93,12 @@ body:has([data-radix-dialog-content]) {
       overflow: hidden !important;
       pointer-events: none !important;
     }
-    
+
     // Also hide any elements with bottom positioning
-    *[class*="bottom"],
-    *[style*="bottom"] {
-      &[class*="absolute"],
-      &[class*="fixed"] {
+    *[class*='bottom'],
+    *[style*='bottom'] {
+      &[class*='absolute'],
+      &[class*='fixed'] {
         display: none !important;
         visibility: hidden !important;
         opacity: 0 !important;
@@ -106,7 +106,7 @@ body:has([data-radix-dialog-content]) {
       }
     }
   }
-  
+
   // Hide any close buttons or handles at bottom when dialog is open
   button[class*="close"][class*="bottom"],
   button[style*="bottom"],
@@ -115,8 +115,8 @@ body:has([data-radix-dialog-content]) {
   // Hide any bottom-positioned elements that might appear below dialogs
   [data-radix-dialog-content] ~ *,
   [data-radix-dialog-content] + * {
-    &[style*="bottom"],
-    &[class*="bottom"] {
+    &[style*='bottom'],
+    &[class*='bottom'] {
       display: none !important;
       visibility: hidden !important;
       opacity: 0 !important;
@@ -133,7 +133,7 @@ body:has([data-radix-dialog-content]) {
     display: none !important;
     content: none !important;
   }
-  
+
   // Hide any sibling elements that might appear below
   + * {
     display: none !important;
@@ -146,11 +146,11 @@ body:has([data-radix-dialog-content]) {
 // Hide any elements that appear below dialog overlay
 [data-radix-dialog-overlay] {
   + * {
-    &[style*="bottom"],
-    &[class*="bottom"],
-    &[class*="close"],
-    &[class*="handle"],
-    &[class*="bar"] {
+    &[style*='bottom'],
+    &[class*='bottom'],
+    &[class*='close'],
+    &[class*='handle'],
+    &[class*='bar'] {
       display: none !important;
       visibility: hidden !important;
       opacity: 0 !important;

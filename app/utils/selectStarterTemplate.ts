@@ -212,11 +212,12 @@ export async function getTemplates(templateName: string, title?: string) {
      */
   }
 
-  // exclude    .coderx
-  filteredFiles = filteredFiles.filter((x) => x.path.startsWith('.coderx') == false);
+  // exclude template metadata folders (.coderx or legacy .bolt)
+  filteredFiles = filteredFiles.filter((x) => !x.path.startsWith('.coderx') && !x.path.startsWith('.bolt'));
 
-  // check for ignore file in .coderx folder
-  const templateIgnoreFile = files.find((x) => x.path.startsWith('.coderx') && x.name == 'ignore');
+  const templateIgnoreFile = files.find(
+    (x) => (x.path.startsWith('.coderx') || x.path.startsWith('.bolt')) && x.name === 'ignore',
+  );
 
   const filesToImport = {
     files: filteredFiles,
@@ -249,7 +250,9 @@ ${file.content}
 </coderxArtifact>
 `;
   let userMessage = ``;
-  const templatePromptFile = files.filter((x) => x.path.startsWith('.coderx')).find((x) => x.name == 'prompt');
+  const templatePromptFile = files
+    .filter((x) => x.path.startsWith('.coderx') || x.path.startsWith('.bolt'))
+    .find((x) => x.name === 'prompt');
 
   if (templatePromptFile) {
     userMessage = `
@@ -270,17 +273,17 @@ The following files are READ-ONLY and must never be modified:
 ${filesToImport.ignoreFile.map((file) => `- ${file.path}`).join('\n')}
 
 Permitted actions:
-✓ Import these files as dependencies
-✓ Read from these files
-✓ Reference these files
+- Import these files as dependencies
+- Read from these files
+- Reference these files
 
 Strictly forbidden actions:
-❌ Modify any content within these files
-❌ Delete these files
-❌ Rename these files
-❌ Move these files
-❌ Create new versions of these files
-❌ Suggest changes to these files
+- Modify any content within these files
+- Delete these files
+- Rename these files
+- Move these files
+- Create new versions of these files
+- Suggest changes to these files
 
 Any attempt to modify these protected files will result in immediate termination of the operation.
 
