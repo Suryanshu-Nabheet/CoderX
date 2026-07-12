@@ -1,23 +1,23 @@
 ---
 name: Feature request
-about: Suggest an idea for this project
-title: ''
-labels: ''
+about: Suggest an improvement or new capability for CoderX
+title: '[Feature] '
+labels: enhancement
 assignees: ''
 ---
 
-**Is your feature request related to a problem? Please describe:**
+## Problem
 
-<!-- A clear and concise description of what the problem is. Ex. I'm always frustrated when [...] -->
+<!-- What problem does this solve? Example: "I want to X but currently have to Y." -->
 
-**Describe the solution you'd like:**
+## Proposed solution
 
-<!-- A clear and concise description of what you want to happen. -->
+<!-- Describe the feature you would like. Be specific about UI, API, or workflow changes. -->
 
-**Describe alternatives you've considered:**
+## Alternatives considered
 
-<!-- A clear and concise description of any alternative solutions or features you've considered. -->
+<!-- Any other approaches you thought about? -->
 
-**Additional context:**
+## Additional context
 
-<!-- Add any other context or screenshots about the feature request here. -->
+<!-- Screenshots, mockups, links, or related issues. -->

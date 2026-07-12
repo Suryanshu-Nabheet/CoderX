@@ -1,4 +1,4 @@
-import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/cloudflare';
+import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
 
 // Rate limiting store (in-memory for serverless environments)
 const rateLimitStore = new Map<string, { count: number; resetTime: number }>();
@@ -13,6 +13,10 @@ const RATE_LIMITS = {
 
   // GitHub API endpoints
   '/api/github-*': { windowMs: 60 * 1000, maxRequests: 30 }, // 30 requests per minute
+
+  // Template and export endpoints
+  '/api/template': { windowMs: 60 * 1000, maxRequests: 30 },
+  '/api/export-api-keys': { windowMs: 60 * 1000, maxRequests: 10 },
 
   // Netlify API endpoints
   '/api/netlify-*': { windowMs: 60 * 1000, maxRequests: 20 }, // 20 requests per minute

@@ -1,4 +1,4 @@
-import { type ActionFunctionArgs } from '@remix-run/cloudflare';
+import { type ActionFunctionArgs } from '@remix-run/node';
 import { streamText } from '~/lib/.server/llm/stream-text';
 import type { IProviderSetting, ProviderInfo } from '~/types/model';
 import { generateText } from 'ai';
@@ -65,17 +65,17 @@ function validateTokenLimits(modelDetails: ModelInfo, requestedTokens: number): 
   return { valid: true };
 }
 
-async function llmCallAction({ context, request }: ActionFunctionArgs) {
+async function llmCallAction({ request }: ActionFunctionArgs) {
   let requestData;
 
   try {
-    requestData = await request.json<{
+    requestData = (await request.json()) as {
       system: string;
       message: string;
       model: string;
       provider: ProviderInfo;
       streamOutput?: boolean;
-    }>();
+    };
   } catch (error) {
     logger.error('Failed to parse request JSON:', error);
     return new Response(
@@ -183,7 +183,7 @@ async function llmCallAction({ context, request }: ActionFunctionArgs) {
   }
 
   // Merge environment API keys as fallback
-  const envApiKeys = loadApiKeysFromEnv(context.cloudflare?.env as any);
+  const envApiKeys = loadApiKeysFromEnv(process.env as any);
   const apiKeys = { ...envApiKeys, ...cookieApiKeys };
 
   if (streamOutput) {
@@ -198,7 +198,7 @@ async function llmCallAction({ context, request }: ActionFunctionArgs) {
             content: `${message}`,
           },
         ],
-        env: context.cloudflare?.env as any,
+        env: process.env as any,
         apiKeys,
         providerSettings,
       });
@@ -243,7 +243,7 @@ async function llmCallAction({ context, request }: ActionFunctionArgs) {
     }
   } else {
     try {
-      const models = await getModelList({ apiKeys, providerSettings, serverEnv: context.cloudflare?.env as any });
+      const models = await getModelList({ apiKeys, providerSettings, serverEnv: process.env as any });
       const modelDetails = models.find((m: ModelInfo) => m.name === model);
 
       if (!modelDetails) {
@@ -288,7 +288,7 @@ async function llmCallAction({ context, request }: ActionFunctionArgs) {
         ],
         model: providerInfo.getModelInstance({
           model: modelDetails.name,
-          serverEnv: context.cloudflare?.env as any,
+          serverEnv: process.env as any,
           apiKeys,
           providerSettings,
         }),

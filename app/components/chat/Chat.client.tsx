@@ -8,7 +8,7 @@ import { useMessageParser, usePromptEnhancer, useShortcuts } from '~/lib/hooks';
 import { description, useChatHistory } from '~/lib/persistence';
 import { chatStore } from '~/lib/stores/chat';
 import { workbenchStore } from '~/lib/stores/workbench';
-import { PROMPT_COOKIE_KEY, PROVIDER_LIST } from '~/utils/constants';
+import { PROMPT_COOKIE_KEY, PROVIDER_LIST, STARTER_TEMPLATES } from '~/utils/constants';
 import { cubicEasingFn } from '~/utils/easings';
 import { createScopedLogger, renderLogger } from '~/utils/logger';
 import { BaseChat } from './BaseChat';
@@ -269,8 +269,6 @@ export const ChatImpl = memo(
     useEffect(() => {
       const prompt = searchParams.get('prompt');
 
-      // console.log(prompt, searchParams, model, provider);
-
       if (prompt) {
         setSearchParams({});
         runAnimation();
@@ -448,6 +446,68 @@ export const ChatImpl = memo(
 
       return parts;
     };
+
+    useEffect(() => {
+      const starterName = searchParams.get('starter');
+
+      if (!starterName || chatStarted || !model || !provider) {
+        return;
+      }
+
+      const starterTemplate = STARTER_TEMPLATES.find((template) => template.name === starterName);
+
+      if (!starterTemplate) {
+        return;
+      }
+
+      setSearchParams({});
+
+      (async () => {
+        setFakeLoading(true);
+        runAnimation();
+
+        try {
+          const temResp = await getTemplates(starterTemplate.name, starterTemplate.label);
+
+          if (!temResp) {
+            setFakeLoading(false);
+            return;
+          }
+
+          const { assistantMessage, userMessage } = temResp;
+          const userMessageText = `[Model: ${model}]\n\n[Provider: ${provider?.name || 'unknown'}]\n\nStart a new ${starterTemplate.label} project`;
+
+          setMessages([
+            {
+              id: `1-${Date.now()}`,
+              role: 'user',
+              content: userMessageText,
+              parts: createMessageParts(userMessageText, []),
+            },
+            {
+              id: `2-${Date.now()}`,
+              role: 'assistant',
+              content: assistantMessage,
+            },
+            {
+              id: `3-${Date.now()}`,
+              role: 'user',
+              content: `[Model: ${model}]\n\n[Provider: ${provider?.name || 'unknown'}]\n\n${userMessage}`,
+              annotations: ['hidden'],
+            },
+          ]);
+
+          reload();
+          setFakeLoading(false);
+          setChatStarted(true);
+          chatStore.setKey('started', true);
+        } catch (error) {
+          console.error('Failed to import starter template:', error);
+          toast.warning('Failed to import starter template');
+          setFakeLoading(false);
+        }
+      })();
+    }, [chatStarted, model, provider, searchParams, setSearchParams]);
 
     // Helper function to convert File[] to Attachment[] for AI SDK
     const filesToAttachments = async (files: File[]): Promise<Attachment[] | undefined> => {

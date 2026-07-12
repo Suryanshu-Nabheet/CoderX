@@ -1,4 +1,4 @@
-import { type ActionFunctionArgs } from '@remix-run/cloudflare';
+import { type ActionFunctionArgs } from '@remix-run/node';
 import { createDataStream, generateId } from 'ai';
 import { MAX_RESPONSE_SEGMENTS, MAX_TOKENS, type FileMap } from '~/lib/.server/llm/constants';
 import { CONTINUE_PROMPT } from '~/lib/common/prompts/prompts';
@@ -41,7 +41,7 @@ function parseCookies(cookieHeader: string): Record<string, string> {
   return cookies;
 }
 
-async function chatAction({ context, request }: ActionFunctionArgs) {
+async function chatAction({ request }: ActionFunctionArgs) {
   const streamRecovery = new StreamRecoveryManager({
     timeout: 45000,
     maxRetries: 2,
@@ -53,7 +53,7 @@ async function chatAction({ context, request }: ActionFunctionArgs) {
   let requestData;
 
   try {
-    requestData = await request.json<{
+    requestData = (await request.json()) as {
       messages: Messages;
       files: any;
       promptId?: string;
@@ -61,7 +61,7 @@ async function chatAction({ context, request }: ActionFunctionArgs) {
       chatMode: 'discuss' | 'build';
       designScheme?: DesignScheme;
       maxLLMSteps: number;
-    }>();
+    };
   } catch (error) {
     logger.error('Failed to parse request JSON:', error);
     return new Response(
@@ -151,12 +151,12 @@ async function chatAction({ context, request }: ActionFunctionArgs) {
     providerSettings = {};
   }
 
-  const envApiKeys = loadApiKeysFromEnv(context.cloudflare?.env as any);
+  const envApiKeys = loadApiKeysFromEnv(process.env as any);
   const apiKeys: Record<string, string> = { ...envApiKeys, ...cookieApiKeys };
 
   logger.info(
     `Resolved API Keys: ${Object.keys(apiKeys)
-      .map((k) => `${k}:${Boolean(apiKeys[k]) ? 'SET' : 'UNSET'}`)
+      .map((k) => `${k}:${apiKeys[k] ? 'SET' : 'UNSET'}`)
       .join(', ')}`,
   );
 
@@ -207,7 +207,7 @@ async function chatAction({ context, request }: ActionFunctionArgs) {
 
           summary = await createSummary({
             messages: [...processedMessages],
-            env: context.cloudflare?.env,
+            env: process.env,
             apiKeys,
             providerSettings,
             promptId,
@@ -249,7 +249,7 @@ async function chatAction({ context, request }: ActionFunctionArgs) {
           console.log(`Messages count: ${processedMessages.length}`);
           filteredFiles = await selectContext({
             messages: [...processedMessages],
-            env: context.cloudflare?.env,
+            env: process.env,
             apiKeys,
             files,
             providerSettings,
@@ -355,7 +355,7 @@ async function chatAction({ context, request }: ActionFunctionArgs) {
             // Continue prompt also goes through LLM (no hardcoded responses)
             const result = await streamText({
               messages: [...processedMessages],
-              env: context.cloudflare?.env,
+              env: process.env,
               options,
               apiKeys,
               files,
@@ -446,7 +446,7 @@ async function chatAction({ context, request }: ActionFunctionArgs) {
         try {
           result = await streamText({
             messages: [...processedMessages],
-            env: context.cloudflare?.env,
+            env: process.env,
             options,
             apiKeys,
             files,

@@ -1,4 +1,5 @@
 import ignore from 'ignore';
+import type { TemplateFile } from '~/lib/.server/local-templates';
 import type { ProviderInfo } from '~/types/model';
 import type { Template } from '~/types/template';
 import { STARTER_TEMPLATES } from './constants';
@@ -158,23 +159,20 @@ export const selectStarterTemplate = async (options: { message: string; model: s
   }
 };
 
-const getGitHubRepoContent = async (repoName: string): Promise<{ name: string; path: string; content: string }[]> => {
+const getTemplateContent = async (templateId: string): Promise<TemplateFile[]> => {
   try {
-    // Instead of directly fetching from GitHub, use our own API endpoint as a proxy
-    console.log('Fetching GitHub template for repo:', repoName);
+    const response = await fetch(`/api/template?templateId=${encodeURIComponent(templateId)}`);
 
-    const response = await fetch(`/api/github-template?repo=${encodeURIComponent(repoName)}`);
-
-    console.log('GitHub template response status:', response.status, response.statusText);
+    console.log('Template API response status:', response.status, response.statusText);
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('GitHub template fetch failed:', response.status, response.statusText, errorText);
+      console.error('Template fetch failed:', response.status, response.statusText, errorText);
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
     // Our API will return the files in the format we need
-    const files = (await response.json()) as any;
+    const files = (await response.json()) as TemplateFile[];
 
     return files;
   } catch (error) {
@@ -190,8 +188,8 @@ export async function getTemplates(templateName: string, title?: string) {
     return null;
   }
 
-  const githubRepo = template.githubRepo;
-  const files = await getGitHubRepoContent(githubRepo);
+  const templateId = template.templateId;
+  const files = await getTemplateContent(templateId);
 
   let filteredFiles = files;
 
@@ -212,12 +210,10 @@ export async function getTemplates(templateName: string, title?: string) {
      */
   }
 
-  // exclude template metadata folders (.coderx or legacy .bolt)
-  filteredFiles = filteredFiles.filter((x) => !x.path.startsWith('.coderx') && !x.path.startsWith('.bolt'));
+  // exclude CoderX template metadata folder
+  filteredFiles = filteredFiles.filter((x) => !x.path.startsWith('.coderx'));
 
-  const templateIgnoreFile = files.find(
-    (x) => (x.path.startsWith('.coderx') || x.path.startsWith('.bolt')) && x.name === 'ignore',
-  );
+  const templateIgnoreFile = files.find((x) => x.path.startsWith('.coderx') && x.name === 'ignore');
 
   const filesToImport = {
     files: filteredFiles,
@@ -240,19 +236,18 @@ export async function getTemplates(templateName: string, title?: string) {
 CoderX is initializing your project with the required files using the ${template.name} template.
 <coderxArtifact id="imported-files" title="${title || 'Create initial files'}" type="bundled">
 ${filesToImport.files
-  .map(
-    (file) =>
-      `<coderxAction type="file" filePath="${file.path}">
+  .map((file) => {
+    const encodingAttr = file.encoding === 'base64' ? ' encoding="base64"' : '';
+
+    return `<coderxAction type="file" filePath="${file.path}"${encodingAttr}>
 ${file.content}
-</coderxAction>`,
-  )
+</coderxAction>`;
+  })
   .join('\n')}
 </coderxArtifact>
 `;
   let userMessage = ``;
-  const templatePromptFile = files
-    .filter((x) => x.path.startsWith('.coderx') || x.path.startsWith('.bolt'))
-    .find((x) => x.name === 'prompt');
+  const templatePromptFile = files.filter((x) => x.path.startsWith('.coderx')).find((x) => x.name === 'prompt');
 
   if (templatePromptFile) {
     userMessage = `

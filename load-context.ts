@@ -1,13 +1,3 @@
-type CloudflareContext = {
-  env: Env;
-  ctx?: ExecutionContext;
-  cf?: IncomingRequestCfProperties;
-};
+import type { AppLoadContext } from '@remix-run/node';
 
-declare module '@remix-run/cloudflare' {
-  interface AppLoadContext {
-    cloudflare: CloudflareContext;
-  }
-}
-
-export {};
+export type { AppLoadContext };

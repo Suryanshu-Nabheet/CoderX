@@ -1,15 +1,14 @@
 name: 'Bug report'
-description: Create a report to help us improve
+description: Report a bug in CoderX
 body:
   - type: markdown
     attributes:
       value: |
-        Thank you for reporting an issue.
+        Thanks for taking the time to report a bug.
 
-        This issue tracker is for bugs and issues found with [CoderX](https://github.com/Suryanshu-Nabheet/CoderX).
-        If you experience issues related to WebContainer, file an issue in the [WebContainer core repository](https://github.com/stackblitz/webcontainer-core).
+        Use this form for issues with [CoderX](https://github.com/Suryanshu-Nabheet/CoderX). For security issues, email [suryanshu.nabheet@gmail.com](mailto:suryanshu.nabheet@gmail.com) — do not file a public issue.
 
-        The more information you fill in, the better we can help you.
+        Include browser/OS details and clear reproduction steps so we can investigate quickly.
   - type: textarea
     id: description
     attributes:

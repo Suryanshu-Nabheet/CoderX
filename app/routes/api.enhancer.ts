@@ -1,4 +1,4 @@
-import { type ActionFunctionArgs } from '@remix-run/cloudflare';
+import { type ActionFunctionArgs } from '@remix-run/node';
 import { streamText } from '~/lib/.server/llm/stream-text';
 import { stripIndents } from '~/utils/stripIndent';
 import type { ProviderInfo } from '~/types/model';
@@ -55,13 +55,13 @@ function enhancePromptFallback(message: string): string {
   return enhanced;
 }
 
-async function enhancerAction({ context, request }: ActionFunctionArgs) {
-  const { message, model, provider } = await request.json<{
+async function enhancerAction({ request }: ActionFunctionArgs) {
+  const { message, model, provider } = (await request.json()) as {
     message: string;
     model: string;
     provider: ProviderInfo;
     apiKeys?: Record<string, string>;
-  }>();
+  };
 
   const { name: providerName } = provider;
 
@@ -85,7 +85,7 @@ async function enhancerAction({ context, request }: ActionFunctionArgs) {
   const providerSettings = getProviderSettingsFromCookie(cookieHeader);
 
   // Merge environment API keys as fallback
-  const envApiKeys = loadApiKeysFromEnv(context.cloudflare?.env as any);
+  const envApiKeys = loadApiKeysFromEnv(process.env as any);
   const apiKeys = { ...envApiKeys, ...cookieApiKeys };
 
   // Check if we have any API keys available
@@ -141,7 +141,7 @@ async function enhancerAction({ context, request }: ActionFunctionArgs) {
           `,
         },
       ],
-      env: context.cloudflare?.env as any,
+      env: process.env as any,
       apiKeys,
       providerSettings,
       options: {

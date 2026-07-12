@@ -116,6 +116,7 @@ export function DataTab() {
     handleResetChats,
     handleDownloadTemplate,
     handleImportAPIKeys,
+    handleExportAPIKeys,
   } = useDataOperations({
     customDb: db || undefined, // Pass the coderxHistory database, converting null to undefined
     onReloadSettings: () => window.location.reload(),
@@ -662,6 +663,43 @@ export function DataTab() {
                     </>
                   ) : (
                     'Download'
+                  )}
+                </Button>
+              </motion.div>
+            </CardFooter>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <div className="flex items-center mb-2">
+                <motion.div className="text-accent-500 mr-2" whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                  <div className="i-ph-download-duotone w-5 h-5" />
+                </motion.div>
+                <CardTitle className="text-lg group-hover:text-coderx-elements-item-contentAccent transition-colors">
+                  Export API Keys
+                </CardTitle>
+              </div>
+              <CardDescription>Export configured API keys to a JSON file.</CardDescription>
+            </CardHeader>
+            <CardFooter>
+              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} className="w-full">
+                <Button
+                  onClick={handleExportAPIKeys}
+                  disabled={isExporting}
+                  variant="outline"
+                  size="sm"
+                  className={classNames(
+                    'hover:text-coderx-elements-item-contentAccent hover:border-coderx-elements-item-backgroundAccent hover:bg-coderx-elements-item-backgroundAccent transition-colors w-full justify-center',
+                    isExporting ? 'cursor-not-allowed' : '',
+                  )}
+                >
+                  {isExporting ? (
+                    <>
+                      <div className="i-ph-spinner-gap-bold animate-spin w-4 h-4 mr-2" />
+                      Exporting...
+                    </>
+                  ) : (
+                    'Export Keys'
                   )}
                 </Button>
               </motion.div>

@@ -338,7 +338,12 @@ export class ActionRunner {
     }
 
     try {
-      await webcontainer.fs.writeFile(relativePath, action.content);
+      const fileContent =
+        action.encoding === 'base64'
+          ? Uint8Array.from(atob(action.content), (char) => char.charCodeAt(0))
+          : action.content;
+
+      await webcontainer.fs.writeFile(relativePath, fileContent);
       logger.debug(`File written ${relativePath}`);
     } catch (error) {
       logger.error('Failed to write file\n\n', error);

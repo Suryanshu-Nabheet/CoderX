@@ -72,6 +72,8 @@ declare global {
   await app.whenReady();
   console.log('App is ready');
 
+  process.env.CODERX_TEMPLATES_ROOT = path.join(app.getAppPath(), 'templates');
+
   // Load any existing cookies from ElectronStore, set as cookie
   await initCookies();
 
@@ -119,14 +121,7 @@ declare global {
       const handler = createRequestHandler(serverBuild, 'production');
       console.log('Handling request with server build:', req.url);
 
-      const result = await handler(req, {
-        /*
-         * Remix app access cloudflare.env
-         * Need to pass an empty object to prevent undefined
-         */
-        // @ts-ignore:next-line
-        cloudflare: {},
-      });
+      const result = await handler(req, {});
 
       return result;
     } catch (err) {

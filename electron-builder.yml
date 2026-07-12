@@ -7,7 +7,7 @@ files:
   - build/**/*
   - package.json
   - node_modules/**/*
-  - icons/**
+  - templates/**
   - electron-update.yml
 extraMetadata:
   main: build/electron/main/index.mjs

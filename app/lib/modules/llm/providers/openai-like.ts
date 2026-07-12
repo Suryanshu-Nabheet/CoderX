@@ -55,7 +55,7 @@ export default class OpenAILikeProvider extends BaseProvider {
       console.log(`${this.name}: Not allowed to GET /models endpoint for provider`, error);
 
       // Fallback to OPENAI_LIKE_API_MODELS if available
-      // eslint-disable-next-line dot-notation
+
       const modelsEnv = serverEnv['OPENAI_LIKE_API_MODELS'] || settings?.OPENAI_LIKE_API_MODELS;
 
       if (modelsEnv) {

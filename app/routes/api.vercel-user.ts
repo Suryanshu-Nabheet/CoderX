@@ -1,8 +1,8 @@
-import { json } from '@remix-run/cloudflare';
+import { json } from '@remix-run/node';
 import { getApiKeysFromCookie } from '~/lib/api/cookies';
 import { withSecurity } from '~/lib/security';
 
-async function vercelUserLoader({ request, context }: { request: Request; context: any }) {
+async function vercelUserLoader({ request, context: _context }: { request: Request; context: any }) {
   try {
     // Get API keys from cookies (server-side only)
     const cookieHeader = request.headers.get('Cookie');
@@ -10,9 +10,7 @@ async function vercelUserLoader({ request, context }: { request: Request; contex
 
     // Try to get Vercel token from various sources
     let vercelToken =
-      apiKeys.VITE_VERCEL_ACCESS_TOKEN ||
-      context?.cloudflare?.env?.VITE_VERCEL_ACCESS_TOKEN ||
-      process.env.VITE_VERCEL_ACCESS_TOKEN;
+      apiKeys.VITE_VERCEL_ACCESS_TOKEN || process.env?.VITE_VERCEL_ACCESS_TOKEN || process.env.VITE_VERCEL_ACCESS_TOKEN;
 
     // Also check for token in request headers (for direct API calls)
     if (!vercelToken) {
@@ -77,7 +75,7 @@ export const loader = withSecurity(vercelUserLoader, {
   allowedMethods: ['GET'],
 });
 
-async function vercelUserAction({ request, context }: { request: Request; context: any }) {
+async function vercelUserAction({ request, context: _context }: { request: Request; context: any }) {
   try {
     const formData = await request.formData();
     const action = formData.get('action');
@@ -88,9 +86,7 @@ async function vercelUserAction({ request, context }: { request: Request; contex
 
     // Try to get Vercel token from various sources
     let vercelToken =
-      apiKeys.VITE_VERCEL_ACCESS_TOKEN ||
-      context?.cloudflare?.env?.VITE_VERCEL_ACCESS_TOKEN ||
-      process.env.VITE_VERCEL_ACCESS_TOKEN;
+      apiKeys.VITE_VERCEL_ACCESS_TOKEN || process.env?.VITE_VERCEL_ACCESS_TOKEN || process.env.VITE_VERCEL_ACCESS_TOKEN;
 
     // Also check for token in request headers (for direct API calls)
     if (!vercelToken) {

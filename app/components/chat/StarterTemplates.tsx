@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from '@remix-run/react';
 import type { Template } from '~/types/template';
 import { STARTER_TEMPLATES } from '~/utils/constants';
 
@@ -7,7 +8,6 @@ interface FrameworkLinkProps {
 }
 
 const FrameworkLink: React.FC<FrameworkLinkProps> = ({ template }) => {
-  // Map template names to actual icon files
   const iconMap: Record<string, string> = {
     'Expo App': '/icons/expo.svg',
     'Basic Astro': '/icons/astro.svg',
@@ -25,22 +25,22 @@ const FrameworkLink: React.FC<FrameworkLinkProps> = ({ template }) => {
     SolidJS: '/icons/solidjs.svg',
   };
 
-  const iconSrc = iconMap[template.name] || '/icons/vite.svg'; // fallback to vite icon
+  const iconSrc = iconMap[template.name] || '/icons/vite.svg';
 
   return (
-    <a
-      href={`/git?url=https://github.com/${template.githubRepo}.git`}
+    <Link
+      to={`/?starter=${encodeURIComponent(template.name)}`}
       data-state="closed"
       data-discover="true"
       className="items-center justify-center"
+      title={`Start with ${template.label}`}
     >
       <img
         src={iconSrc}
         alt={template.label}
         className="w-8 h-8 transition-all duration-200 grayscale hover:grayscale-0 hover:scale-110 opacity-60 hover:opacity-100"
-        title={template.label}
       />
-    </a>
+    </Link>
   );
 };
 

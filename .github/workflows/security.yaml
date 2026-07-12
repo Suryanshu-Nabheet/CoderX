@@ -2,7 +2,7 @@ name: Security Analysis
 
 on:
   push:
-    branches: [main, stable]
+    branches: [main]
   pull_request:
     branches: [main]
   schedule:

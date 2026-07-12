@@ -1,8 +1,8 @@
 blank_issues_enabled: false
 contact_links:
-  - name: CoderX related issues
-    url: https://github.com/Suryanshu-Nabheet/CoderX/issues/new/choose
-    about: Report issues related to CoderX
-  - name: Chat
-    url: https://github.com/Suryanshu-Nabheet/CoderX/discussions
-    about: Ask questions and discuss with other CoderX users.
+  - name: Report a bug
+    url: https://github.com/Suryanshu-Nabheet/CoderX/issues/new?template=bug_report.yml
+    about: File a bug report with the issue template
+  - name: Request a feature
+    url: https://github.com/Suryanshu-Nabheet/CoderX/issues/new?template=feature_request.md
+    about: Suggest a new feature or improvement

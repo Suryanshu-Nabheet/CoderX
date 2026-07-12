@@ -380,6 +380,12 @@ export class StreamingMessageParser {
       }
 
       (actionAttributes as FileAction).filePath = filePath;
+
+      const encoding = this.#extractAttribute(actionTag, 'encoding');
+
+      if (encoding === 'base64') {
+        (actionAttributes as FileAction).encoding = 'base64';
+      }
     } else if (!['shell', 'start'].includes(actionType)) {
       logger.warn(`Unknown action type '${actionType}'`);
     }

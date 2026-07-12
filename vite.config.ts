@@ -18,16 +18,19 @@ export default defineConfig((config) => {
     build: {
       target: 'esnext',
     },
+    ssr: {
+      external: ['undici'],
+    },
     plugins: [
       nodePolyfills({
-        include: ['buffer', 'process', 'util'],
+        include: ['buffer', 'process'],
         globals: {
           Buffer: true,
           process: true,
           global: true,
         },
         protocolImports: true,
-        exclude: ['child_process', 'fs', 'path'],
+        exclude: ['child_process', 'fs', 'path', 'util'],
       }),
       {
         name: 'buffer-polyfill',
@@ -52,7 +55,7 @@ export default defineConfig((config) => {
         },
       }),
       UnoCSS(),
-      tsconfigPaths(),
+      tsconfigPaths({ ignoreConfigErrors: true }),
       chrome129IssuePlugin(),
       config.mode === 'production' && optimizeCssModules({ apply: 'build' }),
     ],
@@ -75,10 +78,10 @@ export default defineConfig((config) => {
       exclude: [
         '**/node_modules/**',
         '**/dist/**',
+        '**/templates/**',
         '**/cypress/**',
         '**/.{idea,git,cache,output,temp}/**',
         '**/{karma,rollup,webpack,vite,vitest,jest,ava,babel,nyc,cypress,tsup,build}.config.*',
-        '**/tests/preview/**', // Exclude preview tests that require Playwright
       ],
     },
   };

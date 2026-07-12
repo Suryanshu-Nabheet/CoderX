@@ -4,7 +4,7 @@ export type EnvApiKeys = Record<string, string>;
 
 /**
  * Load API keys from environment variables for all registered LLM providers.
- * Server-side only — merges Cloudflare env, process.env, and LLMManager env.
+ * Server-side only — loads API keys from process.env and LLMManager env.
  */
 export function loadApiKeysFromEnv(env?: Record<string, string>): EnvApiKeys {
   const llmManager = LLMManager.getInstance(env ?? {});

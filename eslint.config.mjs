@@ -1,19 +1,28 @@
-import blitzPlugin from '@blitz/eslint-plugin';
-import { jsFileExtensions } from '@blitz/eslint-plugin/dist/configs/javascript.js';
-import { getNamingConventionRule, tsFileExtensions } from '@blitz/eslint-plugin/dist/configs/typescript.js';
+import eslint from '@eslint/js';
+import eslintConfigPrettier from 'eslint-config-prettier';
+import eslintPluginPrettier from 'eslint-plugin-prettier/recommended';
+import tseslint from 'typescript-eslint';
 
-export default [
+export default tseslint.config(
   {
-    ignores: ['**/dist', '**/node_modules', '**/.wrangler', '**/coderx/build', '**/.history'],
+    ignores: ['**/dist', '**/node_modules', '**/build', '**/.history', 'templates/**'],
   },
-  ...blitzPlugin.configs.recommended(),
+  eslint.configs.recommended,
+  ...tseslint.configs.recommended,
+  eslintConfigPrettier,
+  eslintPluginPrettier,
   {
     rules: {
-      '@blitz/catch-error-name': 'off',
       '@typescript-eslint/no-this-alias': 'off',
       '@typescript-eslint/no-empty-object-type': 'off',
-      '@blitz/comment-syntax': 'off',
-      '@blitz/block-scope-case': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
+      'no-control-regex': 'off',
+      'no-useless-escape': 'off',
+      'no-unused-private-class-members': 'off',
+      'no-useless-catch': 'off',
+      'no-self-assign': 'off',
+      'no-empty': 'off',
       'array-bracket-spacing': ['error', 'never'],
       'object-curly-newline': ['error', { consistent: true }],
       'keyword-spacing': ['error', { before: true, after: true }],
@@ -26,20 +35,14 @@ export default [
     },
   },
   {
-    files: ['**/*.tsx'],
-    rules: {
-      ...getNamingConventionRule({}, true),
-    },
-  },
-  {
     files: ['**/*.d.ts'],
     rules: {
       '@typescript-eslint/no-empty-object-type': 'off',
     },
   },
   {
-    files: [...tsFileExtensions, ...jsFileExtensions, '**/*.tsx'],
-    ignores: ['functions/*', 'electron/**/*'],
+    files: ['**/*.{ts,tsx,js,mjs,cjs}'],
+    ignores: ['electron/**/*'],
     rules: {
       'no-restricted-imports': [
         'error',
@@ -54,4 +57,4 @@ export default [
       ],
     },
   },
-];
+);

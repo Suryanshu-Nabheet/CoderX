@@ -1,22 +1,15 @@
-import type { LoaderFunction } from '@remix-run/cloudflare';
+import { json } from '@remix-run/node';
 import { LLMManager } from '~/lib/modules/llm/manager';
 import { getApiKeysFromCookie } from '~/lib/api/cookies';
+import { withSecurity } from '~/lib/security';
 
-export const loader: LoaderFunction = async ({ context, request }) => {
-  // Get API keys from cookie
+async function exportApiKeysLoader({ request }: { request: Request }) {
   const cookieHeader = request.headers.get('Cookie');
   const apiKeysFromCookie = getApiKeysFromCookie(cookieHeader);
-
-  // Initialize the LLM manager to access environment variables
-  const llmManager = LLMManager.getInstance(context?.cloudflare?.env as any);
-
-  // Get all provider instances to find their API token keys
+  const llmManager = LLMManager.getInstance(process.env as Record<string, string>);
   const providers = llmManager.getAllProviders();
-
-  // Create a comprehensive API keys object
   const apiKeys: Record<string, string> = { ...apiKeysFromCookie };
 
-  // For each provider, check all possible sources for API keys
   for (const provider of providers) {
     if (!provider.config.apiTokenKey) {
       continue;
@@ -24,21 +17,21 @@ export const loader: LoaderFunction = async ({ context, request }) => {
 
     const envVarName = provider.config.apiTokenKey;
 
-    // Skip if we already have this provider's key from cookies
     if (apiKeys[provider.name]) {
       continue;
     }
 
-    // Check environment variables in order of precedence
-    const envValue =
-      (context?.cloudflare?.env as Record<string, any>)?.[envVarName] ||
-      process.env[envVarName] ||
-      llmManager.env[envVarName];
+    const envValue = process.env?.[envVarName] || process.env[envVarName] || llmManager.env[envVarName];
 
     if (envValue) {
       apiKeys[provider.name] = envValue;
     }
   }
 
-  return Response.json(apiKeys);
-};
+  return json(apiKeys);
+}
+
+export const loader = withSecurity(exportApiKeysLoader, {
+  rateLimit: true,
+  allowedMethods: ['GET'],
+});
