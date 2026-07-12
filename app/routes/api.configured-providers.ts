@@ -13,9 +13,26 @@ interface ConfiguredProvidersResponse {
   providers: ConfiguredProvider[];
 }
 
+async function isLocalProviderReachable(baseUrl: string): Promise<boolean> {
+  const normalizedBaseUrl = baseUrl.replace(/\/$/, '');
+  const healthPath = normalizedBaseUrl.includes('/v1')
+    ? `${normalizedBaseUrl}/models`
+    : `${normalizedBaseUrl}/api/tags`;
+
+  try {
+    const response = await fetch(healthPath, {
+      signal: AbortSignal.timeout(2000),
+    });
+
+    return response.ok;
+  } catch {
+    return false;
+  }
+}
+
 /**
- * API endpoint that detects which providers are configured via environment variables
- * This helps auto-enable providers that have been set up by the user
+ * API endpoint that detects which local providers are configured via environment
+ * variables or reachable at their default localhost URLs.
  */
 export const loader: LoaderFunction = async () => {
   try {
@@ -54,6 +71,9 @@ export const loader: LoaderFunction = async () => {
           if (isValidEnvValue) {
             isConfigured = true;
             configMethod = 'environment';
+          } else if (config.baseUrl) {
+            isConfigured = await isLocalProviderReachable(config.baseUrl);
+            configMethod = isConfigured ? 'environment' : 'none';
           }
         }
 

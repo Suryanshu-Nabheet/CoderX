@@ -2,7 +2,8 @@ import { BaseProvider } from '~/lib/modules/llm/base-provider';
 import type { ModelInfo } from '~/lib/modules/llm/types';
 import type { IProviderSetting } from '~/types/model';
 import type { LanguageModelV1 } from 'ai';
-import { ollama } from 'ollama-ai-provider';
+import { createOllama } from 'ollama-ai-provider';
+import { createOllamaCompatibleFetch } from '~/lib/modules/llm/providers/ollama-compatible-fetch';
 import { logger } from '~/utils/logger';
 
 interface OllamaModelDetails {
@@ -35,6 +36,7 @@ export default class OllamaProvider extends BaseProvider {
 
   config = {
     baseUrlKey: 'OLLAMA_API_BASE_URL',
+    baseUrl: 'http://127.0.0.1:11434',
   };
 
   staticModels: ModelInfo[] = [];
@@ -56,7 +58,7 @@ export default class OllamaProvider extends BaseProvider {
 
   getDefaultNumCtx(serverEnv?: Env): number {
     const envRecord = this._convertEnvToRecord(serverEnv);
-    return envRecord.DEFAULT_NUM_CTX ? parseInt(envRecord.DEFAULT_NUM_CTX, 10) : 32768;
+    return envRecord.DEFAULT_NUM_CTX ? parseInt(envRecord.DEFAULT_NUM_CTX, 10) : 8192;
   }
 
   async getDynamicModels(
@@ -112,12 +114,13 @@ export default class OllamaProvider extends BaseProvider {
 
     logger.debug('Ollama Base Url used: ', baseUrl);
 
-    const ollamaInstance = ollama(model, {
+    const ollamaProvider = createOllama({
+      baseURL: `${baseUrl}/api`,
+      fetch: createOllamaCompatibleFetch(),
+    });
+
+    return ollamaProvider(model, {
       numCtx: this.getDefaultNumCtx(serverEnv),
-    }) as LanguageModelV1 & { config: any };
-
-    ollamaInstance.config.baseURL = `${baseUrl}/api`;
-
-    return ollamaInstance;
+    });
   };
 }

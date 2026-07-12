@@ -110,11 +110,17 @@ export default function LocalProvidersTab() {
     }
   }, [filteredProviders]);
 
+  const getOllamaBaseUrl = useCallback(() => {
+    return filteredProviders.find((provider) => provider.name === 'Ollama')?.settings.baseUrl || OLLAMA_API_URL;
+  }, [filteredProviders]);
+
   const fetchOllamaModels = async () => {
+    const ollamaBaseUrl = getOllamaBaseUrl();
+
     try {
       setIsLoadingModels(true);
 
-      const response = await fetch(`${OLLAMA_API_URL}/api/tags`);
+      const response = await fetch(`${ollamaBaseUrl}/api/tags`);
 
       if (!response.ok) {
         throw new Error('Failed to fetch models');
@@ -166,9 +172,17 @@ export default function LocalProvidersTab() {
 
   const handleToggleProvider = useCallback(
     (provider: IProviderConfig, enabled: boolean) => {
+      const defaultBaseUrl =
+        provider.name === 'Ollama'
+          ? 'http://127.0.0.1:11434'
+          : provider.name === 'LMStudio'
+            ? 'http://127.0.0.1:1234'
+            : provider.settings.baseUrl;
+
       updateProviderSettings(provider.name, {
         ...provider.settings,
         enabled,
+        baseUrl: provider.settings.baseUrl || defaultBaseUrl,
       });
 
       logStore.logProvider(`Provider ${provider.name} ${enabled ? 'enabled' : 'disabled'}`, {
@@ -191,10 +205,12 @@ export default function LocalProvidersTab() {
   );
 
   const handleUpdateOllamaModel = async (modelName: string) => {
+    const ollamaBaseUrl = getOllamaBaseUrl();
+
     try {
       setOllamaModels((prev) => prev.map((m) => (m.name === modelName ? { ...m, status: 'updating' } : m)));
 
-      const response = await fetch(`${OLLAMA_API_URL}/api/pull`, {
+      const response = await fetch(`${ollamaBaseUrl}/api/pull`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: modelName }),
@@ -264,8 +280,10 @@ export default function LocalProvidersTab() {
       return;
     }
 
+    const ollamaBaseUrl = getOllamaBaseUrl();
+
     try {
-      const response = await fetch(`${OLLAMA_API_URL}/api/delete`, {
+      const response = await fetch(`${ollamaBaseUrl}/api/delete`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: modelName }),

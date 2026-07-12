@@ -88,12 +88,20 @@ const getInitialProviderSettings = (): ProviderSetting => {
 
   // Start with default settings
   PROVIDER_LIST.forEach((provider) => {
+    const settings: IProviderConfig['settings'] = {
+      // Local providers should be disabled by default
+      enabled: !LOCAL_PROVIDERS.includes(provider.name),
+    };
+
+    if (provider.name === 'Ollama') {
+      settings.baseUrl = 'http://127.0.0.1:11434';
+    } else if (provider.name === 'LMStudio') {
+      settings.baseUrl = 'http://127.0.0.1:1234';
+    }
+
     initialSettings[provider.name] = {
       ...provider,
-      settings: {
-        // Local providers should be disabled by default
-        enabled: !LOCAL_PROVIDERS.includes(provider.name),
-      },
+      settings,
     };
   });
 

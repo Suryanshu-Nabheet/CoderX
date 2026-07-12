@@ -6,8 +6,7 @@ import { Header } from '~/components/header/Header';
 import BackgroundRays from '~/components/ui/BackgroundRays';
 
 export const meta: MetaFunction = () => {
-  const description =
-    'CoderX — AI-powered development platform for building full-stack Node.js apps in the browser.';
+  const description = 'CoderX — AI-powered development platform for building full-stack Node.js apps in the browser.';
 
   return [
     { title: 'CoderX' },
