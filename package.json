@@ -16,14 +16,17 @@
     "url": "https://github.com/Suryanshu-Nabheet/CoderX.git"
   },
   "scripts": {
-    "build": "remix vite:build",
+    "setup": "bash scripts/setup.sh",
+    "build": "bash scripts/build.sh",
+    "build:remix": "remix vite:build",
     "dev": "node pre-start.cjs && remix vite:dev",
     "test": "vitest --run",
+    "test:all": "bash scripts/test.sh",
     "test:watch": "vitest",
     "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint app",
     "lint:fix": "eslint --cache --cache-location ./node_modules/.cache/eslint app --fix && prettier app --write",
     "typecheck": "tsc",
-    "clean": "node scripts/clean.js"
+    "clean": "bash scripts/clean.sh"
   },
   "engines": {
     "node": ">=18.18.0"
