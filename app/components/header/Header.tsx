@@ -24,7 +24,7 @@ export function Header() {
             <img
               src="/logo.png"
               alt="CoderX Logo"
-              className="w-32 h-32 object-contain drop-shadow-lg hover:scale-105 transition-transform duration-200"
+              className="w-32 h-32 object-contain drop-shadow-lg"
             />
           </a>
         </div>

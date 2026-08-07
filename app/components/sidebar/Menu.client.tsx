@@ -323,7 +323,7 @@ export const Menu = () => {
               <img
                 src="/logo.png"
                 alt="CoderX Logo"
-                className="w-32 h-32 object-contain drop-shadow-md hover:scale-105 transition-transform duration-200"
+                className="w-32 h-32 object-contain drop-shadow-md"
               />
             </a>
           </div>
@@ -496,26 +496,6 @@ export const Menu = () => {
           {dialogContent === null && (
             <div className="flex flex-col px-4 py-3 space-y-3 relative">
               <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-600 to-transparent"></div>
-              {/* Guest User Section */}
-              <div className="flex items-center justify-center px-3 py-2 bg-gray-800 rounded-lg">
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center justify-center w-[32px] h-[32px] overflow-hidden bg-gray-700 text-gray-200 rounded-full shrink-0">
-                    {profile?.avatar ? (
-                      <img
-                        src={profile.avatar}
-                        alt={profile?.username || 'User'}
-                        className="w-full h-full object-cover"
-                        loading="eager"
-                        decoding="sync"
-                      />
-                    ) : (
-                      <div className="i-ph:user-fill text-lg" />
-                    )}
-                  </div>
-                  <span className="font-medium text-sm text-white truncate">{profile?.username || 'Guest User'}</span>
-                </div>
-              </div>
-
               {/* Settings Button */}
               <div className="flex items-center justify-center">
                 <SettingsButton onClick={handleSettingsClick} />
