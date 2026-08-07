@@ -6,19 +6,26 @@ import { Header } from '~/components/header/Header';
 import BackgroundRays from '~/components/ui/BackgroundRays';
 
 export const meta: MetaFunction = () => {
-  const description = 'CoderX — AI-powered development platform for building full-stack Node.js apps in the browser.';
+  const title = 'CoderX — AI-Powered Development Platform';
+  const description = 'CoderX — AI-Powered Development Platform created by Suryanshu Nabheet.';
+  const author = 'Suryanshu Nabheet';
+  const copyright = '© 2026 Suryanshu Nabheet. All rights reserved.';
 
   return [
-    { title: 'CoderX' },
+    { title },
     { name: 'description', content: description },
-    { property: 'og:title', content: 'CoderX' },
+    { name: 'author', content: author },
+    { name: 'copyright', content: copyright },
+    { name: 'keywords', content: 'CoderX, AI-Powered Development Platform, Suryanshu Nabheet, AI Coding, WebContainer, Fullstack' },
+    { property: 'og:title', content: title },
     { property: 'og:description', content: description },
     { property: 'og:image', content: '/social_preview_index.jpg' },
     { property: 'og:type', content: 'website' },
     { name: 'twitter:card', content: 'summary_large_image' },
-    { name: 'twitter:title', content: 'CoderX' },
+    { name: 'twitter:title', content: title },
     { name: 'twitter:description', content: description },
     { name: 'twitter:image', content: '/social_preview_index.jpg' },
+    { name: 'twitter:creator', content: '@suryanshuxdev' },
   ];
 };
 

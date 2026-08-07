@@ -14,6 +14,10 @@
   <a href="SECURITY.md">Security</a>
 </p>
 
+<p align="center">
+  <b>Author & Lead Maintainer:</b> <a href="https://github.com/Suryanshu-Nabheet">Suryanshu Nabheet</a>
+</p>
+
 ---
 
 CoderX is an AI-powered development platform. It combines an in-browser IDE, WebContainer runtime, 19+ LLM providers, and one-click deploy integrations so you can go from idea to running app without leaving the browser.

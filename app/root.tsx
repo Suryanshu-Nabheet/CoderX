@@ -63,6 +63,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="author" content="Suryanshu Nabheet" />
+        <meta name="copyright" content="© 2026 Suryanshu Nabheet. All rights reserved." />
         <Meta />
         <Links />
         <script dangerouslySetInnerHTML={{ __html: inlineThemeCode }} />

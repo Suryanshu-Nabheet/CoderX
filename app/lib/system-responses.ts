@@ -2,7 +2,7 @@
 export const DEFAULT_SYSTEM_RESPONSES = {
   founder: 'Suryanshu Nabheet',
   name: 'CoderX',
-  description: 'An AI-powered coding assistant and development platform',
+  description: 'CoderX — AI-Powered Development Platform',
   version: '1.0.0',
   purpose: 'To help developers build, code, and create amazing projects',
 };
