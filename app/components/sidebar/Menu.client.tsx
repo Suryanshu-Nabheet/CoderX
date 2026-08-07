@@ -319,11 +319,11 @@ export const Menu = () => {
         <div className="h-16 flex items-center justify-center px-4 bg-black rounded-tr-2xl relative">
           <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-600 to-transparent"></div>
           <div className="flex items-center gap-2">
-            <a href="/" className="cursor-pointer">
+            <a href="/" className="flex items-center justify-center cursor-pointer">
               <img
                 src="/logo.png"
                 alt="CoderX Logo"
-                className="w-32 h-32 object-contain drop-shadow-md"
+                className="h-6 w-auto object-contain"
               />
             </a>
           </div>

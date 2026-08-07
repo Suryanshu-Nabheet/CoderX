@@ -20,11 +20,11 @@ export function Header() {
     >
       <div className="flex items-center gap-3 z-logo text-coderx-elements-textPrimary">
         <div className="flex items-center gap-2">
-          <a href="/" className="cursor-pointer">
+          <a href="/" className="flex items-center cursor-pointer">
             <img
               src="/logo.png"
               alt="CoderX Logo"
-              className="w-32 h-32 object-contain drop-shadow-lg"
+              className="h-6 w-auto object-contain"
             />
           </a>
         </div>
