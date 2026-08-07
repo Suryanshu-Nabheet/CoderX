@@ -1,4 +1,4 @@
-# Qwik Starter For Stackblitz ⚡️ (qwik.new)
+# Qwik Starter For CoderX ⚡️
 
 - [Qwik Docs](https://qwik.dev/)
 - [Discord](https://qwik.dev/chat)

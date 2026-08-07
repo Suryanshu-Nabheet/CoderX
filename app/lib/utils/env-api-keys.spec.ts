@@ -26,6 +26,7 @@ describe('env-api-keys', () => {
 
   it('checks whether a provider has an env key', () => {
     vi.stubEnv('OPENAI_API_KEY', 'sk-test-openai');
+    vi.stubEnv('ANTHROPIC_API_KEY', '');
 
     expect(hasEnvApiKey('OpenAI', process.env as Record<string, string>)).toBe(true);
     expect(hasEnvApiKey('Anthropic', process.env as Record<string, string>)).toBe(false);
