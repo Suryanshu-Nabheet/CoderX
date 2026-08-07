@@ -68,6 +68,29 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
         <script dangerouslySetInnerHTML={{ __html: inlineThemeCode }} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'SoftwareApplication',
+              name: 'CoderX',
+              operatingSystem: 'Web, macOS, Windows, Linux',
+              applicationCategory: 'DeveloperApplication',
+              description: 'CoderX — AI-Powered Development Platform',
+              author: {
+                '@type': 'Person',
+                name: 'Suryanshu Nabheet',
+                url: 'https://github.com/Suryanshu-Nabheet',
+              },
+              offers: {
+                '@type': 'Offer',
+                price: '0',
+                priceCurrency: 'USD',
+              },
+            }),
+          }}
+        />
       </head>
       <body>
         <div id="root" className="w-full h-full">
