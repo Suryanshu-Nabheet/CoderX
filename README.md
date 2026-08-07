@@ -26,7 +26,6 @@ CoderX is an AI-powered development platform. It combines an in-browser IDE, Web
 - **Starter templates** — 14 bundled stacks (React, Next.js, Expo, SvelteKit, and more)
 - **Integrations** — Git, GitHub, GitLab, Supabase, and MCP
 - **Deploy** — Netlify, Vercel, GitHub, and GitLab
-- **Desktop app** — Electron builds for macOS, Windows, and Linux
 
 ## Requirements
 
@@ -57,8 +56,6 @@ API keys can be set in `.env.local` or configured in the in-app **Settings** pan
 | `pnpm run typecheck` | TypeScript check |
 | `pnpm run lint` | ESLint |
 | `pnpm run clean` | Clear caches and rebuild |
-| `pnpm run electron:dev` | Electron development mode |
-| `pnpm electron:build:dist` | Build desktop app (macOS, Windows, Linux) |
 
 ## Configuration
 
@@ -68,9 +65,8 @@ Copy `.env.example` to `.env.local` and set the provider API keys you need. All 
 
 ```
 app/           Application source (components, routes, lib)
-electron/      Desktop app (main, preload)
 public/        Static assets, icons, and social preview
-scripts/       Build utilities (clean, electron dev)
+scripts/       Build utilities (clean)
 templates/     Bundled starter project templates (coderx-*)
 ```
 

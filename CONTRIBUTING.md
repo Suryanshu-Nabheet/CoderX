@@ -64,7 +64,6 @@ Server-side keys belong in `.env.local`. See [.env.example](.env.example) for th
 | `app/lib/` | Shared logic, stores, hooks, LLM providers |
 | `app/components/` | UI components |
 | `templates/` | Bundled starter templates (do not fetch from external repos) |
-| `electron/` | Desktop app entry and packaging |
 
 ## Contact
 

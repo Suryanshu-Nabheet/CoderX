@@ -42,7 +42,6 @@ export default tseslint.config(
   },
   {
     files: ['**/*.{ts,tsx,js,mjs,cjs}'],
-    ignores: ['electron/**/*'],
     rules: {
       'no-restricted-imports': [
         'error',

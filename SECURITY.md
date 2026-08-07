@@ -28,7 +28,6 @@ This policy covers the CoderX application repository, including:
 
 - Remix API routes under `app/routes/api.*`
 - Server-side LLM and integration handlers
-- Electron desktop packaging
 - Bundled starter templates under `templates/`
 
 ## Security practices for users and contributors
