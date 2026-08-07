@@ -78,7 +78,7 @@ Contributions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for setup, sta
 
 ## Security
 
-Report vulnerabilities privately to [suryanshu.nabheet@gmail.com](mailto:suryanshu.nabheet@gmail.com). Do not open public GitHub issues for security reports. See [SECURITY.md](SECURITY.md) for the full policy.
+Report vulnerabilities privately to [suryanshunab@gmail.com](mailto:suryanshunab@gmail.com). Do not open public GitHub issues for security reports. See [SECURITY.md](SECURITY.md) for the full policy.
 
 ## License
 

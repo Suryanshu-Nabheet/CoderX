@@ -67,5 +67,5 @@ Server-side keys belong in `.env.local`. See [.env.example](.env.example) for th
 
 ## Contact
 
-- **Email:** [suryanshu.nabheet@gmail.com](mailto:suryanshu.nabheet@gmail.com)
+- **Email:** [suryanshunab@gmail.com](mailto:suryanshunab@gmail.com)
 - **GitHub:** [@Suryanshu-Nabheet](https://github.com/Suryanshu-Nabheet)

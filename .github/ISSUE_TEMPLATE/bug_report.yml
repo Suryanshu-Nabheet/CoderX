@@ -6,7 +6,7 @@ body:
       value: |
         Thanks for taking the time to report a bug.
 
-        Use this form for issues with [CoderX](https://github.com/Suryanshu-Nabheet/CoderX). For security issues, email [suryanshu.nabheet@gmail.com](mailto:suryanshu.nabheet@gmail.com) — do not file a public issue.
+        Use this form for issues with [CoderX](https://github.com/Suryanshu-Nabheet/CoderX). For security issues, email [suryanshunab@gmail.com](mailto:suryanshunab@gmail.com) — do not file a public issue.
 
         Include browser/OS details and clear reproduction steps so we can investigate quickly.
   - type: textarea

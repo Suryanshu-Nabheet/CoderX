@@ -11,7 +11,7 @@
 
 **Do not report security vulnerabilities through public GitHub issues.**
 
-Email [suryanshu.nabheet@gmail.com](mailto:suryanshu.nabheet@gmail.com) with:
+Email [suryanshunab@gmail.com](mailto:suryanshunab@gmail.com) with:
 
 - A description of the issue and its potential impact
 - Steps to reproduce
@@ -46,5 +46,5 @@ This policy covers the CoderX application repository, including:
 
 ## Contact
 
-- **Email:** [suryanshu.nabheet@gmail.com](mailto:suryanshu.nabheet@gmail.com)
+- **Email:** [suryanshunab@gmail.com](mailto:suryanshunab@gmail.com)
 - **GitHub:** [@Suryanshu-Nabheet](https://github.com/Suryanshu-Nabheet)
