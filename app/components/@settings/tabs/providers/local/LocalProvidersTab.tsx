@@ -322,15 +322,15 @@ export default function LocalProvidersTab() {
 
   return (
     <ErrorBoundary>
-      <div className="space-y-6">
+      <div className="space-y-5">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+        <div className="flex flex-col gap-4 border-b border-coderx-elements-borderColor pb-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500/20 to-blue-500/20 flex items-center justify-center ring-1 ring-blue-500/30">
-              <Cpu className="w-6 h-6 text-blue-500" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-500/10 ring-1 ring-blue-500/25">
+              <Cpu className="h-5 w-5 text-blue-500" />
             </div>
             <div>
-              <h2 className="text-2xl font-semibold text-coderx-elements-textPrimary">Local AI Providers</h2>
+              <h2 className="text-lg font-semibold text-coderx-elements-textPrimary">Local AI Providers</h2>
               <p className="text-sm text-coderx-elements-textSecondary">Configure and manage your local AI models</p>
             </div>
           </div>
@@ -367,7 +367,7 @@ export default function LocalProvidersTab() {
         </div>
 
         {/* Provider Cards */}
-        <div className="space-y-6">
+        <div className="space-y-3">
           {filteredProviders.map((provider) => (
             <div key={provider.name}>
               <ProviderCard
@@ -381,7 +381,7 @@ export default function LocalProvidersTab() {
 
               {/* Ollama Models Section */}
               {provider.name === 'Ollama' && provider.settings.enabled && (
-                <Card className="mt-4 bg-coderx-elements-background-depth-2">
+                <Card className="mt-3 border border-coderx-elements-borderColor bg-coderx-elements-background-depth-2">
                   <CardHeader className="pb-3">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
@@ -404,7 +404,7 @@ export default function LocalProvidersTab() {
                       </Button>
                     </div>
                   </CardHeader>
-                  <CardContent className="space-y-4">
+                  <CardContent className="space-y-3 pt-0">
                     {isLoadingModels ? (
                       <div className="space-y-4">
                         {Array.from({ length: 3 }).map((_, i) => (
@@ -448,7 +448,7 @@ export default function LocalProvidersTab() {
                         </Button>
                       </div>
                     ) : (
-                      <div className="grid gap-4">
+                      <div className="grid gap-2">
                         {ollamaModels.map((model) => (
                           <ModelCard
                             key={model.name}
@@ -465,7 +465,7 @@ export default function LocalProvidersTab() {
 
               {/* LM Studio Models Section */}
               {provider.name === 'LMStudio' && provider.settings.enabled && (
-                <Card className="mt-4 bg-coderx-elements-background-depth-2">
+                <Card className="mt-3 border border-coderx-elements-borderColor bg-coderx-elements-background-depth-2">
                   <CardHeader className="pb-3">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
@@ -488,7 +488,7 @@ export default function LocalProvidersTab() {
                       </Button>
                     </div>
                   </CardHeader>
-                  <CardContent className="space-y-4">
+                  <CardContent className="space-y-3 pt-0">
                     {isLoadingLMStudioModels ? (
                       <div className="space-y-4">
                         {Array.from({ length: 3 }).map((_, i) => (
@@ -522,7 +522,7 @@ export default function LocalProvidersTab() {
                         </Button>
                       </div>
                     ) : (
-                      <div className="grid gap-4">
+                      <div className="grid gap-2">
                         {lmStudioModels.map((model) => (
                           <Card key={model.id} className="bg-coderx-elements-background-depth-3">
                             <CardContent className="p-4">

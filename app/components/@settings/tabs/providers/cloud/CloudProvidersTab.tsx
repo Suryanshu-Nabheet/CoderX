@@ -170,15 +170,7 @@ const CloudProvidersTab = () => {
                 'bg-coderx-elements-background-depth-2 text-coderx-elements-textPrimary',
               )}
             >
-              <div className="flex justify-end px-4 pt-3 min-h-7">
-                {URL_CONFIGURABLE_PROVIDERS.includes(provider.name) && (
-                  <span className="rounded-full bg-blue-500/10 px-2 py-0.5 text-xs font-medium text-blue-500">
-                    Configurable
-                  </span>
-                )}
-              </div>
-
-              <div className="flex items-start gap-3 px-4 pb-4 pt-2">
+              <div className="flex items-start gap-3 p-4">
                 <div
                   className={classNames(
                     'flex h-10 w-10 shrink-0 items-center justify-center rounded-lg',
@@ -197,7 +189,14 @@ const CloudProvidersTab = () => {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start justify-between gap-4">
                     <div>
-                      <h4 className="text-sm font-medium text-coderx-elements-textPrimary">{provider.name}</h4>
+                      <div className="flex flex-wrap items-center gap-2">
+                        <h4 className="text-sm font-medium text-coderx-elements-textPrimary">{provider.name}</h4>
+                        {URL_CONFIGURABLE_PROVIDERS.includes(provider.name) && (
+                          <span className="rounded-full bg-blue-500/10 px-2 py-0.5 text-[11px] font-medium text-blue-500">
+                            Configurable
+                          </span>
+                        )}
+                      </div>
                       <p className="text-xs text-coderx-elements-textSecondary mt-0.5">
                         {PROVIDER_DESCRIPTIONS[provider.name as keyof typeof PROVIDER_DESCRIPTIONS] ||
                           (URL_CONFIGURABLE_PROVIDERS.includes(provider.name)

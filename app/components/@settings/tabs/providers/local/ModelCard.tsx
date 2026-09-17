@@ -14,10 +14,10 @@ interface ModelCardProps {
 
 function ModelCard({ model, onUpdate, onDelete }: ModelCardProps) {
   return (
-    <Card className="bg-coderx-elements-background-depth-3 transition-all duration-200 shadow-sm border border-coderx-elements-borderColor">
-      <CardContent className="p-5">
+    <Card className="border border-coderx-elements-borderColor bg-coderx-elements-background-depth-3 shadow-sm">
+      <CardContent className="p-3">
         <div className="flex items-center justify-between">
-          <div className="space-y-2">
+          <div className="min-w-0 space-y-1.5">
             <div className="flex items-center gap-2">
               <h4 className="text-sm font-medium text-coderx-elements-textPrimary font-mono">{model.name}</h4>
               {model.status && model.status !== 'idle' && (
@@ -58,7 +58,7 @@ function ModelCard({ model, onUpdate, onDelete }: ModelCardProps) {
               onClick={onUpdate}
               disabled={model.status === 'updating'}
               className={classNames(
-                'flex items-center gap-2 px-3 py-2 text-xs rounded-lg transition-all duration-200',
+                'flex items-center gap-2 rounded-lg px-3 py-2 text-xs',
                 'bg-blue-500/10 text-blue-500',
                 'disabled:opacity-50 disabled:cursor-not-allowed disabled:',
               )}
@@ -79,7 +79,7 @@ function ModelCard({ model, onUpdate, onDelete }: ModelCardProps) {
               onClick={onDelete}
               disabled={model.status === 'updating'}
               className={classNames(
-                'flex items-center gap-2 px-3 py-2 text-xs rounded-lg transition-all duration-200',
+                'flex items-center gap-2 rounded-lg px-3 py-2 text-xs',
                 'bg-red-500/10 text-red-500',
                 'disabled:opacity-50 disabled:cursor-not-allowed disabled:',
               )}
