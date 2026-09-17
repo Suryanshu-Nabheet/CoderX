@@ -69,34 +69,30 @@ export default function ProfileTab() {
             <div
               className={classNames(
                 'w-24 h-24 rounded-full overflow-hidden',
-                'bg-gray-100 dark:bg-gray-800/50',
+                'bg-coderx-elements-background-depth-3/50',
                 'flex items-center justify-center',
                 'ring-1 ring-gray-200 dark:ring-gray-700',
                 'relative group',
                 'transition-all duration-300 ease-out',
-                'hover:ring-blue-500/30 dark:hover:ring-blue-500/30',
-                'hover:shadow-lg hover:shadow-blue-500/10',
+                '',
+                '',
               )}
             >
               {profile.avatar ? (
                 <img
                   src={profile.avatar}
                   alt="Profile"
-                  className={classNames(
-                    'w-full h-full object-cover',
-                    'transition-all duration-300 ease-out',
-                    'group-hover:scale-105 group-hover:brightness-90',
-                  )}
+                  className={classNames('w-full h-full object-cover', 'transition-all duration-300 ease-out', '')}
                 />
               ) : (
-                <div className="i-ph:robot-fill w-16 h-16 text-gray-400 dark:text-gray-500 transition-colors group-hover:text-blue-500/70 transform -translate-y-1" />
+                <div className="i-ph:robot-fill w-16 h-16 text-gray-400 dark:text-gray-500 transition-colors transform -translate-y-1" />
               )}
 
               <label
                 className={classNames(
                   'absolute inset-0',
                   'flex items-center justify-center',
-                  'bg-black/0 group-hover:bg-black/40',
+                  'bg-black/0',
                   'cursor-pointer transition-all duration-300 ease-out',
                   isUploading ? 'cursor-wait' : '',
                 )}
@@ -111,7 +107,7 @@ export default function ProfileTab() {
                 {isUploading ? (
                   <div className="i-ph:spinner-gap w-6 h-6 text-white animate-spin" />
                 ) : (
-                  <div className="i-ph:camera-plus w-6 h-6 text-white opacity-0 group-hover:opacity-100 transition-all duration-300 ease-out transform group-hover:scale-110" />
+                  <div className="i-ph:camera-plus w-6 h-6 text-white opacity-0 transition-all duration-300 ease-out transform" />
                 )}
               </label>
             </div>
@@ -137,7 +133,7 @@ export default function ProfileTab() {
                 onChange={(e) => handleProfileUpdate('username', e.target.value)}
                 className={classNames(
                   'w-full pl-11 pr-4 py-2.5 rounded-xl',
-                  'bg-white dark:bg-gray-800/50',
+                  'bg-coderx-elements-background-depth-2',
                   'border border-gray-200 dark:border-gray-700/50',
                   'text-gray-900 dark:text-white',
                   'placeholder-gray-400 dark:placeholder-gray-500',
@@ -161,7 +157,7 @@ export default function ProfileTab() {
                 onChange={(e) => handleProfileUpdate('bio', e.target.value)}
                 className={classNames(
                   'w-full pl-11 pr-4 py-2.5 rounded-xl',
-                  'bg-white dark:bg-gray-800/50',
+                  'bg-coderx-elements-background-depth-2',
                   'border border-gray-200 dark:border-gray-700/50',
                   'text-gray-900 dark:text-white',
                   'placeholder-gray-400 dark:placeholder-gray-500',

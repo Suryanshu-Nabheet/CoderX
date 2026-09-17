@@ -13,16 +13,14 @@ export function GitHubRepositoryCard({ repo, onClone }: GitHubRepositoryCardProp
       href={repo.html_url}
       target="_blank"
       rel="noopener noreferrer"
-      className="group block p-4 rounded-lg bg-coderx-elements-background-depth-1 border border-coderx-elements-borderColor hover:border-coderx-elements-borderColorActive transition-all duration-200"
+      className="group block p-4 rounded-lg bg-coderx-elements-background-depth-1 border border-coderx-elements-borderColor transition-all duration-200"
     >
       <div className="flex flex-col h-full">
         <div className="flex-1 space-y-3">
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-2">
               <div className="i-ph:git-repository w-4 h-4 text-coderx-elements-icon-info" />
-              <h5 className="text-sm font-medium text-coderx-elements-textPrimary group-hover:text-coderx-elements-item-contentAccent transition-colors">
-                {repo.name}
-              </h5>
+              <h5 className="text-sm font-medium text-coderx-elements-textPrimary transition-colors">{repo.name}</h5>
               {repo.private && (
                 <div className="i-ph:lock w-3 h-3 text-coderx-elements-textTertiary" title="Private repository" />
               )}
@@ -96,7 +94,7 @@ export function GitHubRepositoryCard({ repo, onClone }: GitHubRepositoryCardProp
 
         {/* Bottom section with Clone button positioned at bottom right */}
         <div className="flex items-center justify-between pt-3 mt-auto">
-          <span className="flex items-center gap-1 text-xs text-coderx-elements-textSecondary group-hover:text-coderx-elements-item-contentAccent transition-colors">
+          <span className="flex items-center gap-1 text-xs text-coderx-elements-textSecondary transition-colors">
             <div className="i-ph:arrow-square-out w-3.5 h-3.5" />
             View
           </span>
@@ -107,7 +105,7 @@ export function GitHubRepositoryCard({ repo, onClone }: GitHubRepositoryCardProp
                 e.stopPropagation();
                 onClone(repo);
               }}
-              className="flex items-center gap-1 px-2 py-1 rounded text-xs bg-coderx-elements-background-depth-2 hover:bg-coderx-elements-background-depth-3 text-coderx-elements-textSecondary hover:text-coderx-elements-textPrimary transition-colors"
+              className="flex items-center gap-1 px-2 py-1 rounded text-xs bg-coderx-elements-background-depth-2 text-coderx-elements-textSecondary transition-colors"
               title="Clone repository"
             >
               <div className="i-ph:git-branch w-3.5 h-3.5" />

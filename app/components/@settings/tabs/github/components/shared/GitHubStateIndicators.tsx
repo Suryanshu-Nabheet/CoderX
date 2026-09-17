@@ -73,7 +73,7 @@ export function ErrorState({
       {onRetry && (
         <button
           onClick={onRetry}
-          className="px-4 py-2 bg-coderx-elements-item-contentAccent text-white rounded-lg hover:bg-coderx-elements-item-contentAccent/90 transition-colors"
+          className="px-4 py-2 bg-coderx-elements-item-contentAccent text-white rounded-lg transition-colors"
         >
           {retryLabel}
         </button>
@@ -121,7 +121,7 @@ export function SuccessState({
       {onAction && (
         <button
           onClick={onAction}
-          className="px-4 py-2 bg-coderx-elements-item-contentAccent text-white rounded-lg hover:bg-coderx-elements-item-contentAccent/90 transition-colors"
+          className="px-4 py-2 bg-coderx-elements-item-contentAccent text-white rounded-lg transition-colors"
         >
           {actionLabel}
         </button>
@@ -147,7 +147,7 @@ export function GitHubConnectionRequired({ onConnect, className = '' }: GitHubCo
       {onConnect && (
         <button
           onClick={onConnect}
-          className="px-6 py-3 bg-coderx-elements-item-contentAccent text-white rounded-lg hover:bg-coderx-elements-item-contentAccent/90 transition-colors flex items-center gap-2"
+          className="px-6 py-3 bg-coderx-elements-item-contentAccent text-white rounded-lg transition-colors flex items-center gap-2"
         >
           <Github className="w-4 h-4" />
           Connect GitHub
@@ -198,7 +198,7 @@ export function InformationState({
       {onAction && (
         <button
           onClick={onAction}
-          className="px-4 py-2 bg-coderx-elements-item-contentAccent text-white rounded-lg hover:bg-coderx-elements-item-contentAccent/90 transition-colors"
+          className="px-4 py-2 bg-coderx-elements-item-contentAccent text-white rounded-lg transition-colors"
         >
           {actionLabel}
         </button>

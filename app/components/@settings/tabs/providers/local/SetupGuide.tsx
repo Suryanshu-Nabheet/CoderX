@@ -32,7 +32,7 @@ function SetupGuide({ onBack }: { onBack: () => void }) {
           variant="ghost"
           size="sm"
           onClick={onBack}
-          className="bg-transparent hover:bg-transparent text-coderx-elements-textSecondary hover:text-coderx-elements-textPrimary transition-all duration-200 p-2"
+          className="bg-transparent text-coderx-elements-textSecondary transition-all duration-200 p-2"
           aria-label="Back to Dashboard"
         >
           <ArrowLeft className="w-4 h-4" />
@@ -125,7 +125,7 @@ function SetupGuide({ onBack }: { onBack: () => void }) {
                   <Button
                     variant="outline"
                     size="sm"
-                    className="w-full bg-gradient-to-r from-blue-500/10 to-blue-600/10 hover:from-blue-500/20 hover:to-blue-600/20 border-blue-500/30 hover:border-blue-500/50 transition-all duration-300 gap-2 group shadow-sm hover:shadow-lg hover:shadow-blue-500/20 font-medium"
+                    className="w-full bg-gradient-to-r from-blue-500/10 to-blue-600/10 border-blue-500/30 transition-all duration-300 gap-2 group shadow-sm font-medium"
                     _asChild
                   >
                     <a
@@ -134,9 +134,9 @@ function SetupGuide({ onBack }: { onBack: () => void }) {
                       rel="noopener noreferrer"
                       className="flex items-center justify-center gap-2"
                     >
-                      <Download className="w-4 h-4 group-hover:scale-110 group-hover:rotate-12 transition-all duration-300 flex-shrink-0" />
+                      <Download className="w-4 h-4 transition-all duration-300 flex-shrink-0" />
                       <span className="flex-1 text-center font-medium">Download Desktop App</span>
-                      <ExternalLink className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300 flex-shrink-0" />
+                      <ExternalLink className="w-3 h-3 transition-all duration-300 flex-shrink-0" />
                     </a>
                   </Button>
                 </div>
@@ -148,7 +148,7 @@ function SetupGuide({ onBack }: { onBack: () => void }) {
                   <Button
                     variant="outline"
                     size="sm"
-                    className="w-full bg-gradient-to-r from-blue-500/10 to-blue-600/10 hover:from-blue-500/20 hover:to-blue-600/20 border-blue-500/30 hover:border-blue-500/50 transition-all duration-300 gap-2 group shadow-sm hover:shadow-lg hover:shadow-blue-500/20 font-medium"
+                    className="w-full bg-gradient-to-r from-blue-500/10 to-blue-600/10 border-blue-500/30 transition-all duration-300 gap-2 group shadow-sm font-medium"
                     _asChild
                   >
                     <a
@@ -157,9 +157,9 @@ function SetupGuide({ onBack }: { onBack: () => void }) {
                       rel="noopener noreferrer"
                       className="flex items-center justify-center gap-2"
                     >
-                      <Download className="w-4 h-4 group-hover:scale-110 group-hover:rotate-12 transition-all duration-300 flex-shrink-0" />
+                      <Download className="w-4 h-4 transition-all duration-300 flex-shrink-0" />
                       <span className="flex-1 text-center font-medium">Download Desktop App</span>
-                      <ExternalLink className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300 flex-shrink-0" />
+                      <ExternalLink className="w-3 h-3 transition-all duration-300 flex-shrink-0" />
                     </a>
                   </Button>
                 </div>
@@ -373,7 +373,7 @@ function SetupGuide({ onBack }: { onBack: () => void }) {
               <Button
                 variant="outline"
                 size="sm"
-                className="bg-gradient-to-r from-blue-500/10 to-blue-600/10 hover:from-blue-500/20 hover:to-blue-600/20 border-blue-500/30 hover:border-blue-500/50 transition-all duration-300 gap-2 group shadow-sm hover:shadow-lg hover:shadow-blue-500/20 font-medium"
+                className="bg-gradient-to-r from-blue-500/10 to-blue-600/10 border-blue-500/30 transition-all duration-300 gap-2 group shadow-sm font-medium"
                 _asChild
               >
                 <a
@@ -382,9 +382,9 @@ function SetupGuide({ onBack }: { onBack: () => void }) {
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-2"
                 >
-                  <Download className="w-4 h-4 group-hover:scale-110 group-hover:rotate-12 transition-all duration-300 flex-shrink-0" />
+                  <Download className="w-4 h-4 transition-all duration-300 flex-shrink-0" />
                   <span className="flex-1 text-center font-medium">Download LM Studio</span>
-                  <ExternalLink className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300 flex-shrink-0" />
+                  <ExternalLink className="w-3 h-3 transition-all duration-300 flex-shrink-0" />
                 </a>
               </Button>
             </div>

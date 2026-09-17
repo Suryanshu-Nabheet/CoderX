@@ -30,7 +30,7 @@ interface ProjectAction {
 
 // Vercel logo SVG component
 const VercelLogo = () => (
-  <svg viewBox="0 0 24 24" className="w-5 h-5">
+  <svg viewBox="0 0 24 24" className="w-5 h-5 text-coderx-elements-textPrimary" aria-hidden="true">
     <path fill="currentColor" d="m12 2 10 18H2z" />
   </svg>
 );
@@ -299,7 +299,7 @@ export default function VercelTab() {
     return (
       <Collapsible open={isProjectsExpanded} onOpenChange={setIsProjectsExpanded}>
         <CollapsibleTrigger asChild>
-          <div className="flex items-center justify-between p-4 rounded-lg bg-coderx-elements-background dark:bg-coderx-elements-background-depth-2 border border-coderx-elements-borderColor dark:border-coderx-elements-borderColor hover:border-coderx-elements-borderColorActive/70 dark:hover:border-coderx-elements-borderColorActive/70 transition-all duration-200 cursor-pointer">
+          <div className="flex items-center justify-between p-4 rounded-lg bg-coderx-elements-background dark:bg-coderx-elements-background-depth-2 border border-coderx-elements-borderColor dark:border-coderx-elements-borderColor transition-all duration-200 cursor-pointer">
             <div className="flex items-center gap-2">
               <div className="i-ph:buildings w-4 h-4 text-coderx-elements-item-contentAccent" />
               <span className="text-sm font-medium text-coderx-elements-textPrimary">
@@ -539,7 +539,7 @@ export default function VercelTab() {
                 {connection.stats.projects.map((project) => (
                   <div
                     key={project.id}
-                    className="p-4 rounded-lg border border-coderx-elements-borderColor hover:border-coderx-elements-borderColorActive/70 transition-colors bg-coderx-elements-background-depth-1"
+                    className="p-4 rounded-lg border border-coderx-elements-borderColor transition-colors bg-coderx-elements-background-depth-1"
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex-1">
@@ -554,7 +554,7 @@ export default function VercelTab() {
                                 href={`https://${project.targets.production.alias.find((a: string) => a.endsWith('.vercel.app') && !a.includes('-projects.vercel.app')) || project.targets.production.alias[0]}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="hover:text-coderx-elements-borderColorActive underline"
+                                className=" underline"
                               >
                                 {project.targets.production.alias.find(
                                   (a: string) => a.endsWith('.vercel.app') && !a.includes('-projects.vercel.app'),
@@ -572,7 +572,7 @@ export default function VercelTab() {
                                 href={`https://${project.latestDeployments[0].url}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="hover:text-coderx-elements-borderColorActive underline"
+                                className=" underline"
                               >
                                 {project.latestDeployments[0].url}
                               </a>
@@ -756,7 +756,7 @@ export default function VercelTab() {
                   placeholder="Enter your Vercel personal access token"
                   className={classNames(
                     'w-full px-3 py-2 rounded-lg text-sm',
-                    'bg-[#F8F8F8] dark:bg-[#1A1A1A]',
+                    'bg-coderx-elements-background-depth-1',
                     'border border-[#E5E5E5] dark:border-[#333333]',
                     'text-coderx-elements-textPrimary placeholder-coderx-elements-textTertiary',
                     'focus:outline-none focus:ring-1 focus:ring-coderx-elements-borderColorActive',
@@ -768,7 +768,7 @@ export default function VercelTab() {
                     href="https://vercel.com/account/tokens"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-coderx-elements-borderColorActive hover:underline inline-flex items-center gap-1"
+                    className="text-coderx-elements-borderColorActive inline-flex items-center gap-1"
                   >
                     Get your token
                     <div className="i-ph:arrow-square-out w-4 h-4" />
@@ -782,7 +782,7 @@ export default function VercelTab() {
                 className={classNames(
                   'px-4 py-2 rounded-lg text-sm flex items-center gap-2',
                   'bg-[#303030] text-white',
-                  'hover:bg-[#5E41D0] hover:text-white',
+                  '',
                   'disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200',
                   'transform active:scale-95',
                 )}
@@ -809,7 +809,7 @@ export default function VercelTab() {
                     className={classNames(
                       'px-4 py-2 rounded-lg text-sm flex items-center gap-2',
                       'bg-red-500 text-white',
-                      'hover:bg-red-600',
+                      '',
                     )}
                   >
                     <div className="i-ph:plug w-4 h-4" />

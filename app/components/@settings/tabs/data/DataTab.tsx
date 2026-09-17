@@ -291,17 +291,15 @@ export function DataTab() {
             <Card>
               <CardHeader>
                 <div className="flex items-center mb-2">
-                  <motion.div className="text-accent-500 mr-2" whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                  <motion.div className="text-accent-500 mr-2">
                     <div className="i-ph-download-duotone w-5 h-5" />
                   </motion.div>
-                  <CardTitle className="text-lg group-hover:text-coderx-elements-item-contentAccent transition-colors">
-                    Export All Chats
-                  </CardTitle>
+                  <CardTitle className="text-lg transition-colors">Export All Chats</CardTitle>
                 </div>
                 <CardDescription>Export all your chats to a JSON file.</CardDescription>
               </CardHeader>
               <CardFooter>
-                <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} className="w-full">
+                <motion.div className="w-full">
                   <Button
                     onClick={async () => {
                       try {
@@ -333,7 +331,7 @@ export function DataTab() {
                     variant="outline"
                     size="sm"
                     className={classNames(
-                      'hover:text-coderx-elements-item-contentAccent hover:border-coderx-elements-item-backgroundAccent hover:bg-coderx-elements-item-backgroundAccent transition-colors w-full justify-center',
+                      ' transition-colors w-full justify-center',
                       isExporting || availableChats.length === 0 ? 'cursor-not-allowed' : '',
                     )}
                   >
@@ -355,24 +353,22 @@ export function DataTab() {
             <Card>
               <CardHeader>
                 <div className="flex items-center mb-2">
-                  <motion.div className="text-accent-500 mr-2" whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                  <motion.div className="text-accent-500 mr-2">
                     <div className="i-ph:list-checks w-5 h-5" />
                   </motion.div>
-                  <CardTitle className="text-lg group-hover:text-coderx-elements-item-contentAccent transition-colors">
-                    Export Selected Chats
-                  </CardTitle>
+                  <CardTitle className="text-lg transition-colors">Export Selected Chats</CardTitle>
                 </div>
                 <CardDescription>Choose specific chats to export.</CardDescription>
               </CardHeader>
               <CardFooter>
-                <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} className="w-full">
+                <motion.div className="w-full">
                   <Button
                     onClick={() => setShowChatsSelection(true)}
                     disabled={isExporting || chatItems.length === 0}
                     variant="outline"
                     size="sm"
                     className={classNames(
-                      'hover:text-coderx-elements-item-contentAccent hover:border-coderx-elements-item-backgroundAccent hover:bg-coderx-elements-item-backgroundAccent transition-colors w-full justify-center',
+                      ' transition-colors w-full justify-center',
                       isExporting || chatItems.length === 0 ? 'cursor-not-allowed' : '',
                     )}
                   >
@@ -392,24 +388,22 @@ export function DataTab() {
             <Card>
               <CardHeader>
                 <div className="flex items-center mb-2">
-                  <motion.div className="text-accent-500 mr-2" whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                  <motion.div className="text-accent-500 mr-2">
                     <div className="i-ph-upload-duotone w-5 h-5" />
                   </motion.div>
-                  <CardTitle className="text-lg group-hover:text-coderx-elements-item-contentAccent transition-colors">
-                    Import Chats
-                  </CardTitle>
+                  <CardTitle className="text-lg transition-colors">Import Chats</CardTitle>
                 </div>
                 <CardDescription>Import chats from a JSON file.</CardDescription>
               </CardHeader>
               <CardFooter>
-                <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} className="w-full">
+                <motion.div className="w-full">
                   <Button
                     onClick={() => chatFileInputRef.current?.click()}
                     disabled={isImporting}
                     variant="outline"
                     size="sm"
                     className={classNames(
-                      'hover:text-coderx-elements-item-contentAccent hover:border-coderx-elements-item-backgroundAccent hover:bg-coderx-elements-item-backgroundAccent transition-colors w-full justify-center',
+                      ' transition-colors w-full justify-center',
                       isImporting ? 'cursor-not-allowed' : '',
                     )}
                   >
@@ -429,28 +423,22 @@ export function DataTab() {
             <Card>
               <CardHeader>
                 <div className="flex items-center mb-2">
-                  <motion.div
-                    className="text-red-500 dark:text-red-400 mr-2"
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                  >
+                  <motion.div className="text-red-500 dark:text-red-400 mr-2">
                     <div className="i-ph-trash-duotone w-5 h-5" />
                   </motion.div>
-                  <CardTitle className="text-lg group-hover:text-coderx-elements-item-contentAccent transition-colors">
-                    Delete All Chats
-                  </CardTitle>
+                  <CardTitle className="text-lg transition-colors">Delete All Chats</CardTitle>
                 </div>
                 <CardDescription>Delete all your chat history.</CardDescription>
               </CardHeader>
               <CardFooter>
-                <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} className="w-full">
+                <motion.div className="w-full">
                   <Button
                     onClick={() => setShowDeleteInlineConfirm(true)}
                     disabled={isDeleting || chatItems.length === 0}
                     variant="outline"
                     size="sm"
                     className={classNames(
-                      'hover:text-coderx-elements-item-contentAccent hover:border-coderx-elements-item-backgroundAccent hover:bg-coderx-elements-item-backgroundAccent transition-colors w-full justify-center',
+                      ' transition-colors w-full justify-center',
                       isDeleting || chatItems.length === 0 ? 'cursor-not-allowed' : '',
                     )}
                   >
@@ -477,24 +465,22 @@ export function DataTab() {
           <Card>
             <CardHeader>
               <div className="flex items-center mb-2">
-                <motion.div className="text-accent-500 mr-2" whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                <motion.div className="text-accent-500 mr-2">
                   <div className="i-ph-download-duotone w-5 h-5" />
                 </motion.div>
-                <CardTitle className="text-lg group-hover:text-coderx-elements-item-contentAccent transition-colors">
-                  Export All Settings
-                </CardTitle>
+                <CardTitle className="text-lg transition-colors">Export All Settings</CardTitle>
               </div>
               <CardDescription>Export all your settings to a JSON file.</CardDescription>
             </CardHeader>
             <CardFooter>
-              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} className="w-full">
+              <motion.div className="w-full">
                 <Button
                   onClick={handleExportSettings}
                   disabled={isExporting}
                   variant="outline"
                   size="sm"
                   className={classNames(
-                    'hover:text-coderx-elements-item-contentAccent hover:border-coderx-elements-item-backgroundAccent hover:bg-coderx-elements-item-backgroundAccent transition-colors w-full justify-center',
+                    ' transition-colors w-full justify-center',
                     isExporting ? 'cursor-not-allowed' : '',
                   )}
                 >
@@ -514,24 +500,22 @@ export function DataTab() {
           <Card>
             <CardHeader>
               <div className="flex items-center mb-2">
-                <motion.div className="text-accent-500 mr-2" whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                <motion.div className="text-accent-500 mr-2">
                   <div className="i-ph-filter-duotone w-5 h-5" />
                 </motion.div>
-                <CardTitle className="text-lg group-hover:text-coderx-elements-item-contentAccent transition-colors">
-                  Export Selected Settings
-                </CardTitle>
+                <CardTitle className="text-lg transition-colors">Export Selected Settings</CardTitle>
               </div>
               <CardDescription>Choose specific settings to export.</CardDescription>
             </CardHeader>
             <CardFooter>
-              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} className="w-full">
+              <motion.div className="w-full">
                 <Button
                   onClick={() => setShowSettingsSelection(true)}
                   disabled={isExporting || settingsCategories.length === 0}
                   variant="outline"
                   size="sm"
                   className={classNames(
-                    'hover:text-coderx-elements-item-contentAccent hover:border-coderx-elements-item-backgroundAccent hover:bg-coderx-elements-item-backgroundAccent transition-colors w-full justify-center',
+                    ' transition-colors w-full justify-center',
                     isExporting || settingsCategories.length === 0 ? 'cursor-not-allowed' : '',
                   )}
                 >
@@ -551,24 +535,22 @@ export function DataTab() {
           <Card>
             <CardHeader>
               <div className="flex items-center mb-2">
-                <motion.div className="text-accent-500 mr-2" whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                <motion.div className="text-accent-500 mr-2">
                   <div className="i-ph-upload-duotone w-5 h-5" />
                 </motion.div>
-                <CardTitle className="text-lg group-hover:text-coderx-elements-item-contentAccent transition-colors">
-                  Import Settings
-                </CardTitle>
+                <CardTitle className="text-lg transition-colors">Import Settings</CardTitle>
               </div>
               <CardDescription>Import settings from a JSON file.</CardDescription>
             </CardHeader>
             <CardFooter>
-              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} className="w-full">
+              <motion.div className="w-full">
                 <Button
                   onClick={() => fileInputRef.current?.click()}
                   disabled={isImporting}
                   variant="outline"
                   size="sm"
                   className={classNames(
-                    'hover:text-coderx-elements-item-contentAccent hover:border-coderx-elements-item-backgroundAccent hover:bg-coderx-elements-item-backgroundAccent transition-colors w-full justify-center',
+                    ' transition-colors w-full justify-center',
                     isImporting ? 'cursor-not-allowed' : '',
                   )}
                 >
@@ -588,28 +570,22 @@ export function DataTab() {
           <Card>
             <CardHeader>
               <div className="flex items-center mb-2">
-                <motion.div
-                  className="text-red-500 dark:text-red-400 mr-2"
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                >
+                <motion.div className="text-red-500 dark:text-red-400 mr-2">
                   <div className="i-ph-arrow-counter-clockwise-duotone w-5 h-5" />
                 </motion.div>
-                <CardTitle className="text-lg group-hover:text-coderx-elements-item-contentAccent transition-colors">
-                  Reset All Settings
-                </CardTitle>
+                <CardTitle className="text-lg transition-colors">Reset All Settings</CardTitle>
               </div>
               <CardDescription>Reset all settings to their default values.</CardDescription>
             </CardHeader>
             <CardFooter>
-              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} className="w-full">
+              <motion.div className="w-full">
                 <Button
                   onClick={() => setShowResetInlineConfirm(true)}
                   disabled={isResetting}
                   variant="outline"
                   size="sm"
                   className={classNames(
-                    'hover:text-coderx-elements-item-contentAccent hover:border-coderx-elements-item-backgroundAccent hover:bg-coderx-elements-item-backgroundAccent transition-colors w-full justify-center',
+                    ' transition-colors w-full justify-center',
                     isResetting ? 'cursor-not-allowed' : '',
                   )}
                 >
@@ -635,24 +611,22 @@ export function DataTab() {
           <Card>
             <CardHeader>
               <div className="flex items-center mb-2">
-                <motion.div className="text-accent-500 mr-2" whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                <motion.div className="text-accent-500 mr-2">
                   <div className="i-ph-file-text-duotone w-5 h-5" />
                 </motion.div>
-                <CardTitle className="text-lg group-hover:text-coderx-elements-item-contentAccent transition-colors">
-                  Download Template
-                </CardTitle>
+                <CardTitle className="text-lg transition-colors">Download Template</CardTitle>
               </div>
               <CardDescription>Download a template file for your API keys.</CardDescription>
             </CardHeader>
             <CardFooter>
-              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} className="w-full">
+              <motion.div className="w-full">
                 <Button
                   onClick={handleDownloadTemplate}
                   disabled={isDownloadingTemplate}
                   variant="outline"
                   size="sm"
                   className={classNames(
-                    'hover:text-coderx-elements-item-contentAccent hover:border-coderx-elements-item-backgroundAccent hover:bg-coderx-elements-item-backgroundAccent transition-colors w-full justify-center',
+                    ' transition-colors w-full justify-center',
                     isDownloadingTemplate ? 'cursor-not-allowed' : '',
                   )}
                 >
@@ -672,24 +646,22 @@ export function DataTab() {
           <Card>
             <CardHeader>
               <div className="flex items-center mb-2">
-                <motion.div className="text-accent-500 mr-2" whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                <motion.div className="text-accent-500 mr-2">
                   <div className="i-ph-download-duotone w-5 h-5" />
                 </motion.div>
-                <CardTitle className="text-lg group-hover:text-coderx-elements-item-contentAccent transition-colors">
-                  Export API Keys
-                </CardTitle>
+                <CardTitle className="text-lg transition-colors">Export API Keys</CardTitle>
               </div>
               <CardDescription>Export configured API keys to a JSON file.</CardDescription>
             </CardHeader>
             <CardFooter>
-              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} className="w-full">
+              <motion.div className="w-full">
                 <Button
                   onClick={handleExportAPIKeys}
                   disabled={isExporting}
                   variant="outline"
                   size="sm"
                   className={classNames(
-                    'hover:text-coderx-elements-item-contentAccent hover:border-coderx-elements-item-backgroundAccent hover:bg-coderx-elements-item-backgroundAccent transition-colors w-full justify-center',
+                    ' transition-colors w-full justify-center',
                     isExporting ? 'cursor-not-allowed' : '',
                   )}
                 >
@@ -709,24 +681,22 @@ export function DataTab() {
           <Card>
             <CardHeader>
               <div className="flex items-center mb-2">
-                <motion.div className="text-accent-500 mr-2" whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                <motion.div className="text-accent-500 mr-2">
                   <div className="i-ph-upload-duotone w-5 h-5" />
                 </motion.div>
-                <CardTitle className="text-lg group-hover:text-coderx-elements-item-contentAccent transition-colors">
-                  Import API Keys
-                </CardTitle>
+                <CardTitle className="text-lg transition-colors">Import API Keys</CardTitle>
               </div>
               <CardDescription>Import API keys from a JSON file.</CardDescription>
             </CardHeader>
             <CardFooter>
-              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} className="w-full">
+              <motion.div className="w-full">
                 <Button
                   onClick={() => apiKeyFileInputRef.current?.click()}
                   disabled={isImportingKeys}
                   variant="outline"
                   size="sm"
                   className={classNames(
-                    'hover:text-coderx-elements-item-contentAccent hover:border-coderx-elements-item-backgroundAccent hover:bg-coderx-elements-item-backgroundAccent transition-colors w-full justify-center',
+                    ' transition-colors w-full justify-center',
                     isImportingKeys ? 'cursor-not-allowed' : '',
                   )}
                 >

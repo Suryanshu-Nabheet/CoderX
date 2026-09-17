@@ -34,7 +34,7 @@ const FeatureCard = memo(
       className={classNames(
         'relative group cursor-pointer',
         'bg-coderx-elements-background-depth-2',
-        'hover:bg-coderx-elements-background-depth-3',
+        '',
         'transition-colors duration-200',
         'rounded-lg overflow-hidden',
       )}
@@ -239,7 +239,7 @@ export default function FeaturesTab() {
         layout
         className={classNames(
           'bg-coderx-elements-background-depth-2',
-          'hover:bg-coderx-elements-background-depth-3',
+          '',
           'transition-all duration-200',
           'rounded-lg p-4',
           'group',
@@ -252,7 +252,7 @@ export default function FeaturesTab() {
           <div
             className={classNames(
               'p-2 rounded-lg text-xl',
-              'bg-coderx-elements-background-depth-3 group-hover:bg-coderx-elements-background-depth-4',
+              'bg-coderx-elements-background-depth-3',
               'transition-colors duration-200',
               'text-blue-500',
             )}
@@ -260,9 +260,7 @@ export default function FeaturesTab() {
             <div className="i-ph:book" />
           </div>
           <div className="flex-1">
-            <h4 className="text-sm font-medium text-coderx-elements-textPrimary group-hover:text-blue-500 transition-colors">
-              Prompt Library
-            </h4>
+            <h4 className="text-sm font-medium text-coderx-elements-textPrimary transition-colors">Prompt Library</h4>
             <p className="text-xs text-coderx-elements-textSecondary mt-0.5">
               Choose a prompt from the library to use as the system prompt
             </p>
@@ -278,7 +276,7 @@ export default function FeaturesTab() {
               'bg-coderx-elements-background-depth-3 border border-coderx-elements-borderColor',
               'text-coderx-elements-textPrimary',
               'focus:outline-none focus:ring-2 focus:ring-blue-500/30',
-              'group-hover:border-blue-500/30',
+              '',
               'transition-all duration-200',
             )}
           >

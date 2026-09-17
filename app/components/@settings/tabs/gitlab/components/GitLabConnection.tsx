@@ -55,7 +55,7 @@ export default function GitLabConnection({ connectionTest, onTestConnection }: G
 
   return (
     <motion.div
-      className="bg-coderx-elements-background border border-coderx-elements-borderColor rounded-lg"
+      className="bg-coderx-elements-background-depth-2 border border-coderx-elements-borderColor rounded-lg"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.2 }}
@@ -137,7 +137,7 @@ export default function GitLabConnection({ connectionTest, onTestConnection }: G
                   href={`${gitlabUrl}/-/user_settings/personal_access_tokens`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-coderx-elements-borderColorActive hover:underline inline-flex items-center gap-1"
+                  className="text-coderx-elements-borderColorActive inline-flex items-center gap-1"
                 >
                   Get your token
                   <div className="i-ph:arrow-square-out w-4 h-4" />
@@ -163,7 +163,7 @@ export default function GitLabConnection({ connectionTest, onTestConnection }: G
                   className={classNames(
                     'px-4 py-2 rounded-lg text-sm flex items-center gap-2',
                     'bg-[#FC6D26] text-white',
-                    'hover:bg-[#E24329] hover:text-white',
+                    '',
                     'disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200',
                     'transform active:scale-95',
                   )}
@@ -185,7 +185,7 @@ export default function GitLabConnection({ connectionTest, onTestConnection }: G
                   onClick={() =>
                     console.log('Manual test:', { token: token ? `${token.substring(0, 10)}...` : 'empty', gitlabUrl })
                   }
-                  className="px-4 py-2 rounded-lg text-sm bg-gray-500 text-white hover:bg-gray-600"
+                  className="px-4 py-2 rounded-lg text-sm bg-gray-500 text-white"
                 >
                   Test Values
                 </button>
@@ -199,7 +199,7 @@ export default function GitLabConnection({ connectionTest, onTestConnection }: G
                       className={classNames(
                         'px-4 py-2 rounded-lg text-sm flex items-center gap-2',
                         'bg-red-500 text-white',
-                        'hover:bg-red-600',
+                        '',
                       )}
                     >
                       <div className="i-ph:plug w-4 h-4" />
@@ -220,7 +220,7 @@ export default function GitLabConnection({ connectionTest, onTestConnection }: G
                           'noopener,noreferrer',
                         )
                       }
-                      className="flex items-center gap-2 hover:bg-coderx-elements-item-backgroundActive/10 hover:text-coderx-elements-textPrimary dark:hover:text-coderx-elements-textPrimary transition-colors"
+                      className="flex items-center gap-2 transition-colors"
                     >
                       <div className="i-ph:layout w-4 h-4" />
                       Dashboard
@@ -229,7 +229,7 @@ export default function GitLabConnection({ connectionTest, onTestConnection }: G
                       onClick={onTestConnection}
                       disabled={connectionTest?.status === 'testing'}
                       variant="outline"
-                      className="flex items-center gap-2 hover:bg-coderx-elements-item-backgroundActive/10 hover:text-coderx-elements-textPrimary dark:hover:text-coderx-elements-textPrimary transition-colors"
+                      className="flex items-center gap-2 transition-colors"
                     >
                       {connectionTest?.status === 'testing' ? (
                         <>

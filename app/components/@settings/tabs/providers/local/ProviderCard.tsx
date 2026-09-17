@@ -40,7 +40,7 @@ function ProviderCard({
   const Icon = getIcon(provider.name);
 
   return (
-    <Card className="bg-coderx-elements-background-depth-2 hover:bg-coderx-elements-background-depth-3 transition-all duration-300 shadow-sm hover:shadow-md border border-coderx-elements-borderColor hover:border-blue-500/30">
+    <Card className="bg-coderx-elements-background-depth-2 transition-all duration-300 shadow-sm border border-coderx-elements-borderColor">
       <CardContent className="p-6">
         <div className="flex items-center justify-between gap-4 min-h-[100px]">
           <div className="flex items-center gap-4 flex-1">
@@ -94,13 +94,13 @@ function ProviderCard({
                   ) : (
                     <button
                       onClick={onStartEditing}
-                      className="w-full px-4 py-3 rounded-lg text-sm bg-coderx-elements-background-depth-1 border border-coderx-elements-borderColor hover:border-coderx-elements-item-backgroundAccent hover:bg-coderx-elements-background-depth-2 hover:shadow-sm transition-all duration-200 text-left group flex items-center justify-between"
+                      className="w-full px-4 py-3 rounded-lg text-sm bg-coderx-elements-background-depth-1 border border-coderx-elements-borderColor transition-all duration-200 text-left group flex items-center justify-between"
                     >
-                      <span className="font-mono text-coderx-elements-textSecondary group-hover:text-coderx-elements-textPrimary transition-colors">
+                      <span className="font-mono text-coderx-elements-textSecondary transition-colors">
                         {provider.settings.baseUrl || 'Click to set base URL'}
                       </span>
-                      <div className="flex items-center gap-2 text-coderx-elements-textTertiary group-hover:text-coderx-elements-item-contentAccent transition-colors text-xs">
-                        <span className="opacity-0 group-hover:opacity-100 transition-opacity">Edit</span>
+                      <div className="flex items-center gap-2 text-coderx-elements-textTertiary transition-colors text-xs">
+                        <span className="opacity-0 transition-opacity">Edit</span>
                         <Link className="w-3 h-3" />
                       </div>
                     </button>

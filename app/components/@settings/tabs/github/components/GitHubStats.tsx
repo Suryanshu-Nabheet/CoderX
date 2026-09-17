@@ -77,7 +77,7 @@ function GitHubStatsContent({
     <div className="mt-6 border-t border-coderx-elements-borderColor dark:border-coderx-elements-borderColor pt-6">
       <Collapsible open={isExpanded} onOpenChange={onToggleExpanded}>
         <CollapsibleTrigger asChild>
-          <div className="flex items-center justify-between p-4 rounded-lg bg-coderx-elements-background dark:bg-coderx-elements-background-depth-2 border border-coderx-elements-borderColor dark:border-coderx-elements-borderColor hover:border-coderx-elements-borderColorActive/70 dark:hover:border-coderx-elements-borderColorActive/70 transition-all duration-200">
+          <div className="flex items-center justify-between p-4 rounded-lg bg-coderx-elements-background dark:bg-coderx-elements-background-depth-2 border border-coderx-elements-borderColor dark:border-coderx-elements-borderColor transition-all duration-200">
             <div className="flex items-center gap-2">
               <div className="i-ph:chart-bar w-4 h-4 text-coderx-elements-item-contentAccent" />
               <span className="text-sm font-medium text-coderx-elements-textPrimary">
@@ -241,7 +241,7 @@ function GitHubStatsContent({
                       href={org.html_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-3 p-3 rounded-lg bg-coderx-elements-background-depth-2 dark:bg-coderx-elements-background-depth-2 border border-coderx-elements-borderColor dark:border-coderx-elements-borderColor hover:border-coderx-elements-borderColorActive dark:hover:border-coderx-elements-borderColorActive transition-all duration-200"
+                      className="flex items-center gap-3 p-3 rounded-lg bg-coderx-elements-background-depth-2 dark:bg-coderx-elements-background-depth-2 border border-coderx-elements-borderColor dark:border-coderx-elements-borderColor transition-all duration-200"
                     >
                       <img
                         src={org.avatar_url}

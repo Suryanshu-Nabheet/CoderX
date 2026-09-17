@@ -118,7 +118,7 @@ export function GitHubConnection({ connectionTest, onTestConnection }: GitHubCon
                 }`}
                 className={classNames(
                   'w-full px-3 py-2 rounded-lg text-sm',
-                  'bg-[#F8F8F8] dark:bg-[#1A1A1A]',
+                  'bg-coderx-elements-background-depth-1',
                   'border border-[#E5E5E5] dark:border-[#333333]',
                   'text-coderx-elements-textPrimary placeholder-coderx-elements-textTertiary',
                   'focus:outline-none focus:ring-1 focus:ring-coderx-elements-borderColorActive',
@@ -130,7 +130,7 @@ export function GitHubConnection({ connectionTest, onTestConnection }: GitHubCon
                   href={`https://github.com/settings/tokens${tokenType === 'fine-grained' ? '/beta' : '/new'}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-coderx-elements-borderColorActive hover:underline inline-flex items-center gap-1"
+                  className="text-coderx-elements-borderColorActive inline-flex items-center gap-1"
                 >
                   Get your token
                   <div className="i-ph:arrow-square-out w-4 h-4" />
@@ -158,7 +158,7 @@ export function GitHubConnection({ connectionTest, onTestConnection }: GitHubCon
                 className={classNames(
                   'px-4 py-2 rounded-lg text-sm flex items-center gap-2',
                   'bg-[#303030] text-white',
-                  'hover:bg-[#5E41D0] hover:text-white',
+                  '',
                   'disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200',
                   'transform active:scale-95',
                 )}
@@ -184,7 +184,7 @@ export function GitHubConnection({ connectionTest, onTestConnection }: GitHubCon
                     className={classNames(
                       'px-4 py-2 rounded-lg text-sm flex items-center gap-2',
                       'bg-red-500 text-white',
-                      'hover:bg-red-600',
+                      '',
                     )}
                   >
                     <div className="i-ph:plug w-4 h-4" />
@@ -199,7 +199,7 @@ export function GitHubConnection({ connectionTest, onTestConnection }: GitHubCon
                   <Button
                     variant="outline"
                     onClick={() => window.open('https://github.com/dashboard', '_blank', 'noopener,noreferrer')}
-                    className="flex items-center gap-2 hover:bg-coderx-elements-item-backgroundActive/10 hover:text-coderx-elements-textPrimary dark:hover:text-coderx-elements-textPrimary transition-colors"
+                    className="flex items-center gap-2 transition-colors"
                   >
                     <div className="i-ph:layout w-4 h-4" />
                     Dashboard
@@ -208,7 +208,7 @@ export function GitHubConnection({ connectionTest, onTestConnection }: GitHubCon
                     onClick={onTestConnection}
                     disabled={connectionTest?.status === 'testing'}
                     variant="outline"
-                    className="flex items-center gap-2 hover:bg-coderx-elements-item-backgroundActive/10 hover:text-coderx-elements-textPrimary dark:hover:text-coderx-elements-textPrimary transition-colors"
+                    className="flex items-center gap-2 transition-colors"
                   >
                     {connectionTest?.status === 'testing' ? (
                       <>

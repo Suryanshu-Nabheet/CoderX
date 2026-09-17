@@ -14,7 +14,7 @@ interface ModelCardProps {
 
 function ModelCard({ model, onUpdate, onDelete }: ModelCardProps) {
   return (
-    <Card className="bg-coderx-elements-background-depth-3 hover:bg-coderx-elements-background-depth-4 transition-all duration-200 shadow-sm hover:shadow-md border border-coderx-elements-borderColor hover:border-blue-500/20">
+    <Card className="bg-coderx-elements-background-depth-3 transition-all duration-200 shadow-sm border border-coderx-elements-borderColor">
       <CardContent className="p-5">
         <div className="flex items-center justify-between">
           <div className="space-y-2">
@@ -59,8 +59,8 @@ function ModelCard({ model, onUpdate, onDelete }: ModelCardProps) {
               disabled={model.status === 'updating'}
               className={classNames(
                 'flex items-center gap-2 px-3 py-2 text-xs rounded-lg transition-all duration-200',
-                'bg-blue-500/10 text-blue-500 hover:bg-blue-500/20 hover:shadow-sm',
-                'disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-blue-500/10',
+                'bg-blue-500/10 text-blue-500',
+                'disabled:opacity-50 disabled:cursor-not-allowed disabled:',
               )}
             >
               {model.status === 'updating' ? (
@@ -80,8 +80,8 @@ function ModelCard({ model, onUpdate, onDelete }: ModelCardProps) {
               disabled={model.status === 'updating'}
               className={classNames(
                 'flex items-center gap-2 px-3 py-2 text-xs rounded-lg transition-all duration-200',
-                'bg-red-500/10 text-red-500 hover:bg-red-500/20 hover:shadow-sm',
-                'disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-red-500/10',
+                'bg-red-500/10 text-red-500',
+                'disabled:opacity-50 disabled:cursor-not-allowed disabled:',
               )}
             >
               <Trash2 className="w-3 h-3" />

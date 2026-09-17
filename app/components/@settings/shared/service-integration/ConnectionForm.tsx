@@ -49,7 +49,7 @@ export function ConnectionForm({
 }: ConnectionFormProps) {
   return (
     <motion.div
-      className="bg-coderx-elements-background dark:bg-coderx-elements-background border border-coderx-elements-borderColor dark:border-coderx-elements-borderColor rounded-lg"
+      className="bg-coderx-elements-background-depth-2 border border-coderx-elements-borderColor rounded-lg"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.2 }}
@@ -125,7 +125,7 @@ export function ConnectionForm({
                     href={getTokenUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-coderx-elements-borderColorActive hover:underline inline-flex items-center gap-1"
+                    className="text-coderx-elements-borderColorActive inline-flex items-center gap-1"
                   >
                     Get your token
                     <div className="i-ph:arrow-square-out w-4 h-4" />
@@ -147,7 +147,7 @@ export function ConnectionForm({
                 className={classNames(
                   'px-4 py-2 rounded-lg text-sm flex items-center gap-2',
                   'bg-[#303030] text-white',
-                  'hover:bg-[#5E41D0] hover:text-white',
+                  '',
                   'disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200',
                   'transform active:scale-95',
                 )}
@@ -174,7 +174,7 @@ export function ConnectionForm({
                 className={classNames(
                   'px-4 py-2 rounded-lg text-sm flex items-center gap-2',
                   'bg-red-500 text-white',
-                  'hover:bg-red-600',
+                  '',
                 )}
               >
                 <div className="i-ph:plug w-4 h-4" />

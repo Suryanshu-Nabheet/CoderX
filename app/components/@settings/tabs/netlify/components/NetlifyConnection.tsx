@@ -541,7 +541,7 @@ export default function NetlifyConnection() {
       <div className="mt-6">
         <Collapsible open={isStatsOpen} onOpenChange={setIsStatsOpen}>
           <CollapsibleTrigger asChild>
-            <div className="flex items-center justify-between p-4 rounded-lg bg-coderx-elements-background dark:bg-coderx-elements-background-depth-2 border border-coderx-elements-borderColor dark:border-coderx-elements-borderColor hover:border-coderx-elements-borderColorActive/70 dark:hover:border-coderx-elements-borderColorActive/70 transition-all duration-200">
+            <div className="flex items-center justify-between p-4 rounded-lg bg-coderx-elements-background dark:bg-coderx-elements-background-depth-2 border border-coderx-elements-borderColor dark:border-coderx-elements-borderColor transition-all duration-200">
               <div className="flex items-center gap-2">
                 <div className="i-ph:chart-bar w-4 h-4 text-coderx-elements-item-contentAccent dark:text-coderx-elements-item-contentAccent" />
                 <span className="text-sm font-medium text-coderx-elements-textPrimary dark:text-coderx-elements-textPrimary">
@@ -596,7 +596,7 @@ export default function NetlifyConnection() {
                         size="sm"
                         onClick={() => fetchNetlifyStats(connection.token)}
                         disabled={fetchingStats}
-                        className="flex items-center gap-2 text-coderx-elements-textPrimary dark:text-coderx-elements-textPrimary hover:bg-coderx-elements-item-backgroundActive/10"
+                        className="flex items-center gap-2 text-coderx-elements-textPrimary dark:text-coderx-elements-textPrimary"
                       >
                         <ArrowPathIcon
                           className={classNames(
@@ -615,7 +615,7 @@ export default function NetlifyConnection() {
                             'bg-coderx-elements-background dark:bg-coderx-elements-background-depth-1 border rounded-lg p-4 transition-all',
                             activeSiteIndex === index
                               ? 'border-coderx-elements-item-contentAccent bg-coderx-elements-item-backgroundActive/10'
-                              : 'border-coderx-elements-borderColor hover:border-coderx-elements-borderColorActive/70',
+                              : 'border-coderx-elements-borderColor',
                           )}
                           onClick={() => {
                             setActiveSiteIndex(index);
@@ -650,7 +650,7 @@ export default function NetlifyConnection() {
                               href={site.ssl_url || site.url}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-sm flex items-center gap-1 transition-colors text-coderx-elements-link-text hover:text-coderx-elements-link-textHover dark:text-white dark:hover:text-coderx-elements-link-textHover"
+                              className="text-sm flex items-center gap-1 transition-colors text-coderx-elements-link-text dark:text-white"
                               onClick={(e) => e.stopPropagation()}
                             >
                               <CloudIcon className="h-3 w-3 text-coderx-elements-item-contentAccent dark:text-coderx-elements-item-contentAccent" />
@@ -771,7 +771,7 @@ export default function NetlifyConnection() {
                                   href={deploy.deploy_url}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className="flex items-center gap-1 transition-colors text-coderx-elements-link-text hover:text-coderx-elements-link-textHover dark:text-white dark:hover:text-coderx-elements-link-textHover"
+                                  className="flex items-center gap-1 transition-colors text-coderx-elements-link-text dark:text-white"
                                   onClick={(e) => e.stopPropagation()}
                                 >
                                   <CloudIcon className="h-3 w-3 text-coderx-elements-item-contentAccent dark:text-coderx-elements-item-contentAccent" />
@@ -901,7 +901,7 @@ export default function NetlifyConnection() {
               placeholder="Enter your Netlify API token"
               className={classNames(
                 'w-full px-3 py-2 rounded-lg text-sm',
-                'bg-[#F8F8F8] dark:bg-[#1A1A1A]',
+                'bg-coderx-elements-background-depth-1',
                 'border border-[#E5E5E5] dark:border-[#333333]',
                 'text-coderx-elements-textPrimary placeholder-coderx-elements-textTertiary',
                 'focus:outline-none focus:ring-1 focus:ring-coderx-elements-borderColorActive',
@@ -913,7 +913,7 @@ export default function NetlifyConnection() {
                 href="https://app.netlify.com/user/applications#personal-access-tokens"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-coderx-elements-borderColorActive hover:underline inline-flex items-center gap-1"
+                className="text-coderx-elements-borderColorActive inline-flex items-center gap-1"
               >
                 Get your token
                 <div className="i-ph:arrow-square-out w-4 h-4" />
@@ -926,7 +926,7 @@ export default function NetlifyConnection() {
                 className={classNames(
                   'px-4 py-2 rounded-lg text-sm flex items-center gap-2',
                   'bg-[#303030] text-white',
-                  'hover:bg-[#5E41D0] hover:text-white',
+                  '',
                   'disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200',
                   'transform active:scale-95',
                 )}
@@ -950,7 +950,7 @@ export default function NetlifyConnection() {
                   console.log('Manual Netlify auto-connect test');
                   await initializeNetlifyConnection();
                 }}
-                className="px-3 py-2 rounded-lg text-xs bg-blue-500 text-white hover:bg-blue-600"
+                className="px-3 py-2 rounded-lg text-xs bg-blue-500 text-white"
               >
                 Test Auto-Connect
               </button>
@@ -964,7 +964,7 @@ export default function NetlifyConnection() {
                 className={classNames(
                   'px-4 py-2 rounded-lg text-sm flex items-center gap-2',
                   'bg-red-500 text-white',
-                  'hover:bg-red-600',
+                  '',
                 )}
               >
                 <div className="i-ph:plug w-4 h-4" />

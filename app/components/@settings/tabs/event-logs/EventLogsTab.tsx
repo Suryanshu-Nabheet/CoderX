@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { motion } from 'framer-motion';
 import { Switch } from '~/components/ui/Switch';
 import { logStore, type LogEntry } from '~/lib/stores/logs';
 import { useStore } from '@nanostores/react';
@@ -8,11 +7,30 @@ import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { Dialog, DialogRoot, DialogTitle } from '~/components/ui/Dialog';
 import { jsPDF } from 'jspdf';
 import { toast } from 'react-toastify';
+import {
+  AlertCircle,
+  AlertTriangle,
+  Bug,
+  Bot,
+  ChevronDown,
+  ChevronRight,
+  ClipboardList,
+  Cloud,
+  Download,
+  FileJson,
+  FileSpreadsheet,
+  FileText,
+  Filter,
+  Info,
+  RefreshCw,
+  Search,
+} from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 
 interface SelectOption {
   value: string;
   label: string;
-  icon?: string;
+  icon?: LucideIcon;
   color?: string;
 }
 
@@ -20,43 +38,43 @@ const logLevelOptions: SelectOption[] = [
   {
     value: 'all',
     label: 'All Types',
-    icon: 'i-ph:funnel',
+    icon: Filter,
     color: '#9333ea',
   },
   {
     value: 'provider',
     label: 'LLM',
-    icon: 'i-ph:robot',
+    icon: Bot,
     color: '#10b981',
   },
   {
     value: 'api',
     label: 'API',
-    icon: 'i-ph:cloud',
+    icon: Cloud,
     color: '#3b82f6',
   },
   {
     value: 'error',
     label: 'Errors',
-    icon: 'i-ph:warning-circle',
+    icon: AlertCircle,
     color: '#ef4444',
   },
   {
     value: 'warning',
     label: 'Warnings',
-    icon: 'i-ph:warning',
+    icon: AlertTriangle,
     color: '#f59e0b',
   },
   {
     value: 'info',
     label: 'Info',
-    icon: 'i-ph:info',
+    icon: Info,
     color: '#3b82f6',
   },
   {
     value: 'debug',
     label: 'Debug',
-    icon: 'i-ph:bug',
+    icon: Bug,
     color: '#6b7280',
   },
 ];
@@ -83,18 +101,16 @@ const LogEntryItem = ({ log, isExpanded: forceExpanded, use24Hour, showTimestamp
   const style = useMemo(() => {
     if (log.category === 'provider') {
       return {
-        icon: 'i-ph:robot',
+        icon: Bot,
         color: 'text-emerald-500 dark:text-emerald-400',
-        bg: 'hover:bg-emerald-500/10 dark:hover:bg-emerald-500/20',
         badge: 'text-emerald-500 bg-emerald-50 dark:bg-emerald-500/10',
       };
     }
 
     if (log.category === 'api') {
       return {
-        icon: 'i-ph:cloud',
+        icon: Cloud,
         color: 'text-blue-500 dark:text-blue-400',
-        bg: 'hover:bg-blue-500/10 dark:hover:bg-blue-500/20',
         badge: 'text-blue-500 bg-blue-50 dark:bg-blue-500/10',
       };
     }
@@ -102,30 +118,26 @@ const LogEntryItem = ({ log, isExpanded: forceExpanded, use24Hour, showTimestamp
     switch (log.level) {
       case 'error':
         return {
-          icon: 'i-ph:warning-circle',
+          icon: AlertCircle,
           color: 'text-red-500 dark:text-red-400',
-          bg: 'hover:bg-red-500/10 dark:hover:bg-red-500/20',
           badge: 'text-red-500 bg-red-50 dark:bg-red-500/10',
         };
       case 'warning':
         return {
-          icon: 'i-ph:warning',
+          icon: AlertTriangle,
           color: 'text-yellow-500 dark:text-yellow-400',
-          bg: 'hover:bg-yellow-500/10 dark:hover:bg-yellow-500/20',
           badge: 'text-yellow-500 bg-yellow-50 dark:bg-yellow-500/10',
         };
       case 'debug':
         return {
-          icon: 'i-ph:bug',
+          icon: Bug,
           color: 'text-gray-500 dark:text-gray-400',
-          bg: 'hover:bg-gray-500/10 dark:hover:bg-gray-500/20',
           badge: 'text-gray-500 bg-gray-50 dark:bg-gray-500/10',
         };
       default:
         return {
-          icon: 'i-ph:info',
+          icon: Info,
           color: 'text-blue-500 dark:text-blue-400',
-          bg: 'hover:bg-blue-500/10 dark:hover:bg-blue-500/20',
           badge: 'text-blue-500 bg-blue-50 dark:bg-blue-500/10',
         };
     }
@@ -221,35 +233,24 @@ const LogEntryItem = ({ log, isExpanded: forceExpanded, use24Hour, showTimestamp
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
+    <div
       className={classNames(
-        'flex flex-col gap-2',
-        'rounded-lg p-4',
-        'bg-[#FAFAFA] dark:bg-[#0A0A0A]',
-        'border border-[#E5E5E5] dark:border-[#1A1A1A]',
-        style.bg,
-        'transition-all duration-200',
+        'flex flex-col gap-2 rounded-lg border border-coderx-elements-borderColor p-4',
+        'bg-coderx-elements-background-depth-2',
       )}
     >
       <div className="flex items-start justify-between gap-4">
         <div className="flex items-start gap-3">
-          <span className={classNames('text-lg', style.icon, style.color)} />
+          <style.icon className={classNames('mt-0.5 h-5 w-5 shrink-0', style.color)} aria-hidden="true" />
           <div className="flex flex-col gap-1">
-            <div className="text-sm font-medium text-gray-900 dark:text-white">{log.message}</div>
+            <div className="text-sm font-medium text-coderx-elements-textPrimary">{log.message}</div>
             {log.details && (
               <>
                 <button
                   onClick={() => setLocalExpanded(!localExpanded)}
-                  className="flex items-center gap-1 text-xs font-medium text-coderx-elements-textSecondary hover:text-coderx-elements-textPrimary bg-coderx-elements-background-depth-2 hover:bg-coderx-elements-background-depth-3 px-2 py-1 rounded-md border border-coderx-elements-borderColor transition-all duration-200"
+                  className="flex items-center gap-1 rounded-md border border-coderx-elements-borderColor bg-coderx-elements-background-depth-3 px-2 py-1 text-xs font-medium text-coderx-elements-textSecondary"
                 >
-                  <div
-                    className={classNames(
-                      'i-ph-caret-right transition-transform duration-200',
-                      localExpanded ? 'rotate-90' : '',
-                    )}
-                  />
+                  <ChevronRight className={classNames('h-3.5 w-3.5', localExpanded ? 'rotate-90' : '')} />
                   {localExpanded ? 'Hide Details' : 'Show Details'}
                 </button>
                 {localExpanded && renderDetails(log.details)}
@@ -260,23 +261,23 @@ const LogEntryItem = ({ log, isExpanded: forceExpanded, use24Hour, showTimestamp
                 {log.level}
               </div>
               {log.category && (
-                <div className="px-2 py-0.5 rounded-full text-xs bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400">
+                <div className="rounded-full bg-coderx-elements-background-depth-3 px-2 py-0.5 text-xs text-coderx-elements-textSecondary">
                   {log.category}
                 </div>
               )}
             </div>
           </div>
         </div>
-        {showTimestamp && <time className="shrink-0 text-xs text-gray-500 dark:text-gray-400">{timestamp}</time>}
+        {showTimestamp && <time className="shrink-0 text-xs text-coderx-elements-textSecondary">{timestamp}</time>}
       </div>
-    </motion.div>
+    </div>
   );
 };
 
 interface ExportFormat {
   id: string;
   label: string;
-  icon: string;
+  icon: LucideIcon;
   handler: () => void;
 }
 
@@ -781,25 +782,25 @@ export function EventLogsTab() {
     {
       id: 'json',
       label: 'Export as JSON',
-      icon: 'i-ph:file-js',
+      icon: FileJson,
       handler: exportAsJSON,
     },
     {
       id: 'csv',
       label: 'Export as CSV',
-      icon: 'i-ph:file-csv',
+      icon: FileSpreadsheet,
       handler: exportAsCSV,
     },
     {
       id: 'pdf',
       label: 'Export as PDF',
-      icon: 'i-ph:file-pdf',
+      icon: FileText,
       handler: exportAsPDF,
     },
     {
       id: 'txt',
       label: 'Export as Text',
-      icon: 'i-ph:file-text',
+      icon: FileText,
       handler: exportAsText,
     },
   ];
@@ -821,23 +822,18 @@ export function EventLogsTab() {
         <button
           onClick={() => setIsOpen(true)}
           className={classNames(
-            'group flex items-center gap-2',
-            'rounded-lg px-3 py-1.5',
-            'text-sm text-gray-900 dark:text-white',
-            'bg-[#FAFAFA] dark:bg-[#0A0A0A]',
-            'border border-[#E5E5E5] dark:border-[#1A1A1A]',
-            'hover:bg-blue-500/10 dark:hover:bg-blue-500/20',
-            'transition-all duration-200',
+            'flex items-center gap-2 rounded-lg border border-coderx-elements-borderColor',
+            'bg-coderx-elements-background-depth-2 px-3 py-1.5 text-sm text-coderx-elements-textPrimary',
           )}
         >
-          <span className="i-ph:download text-lg text-gray-500 dark:text-gray-400 group-hover:text-blue-500 transition-colors" />
+          <Download className="h-4 w-4 text-coderx-elements-textSecondary" />
           Export
         </button>
 
         <Dialog showCloseButton>
           <div className="p-6">
             <DialogTitle className="flex items-center gap-2">
-              <div className="i-ph:download w-5 h-5" />
+              <Download className="h-5 w-5" />
               Export Event Logs
             </DialogTitle>
 
@@ -847,15 +843,11 @@ export function EventLogsTab() {
                   key={format.id}
                   onClick={() => handleFormatClick(format.handler)}
                   className={classNames(
-                    'flex items-center gap-3 px-4 py-3 text-sm rounded-lg transition-colors w-full text-left',
-                    'bg-white dark:bg-[#0A0A0A]',
-                    'border border-[#E5E5E5] dark:border-[#1A1A1A]',
-                    'hover:bg-blue-50 dark:hover:bg-[#1a1a1a]',
-                    'hover:border-blue-200 dark:hover:border-blue-900/30',
-                    'text-coderx-elements-textPrimary',
+                    'flex w-full items-center gap-3 rounded-lg border border-coderx-elements-borderColor',
+                    'bg-coderx-elements-background-depth-2 px-4 py-3 text-left text-sm text-coderx-elements-textPrimary',
                   )}
                 >
-                  <div className={classNames(format.icon, 'w-5 h-5')} />
+                  <format.icon className="h-5 w-5 text-coderx-elements-textSecondary" />
                   <div>
                     <div className="font-medium">{format.label}</div>
                     <div className="text-xs text-coderx-elements-textSecondary mt-0.5">
@@ -875,33 +867,27 @@ export function EventLogsTab() {
   };
 
   return (
-    <div className="flex h-full flex-col gap-6">
-      <div className="flex items-center justify-between">
+    <div className="flex h-full flex-col gap-5">
+      <div className="flex flex-col gap-4 rounded-lg border border-coderx-elements-borderColor bg-coderx-elements-background-depth-2 p-4 lg:flex-row lg:items-center lg:justify-between">
         <DropdownMenu.Root open={showLevelFilter} onOpenChange={setShowLevelFilter}>
           <DropdownMenu.Trigger asChild>
             <button
               className={classNames(
-                'flex items-center gap-2',
-                'rounded-lg px-3 py-1.5',
-                'text-sm text-gray-900 dark:text-white',
-                'bg-[#FAFAFA] dark:bg-[#0A0A0A]',
-                'border border-[#E5E5E5] dark:border-[#1A1A1A]',
-                'hover:bg-blue-500/10 dark:hover:bg-blue-500/20',
-                'transition-all duration-200',
+                'flex items-center gap-2 rounded-lg border border-coderx-elements-borderColor',
+                'bg-coderx-elements-background-depth-3 px-3 py-1.5 text-sm text-coderx-elements-textPrimary',
               )}
             >
-              <span
-                className={classNames('text-lg', selectedLevelOption?.icon || 'i-ph:funnel')}
-                style={{ color: selectedLevelOption?.color }}
-              />
+              <span className="h-4 w-4" style={{ color: selectedLevelOption?.color }}>
+                {selectedLevelOption?.icon ? <selectedLevelOption.icon /> : <Filter />}
+              </span>
               {selectedLevelOption?.label || 'All Types'}
-              <span className="i-ph:caret-down text-lg text-gray-500 dark:text-gray-400" />
+              <ChevronDown className="h-4 w-4 text-coderx-elements-textSecondary" />
             </button>
           </DropdownMenu.Trigger>
 
           <DropdownMenu.Portal>
             <DropdownMenu.Content
-              className="min-w-[200px] bg-white dark:bg-[#0A0A0A] rounded-lg shadow-lg py-1 z-[250] animate-in fade-in-0 zoom-in-95 border border-[#E5E5E5] dark:border-[#1A1A1A]"
+              className="z-[250] min-w-[200px] rounded-lg border border-coderx-elements-borderColor bg-coderx-elements-background-depth-2 py-1 shadow-lg"
               sideOffset={5}
               align="start"
               side="bottom"
@@ -909,16 +895,13 @@ export function EventLogsTab() {
               {logLevelOptions.map((option) => (
                 <DropdownMenu.Item
                   key={option.value}
-                  className="group flex items-center px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-blue-500/10 dark:hover:bg-blue-500/20 cursor-pointer transition-colors"
+                  className="flex cursor-pointer items-center px-4 py-2.5 text-sm text-coderx-elements-textSecondary"
                   onClick={() => handleLevelFilterChange(option.value)}
                 >
                   <div className="mr-3 flex h-5 w-5 items-center justify-center">
-                    <div
-                      className={classNames(option.icon, 'text-lg group-hover:text-blue-500 transition-colors')}
-                      style={{ color: option.color }}
-                    />
+                    {option.icon && <option.icon className="h-4 w-4" style={{ color: option.color }} />}
                   </div>
-                  <span className="group-hover:text-blue-500 transition-colors">{option.label}</span>
+                  <span>{option.label}</span>
                 </DropdownMenu.Item>
               ))}
             </DropdownMenu.Content>
@@ -932,7 +915,7 @@ export function EventLogsTab() {
               onCheckedChange={(value) => handlePreferenceChange('timestamps', value)}
               className="data-[state=checked]:bg-blue-500"
             />
-            <span className="text-sm text-gray-500 dark:text-gray-400">Show Timestamps</span>
+            <span className="text-sm text-coderx-elements-textSecondary">Show Timestamps</span>
           </div>
 
           <div className="flex items-center gap-2">
@@ -941,7 +924,7 @@ export function EventLogsTab() {
               onCheckedChange={(value) => handlePreferenceChange('24hour', value)}
               className="data-[state=checked]:bg-blue-500"
             />
-            <span className="text-sm text-gray-500 dark:text-gray-400">24h Time</span>
+            <span className="text-sm text-coderx-elements-textSecondary">24h Time</span>
           </div>
 
           <div className="flex items-center gap-2">
@@ -950,7 +933,7 @@ export function EventLogsTab() {
               onCheckedChange={(value) => handlePreferenceChange('autoExpand', value)}
               className="data-[state=checked]:bg-blue-500"
             />
-            <span className="text-sm text-gray-500 dark:text-gray-400">Auto Expand</span>
+            <span className="text-sm text-coderx-elements-textSecondary">Auto Expand</span>
           </div>
 
           <div className="w-px h-4 bg-gray-200 dark:bg-gray-700" />
@@ -958,17 +941,12 @@ export function EventLogsTab() {
           <button
             onClick={handleRefresh}
             className={classNames(
-              'group flex items-center gap-2',
-              'rounded-lg px-3 py-1.5',
-              'text-sm text-gray-900 dark:text-white',
-              'bg-[#FAFAFA] dark:bg-[#0A0A0A]',
-              'border border-[#E5E5E5] dark:border-[#1A1A1A]',
-              'hover:bg-blue-500/10 dark:hover:bg-blue-500/20',
-              'transition-all duration-200',
+              'flex items-center gap-2 rounded-lg border border-coderx-elements-borderColor',
+              'bg-coderx-elements-background-depth-2 px-3 py-1.5 text-sm text-coderx-elements-textPrimary',
               { 'animate-spin': isRefreshing },
             )}
           >
-            <span className="i-ph:arrows-clockwise text-lg text-gray-500 dark:text-gray-400 group-hover:text-blue-500 transition-colors" />
+            <RefreshCw className="h-4 w-4 text-coderx-elements-textSecondary" />
             Refresh
           </button>
 
@@ -984,36 +962,29 @@ export function EventLogsTab() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className={classNames(
-              'w-full px-4 py-2 pl-10 rounded-lg',
-              'bg-[#FAFAFA] dark:bg-[#0A0A0A]',
-              'border border-[#E5E5E5] dark:border-[#1A1A1A]',
-              'text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400',
-              'focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500',
-              'transition-all duration-200',
+              'w-full rounded-lg border border-coderx-elements-borderColor bg-coderx-elements-background-depth-2 px-4 py-2 pl-10',
+              'text-coderx-elements-textPrimary placeholder-coderx-elements-textTertiary',
+              'focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20',
             )}
           />
           <div className="absolute left-3 top-1/2 -translate-y-1/2">
-            <div className="i-ph:magnifying-glass text-lg text-gray-500 dark:text-gray-400" />
+            <Search className="h-4 w-4 text-coderx-elements-textSecondary" />
           </div>
         </div>
 
         {filteredLogs.length === 0 ? (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+          <div
             className={classNames(
-              'flex flex-col items-center justify-center gap-4',
-              'rounded-lg p-8 text-center',
-              'bg-[#FAFAFA] dark:bg-[#0A0A0A]',
-              'border border-[#E5E5E5] dark:border-[#1A1A1A]',
+              'flex flex-col items-center justify-center gap-3 rounded-lg border border-coderx-elements-borderColor',
+              'bg-coderx-elements-background-depth-2 p-8 text-center',
             )}
           >
-            <span className="i-ph:clipboard-text text-4xl text-gray-400 dark:text-gray-600" />
+            <ClipboardList className="h-8 w-8 text-coderx-elements-textTertiary" />
             <div className="flex flex-col gap-1">
-              <h3 className="text-sm font-medium text-gray-900 dark:text-white">No Logs Found</h3>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Try adjusting your search or filters</p>
+              <h3 className="text-sm font-medium text-coderx-elements-textPrimary">No Logs Found</h3>
+              <p className="text-sm text-coderx-elements-textSecondary">Try adjusting your search or filters</p>
             </div>
-          </motion.div>
+          </div>
         ) : (
           filteredLogs.map((log) => (
             <LogEntryItem

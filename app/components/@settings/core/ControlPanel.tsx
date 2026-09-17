@@ -13,6 +13,7 @@ import { TAB_LABELS, DEFAULT_TAB_CONFIG, TAB_DESCRIPTIONS } from './constants';
 import { DialogTitle } from '~/components/ui/Dialog';
 import { AvatarDropdown } from './AvatarDropdown';
 import BackgroundRays from '~/components/ui/BackgroundRays';
+import { ArrowLeft, X } from 'lucide-react';
 
 // Import all tab components
 import ProfileTab from '~/components/@settings/tabs/profile/ProfileTab';
@@ -235,7 +236,7 @@ export const ControlPanel = ({ open, onClose }: ControlPanelProps) => {
           >
             <div
               className={classNames(
-                'w-[1200px] h-[90vh]',
+                'w-[min(1200px,calc(100vw-2rem))] h-[min(900px,calc(100vh-2rem))]',
                 'bg-coderx-elements-background-depth-1',
                 'rounded-2xl shadow-2xl',
                 'border border-coderx-elements-borderColor',
@@ -255,9 +256,9 @@ export const ControlPanel = ({ open, onClose }: ControlPanelProps) => {
                     {(activeTab || showTabManagement) && (
                       <button
                         onClick={handleBack}
-                        className="flex items-center justify-center w-8 h-8 rounded-full bg-transparent hover:bg-blue-500/10 dark:hover:bg-blue-500/20 group transition-colors duration-150"
+                        className="flex h-8 w-8 items-center justify-center rounded-full bg-transparent"
                       >
-                        <div className="i-ph:arrow-left w-4 h-4 text-gray-500 dark:text-gray-400 group-hover:text-blue-500 transition-colors" />
+                        <ArrowLeft className="h-4 w-4 text-coderx-elements-textSecondary" />
                       </button>
                     )}
                     <DialogTitle className="text-xl font-semibold text-gray-900 dark:text-white">
@@ -274,9 +275,9 @@ export const ControlPanel = ({ open, onClose }: ControlPanelProps) => {
                     {/* Close Button */}
                     <button
                       onClick={handleClose}
-                      className="flex items-center justify-center w-8 h-8 rounded-full bg-transparent hover:bg-blue-500/10 dark:hover:bg-blue-500/20 group transition-all duration-200"
+                      className="flex h-8 w-8 items-center justify-center rounded-full bg-transparent"
                     >
-                      <div className="i-ph:x w-4 h-4 text-gray-500 dark:text-gray-400 group-hover:text-blue-500 transition-colors" />
+                      <X className="h-4 w-4 text-coderx-elements-textSecondary" />
                     </button>
                   </div>
                 </div>
@@ -286,11 +287,9 @@ export const ControlPanel = ({ open, onClose }: ControlPanelProps) => {
                   className={classNames(
                     'flex-1',
                     'overflow-y-auto',
-                    'hover:overflow-y-auto',
                     'scrollbar scrollbar-w-2',
                     'scrollbar-track-transparent',
-                    'scrollbar-thumb-[#E5E5E5] hover:scrollbar-thumb-[#CCCCCC]',
-                    'dark:scrollbar-thumb-[#333333] dark:hover:scrollbar-thumb-[#444444]',
+                    'scrollbar-thumb-[#E5E5E5] dark:scrollbar-thumb-[#333333]',
                     'will-change-scroll',
                     'touch-auto',
                   )}
@@ -308,10 +307,7 @@ export const ControlPanel = ({ open, onClose }: ControlPanelProps) => {
                         {visibleTabs.map((tab, index) => (
                           <div
                             key={tab.id}
-                            className={classNames(
-                              'aspect-[1.5/1] transition-transform duration-100 ease-out',
-                              'hover:scale-[1.01]',
-                            )}
+                            className={classNames('min-h-[150px]')}
                             style={{
                               animationDelay: `${index * 30}ms`,
                               animation: open ? 'fadeInUp 200ms ease-out forwards' : 'none',

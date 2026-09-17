@@ -13,15 +13,13 @@ export function RepositoryCard({ repo, onClone }: RepositoryCardProps) {
       href={repo.http_url_to_repo}
       target="_blank"
       rel="noopener noreferrer"
-      className="group block p-4 rounded-lg bg-coderx-elements-background-depth-1 border border-coderx-elements-borderColor hover:border-coderx-elements-borderColorActive transition-all duration-200"
+      className="group block p-4 rounded-lg bg-coderx-elements-background-depth-1 border border-coderx-elements-borderColor transition-all duration-200"
     >
       <div className="space-y-3">
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-2">
             <div className="i-ph:git-repository w-4 h-4 text-coderx-elements-icon-info" />
-            <h5 className="text-sm font-medium text-coderx-elements-textPrimary group-hover:text-coderx-elements-item-contentAccent transition-colors">
-              {repo.name}
-            </h5>
+            <h5 className="text-sm font-medium text-coderx-elements-textPrimary transition-colors">{repo.name}</h5>
           </div>
           <div className="flex items-center gap-3 text-xs text-coderx-elements-textSecondary">
             <span className="flex items-center gap-1" title="Stars">
@@ -60,14 +58,14 @@ export function RepositoryCard({ repo, onClone }: RepositoryCardProps) {
                   e.stopPropagation();
                   onClone(repo);
                 }}
-                className="flex items-center gap-1 px-2 py-1 rounded text-xs bg-coderx-elements-background-depth-2 hover:bg-coderx-elements-background-depth-3 text-coderx-elements-textSecondary hover:text-coderx-elements-textPrimary transition-colors"
+                className="flex items-center gap-1 px-2 py-1 rounded text-xs bg-coderx-elements-background-depth-2 text-coderx-elements-textSecondary transition-colors"
                 title="Clone repository"
               >
                 <div className="i-ph:git-branch w-3.5 h-3.5" />
                 Clone
               </button>
             )}
-            <span className="flex items-center gap-1 group-hover:text-coderx-elements-item-contentAccent transition-colors">
+            <span className="flex items-center gap-1 transition-colors">
               <div className="i-ph:arrow-square-out w-3.5 h-3.5" />
               View
             </span>

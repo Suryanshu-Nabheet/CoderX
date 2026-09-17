@@ -193,6 +193,14 @@ ${value.content}
         });
     } else {
       // Handle case where there is no mixedId (e.g., new chat)
+      // A route without an id is a new home-page session. Clear previous
+      // chat globals so returning home cannot resurrect the last conversation.
+      setArchivedMessages([]);
+      setInitialMessages([]);
+      setUrlId(undefined);
+      chatId.set(undefined);
+      description.set(undefined);
+      chatMetadata.set(undefined);
       setReady(true);
     }
   }, [mixedId, db, navigate, searchParams]); // Added db, navigate, searchParams dependencies

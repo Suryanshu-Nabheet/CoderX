@@ -47,7 +47,7 @@ export function GitLabAuthDialog({ isOpen, onClose }: GitLabAuthDialogProps) {
             className="w-[90vw] md:w-[500px]"
           >
             <Dialog.Content
-              className="bg-white dark:bg-coderx-elements-background-depth-1 rounded-lg p-6 border border-coderx-elements-borderColor dark:border-coderx-elements-borderColor-dark shadow-xl"
+              className="bg-coderx-elements-background-depth-2 rounded-lg p-6 border border-coderx-elements-borderColor dark:border-coderx-elements-borderColor-dark shadow-xl"
               aria-describedby="gitlab-auth-description"
             >
               <Dialog.Title className="text-lg font-medium text-coderx-elements-textPrimary dark:text-coderx-elements-textPrimary-dark mb-4">
@@ -125,7 +125,7 @@ export function GitLabAuthDialog({ isOpen, onClose }: GitLabAuthDialogProps) {
                       href={`${gitlabUrl}/-/user_settings/personal_access_tokens`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-orange-500 hover:text-orange-600 hover:underline inline-flex items-center gap-1"
+                      className="text-orange-500 inline-flex items-center gap-1"
                     >
                       Get your token
                       <div className="i-ph:arrow-square-out w-3 h-3" />
@@ -145,9 +145,7 @@ export function GitLabAuthDialog({ isOpen, onClose }: GitLabAuthDialogProps) {
                   <motion.button
                     type="button"
                     onClick={onClose}
-                    className="px-4 py-2 rounded-lg bg-coderx-elements-background-depth-2 dark:bg-coderx-elements-background-depth-3 text-coderx-elements-textSecondary dark:text-coderx-elements-textSecondary-dark hover:bg-coderx-elements-background-depth-3 dark:hover:bg-coderx-elements-background-depth-4 text-sm border border-coderx-elements-borderColor dark:border-coderx-elements-borderColor-dark"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
+                    className="px-4 py-2 rounded-lg bg-coderx-elements-background-depth-2 dark:bg-coderx-elements-background-depth-3 text-coderx-elements-textSecondary dark:text-coderx-elements-textSecondary-dark text-sm border border-coderx-elements-borderColor dark:border-coderx-elements-borderColor-dark"
                     disabled={isConnecting}
                   >
                     Cancel
@@ -157,11 +155,9 @@ export function GitLabAuthDialog({ isOpen, onClose }: GitLabAuthDialogProps) {
                     disabled={isConnecting || !token.trim()}
                     className={classNames(
                       'px-4 py-2 rounded-lg text-sm inline-flex items-center gap-2',
-                      'bg-orange-500 text-white hover:bg-orange-600',
+                      'bg-orange-500 text-white',
                       'disabled:opacity-50 disabled:cursor-not-allowed',
                     )}
-                    whileHover={!isConnecting && token.trim() ? { scale: 1.02 } : {}}
-                    whileTap={!isConnecting && token.trim() ? { scale: 0.98 } : {}}
                   >
                     {isConnecting ? (
                       <>

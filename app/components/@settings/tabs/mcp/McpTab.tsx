@@ -119,7 +119,7 @@ export default function McpTab() {
             disabled={isCheckingServers || !parsedConfig || serverEntries.length === 0}
             className={classNames(
               'px-3 py-1.5 rounded-lg text-sm',
-              'bg-coderx-elements-background-depth-3 hover:bg-coderx-elements-background-depth-4',
+              'bg-coderx-elements-background-depth-3',
               'text-coderx-elements-textPrimary',
               'transition-all duration-200',
               'flex items-center gap-2',
@@ -156,7 +156,7 @@ export default function McpTab() {
               onChange={(e) => setMCPConfigText(e.target.value)}
               className={classNames(
                 'w-full px-3 py-2 rounded-lg text-sm font-mono h-72',
-                'bg-[#F8F8F8] dark:bg-[#1A1A1A]',
+                'bg-coderx-elements-background-depth-1',
                 'border',
                 error ? 'border-coderx-elements-icon-error' : 'border-[#E5E5E5] dark:border-[#333333]',
                 'text-coderx-elements-textPrimary',
@@ -177,7 +177,7 @@ export default function McpTab() {
               max="20"
               value={maxLLMSteps}
               onChange={(e) => handleMaxLLMCallChange(e.target.value)}
-              className="w-full px-3 py-2 text-coderx-elements-textPrimary text-sm rounded-lg bg-white dark:bg-coderx-elements-background-depth-4 border border-coderx-elements-borderColor dark:border-coderx-elements-borderColor-dark focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 text-coderx-elements-textPrimary text-sm rounded-lg bg-coderx-elements-background-depth-2 border border-coderx-elements-borderColor focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
           <div className="mt-2 text-sm text-coderx-elements-textSecondary">
@@ -186,7 +186,7 @@ export default function McpTab() {
               href="https://modelcontextprotocol.io/examples"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-coderx-elements-link hover:underline inline-flex items-center gap-1"
+              className="text-coderx-elements-link inline-flex items-center gap-1"
             >
               View example servers
               <div className="i-ph:arrow-square-out w-4 h-4" />
@@ -200,7 +200,7 @@ export default function McpTab() {
           onClick={handleLoadExample}
           className="px-4 py-2 rounded-lg text-sm border border-coderx-elements-borderColor
                     bg-coderx-elements-background-depth-2 text-coderx-elements-textSecondary
-                    hover:bg-coderx-elements-background-depth-3"
+"
         >
           Load Example
         </button>
@@ -213,7 +213,7 @@ export default function McpTab() {
             className={classNames(
               'px-4 py-2 rounded-lg text-sm flex items-center gap-2',
               'bg-coderx-elements-item-backgroundAccent text-coderx-elements-item-contentAccent',
-              'hover:bg-coderx-elements-item-backgroundActive',
+              '',
               'disabled:opacity-50 disabled:cursor-not-allowed',
             )}
           >

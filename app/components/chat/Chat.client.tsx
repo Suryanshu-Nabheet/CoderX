@@ -16,7 +16,7 @@ import Cookies from 'js-cookie';
 import { debounce } from '~/utils/debounce';
 import { useSettings } from '~/lib/hooks/useSettings';
 import type { ProviderInfo } from '~/types/model';
-import { useSearchParams } from '@remix-run/react';
+import { useLocation, useSearchParams } from '@remix-run/react';
 import { createSampler } from '~/utils/sampler';
 import { getTemplates, selectStarterTemplate } from '~/utils/selectStarterTemplate';
 import { logStore } from '~/lib/stores/logs';
@@ -69,6 +69,7 @@ export function Chat() {
   }, []);
 
   const { ready, initialMessages, storeMessageHistory, importChat, exportChat } = useChatHistory();
+  const location = useLocation();
   const title = useStore(description);
   useEffect(() => {
     workbenchStore.setReloadedMessages(initialMessages.map((m) => m.id));
@@ -78,6 +79,7 @@ export function Chat() {
     <>
       {ready && (
         <ChatImpl
+          key={location.pathname}
           description={title}
           initialMessages={initialMessages}
           exportChat={exportChat}
@@ -286,7 +288,8 @@ export const ChatImpl = memo(
 
     useEffect(() => {
       chatStore.setKey('started', initialMessages.length > 0);
-    }, []);
+      setChatStarted(initialMessages.length > 0);
+    }, [initialMessages.length]);
 
     useEffect(() => {
       processSampledMessages({

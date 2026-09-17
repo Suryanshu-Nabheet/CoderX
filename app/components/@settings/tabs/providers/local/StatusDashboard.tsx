@@ -18,7 +18,7 @@ function StatusDashboard({ onBack }: { onBack: () => void }) {
           variant="ghost"
           size="sm"
           onClick={onBack}
-          className="bg-transparent hover:bg-transparent text-coderx-elements-textSecondary hover:text-coderx-elements-textPrimary transition-all duration-200 p-2"
+          className="bg-transparent text-coderx-elements-textSecondary transition-all duration-200 p-2"
           aria-label="Back to Dashboard"
         >
           <ArrowLeft className="w-4 h-4" />

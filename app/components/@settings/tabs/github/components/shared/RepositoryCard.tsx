@@ -138,7 +138,7 @@ export function RepositoryCard({
       <button
         onClick={onSelect}
         className={classNames(
-          'w-full text-left p-3 rounded-lg border border-coderx-elements-borderColor hover:border-coderx-elements-borderColorActive hover:bg-coderx-elements-background-depth-1 transition-all duration-200',
+          'w-full text-left p-3 rounded-lg border border-coderx-elements-borderColor transition-all duration-200',
           className,
         )}
       >
@@ -190,10 +190,7 @@ export function RepositoryCard({
   const interactiveProps = onSelect
     ? {
         onClick: onSelect,
-        className: classNames(
-          'group cursor-pointer hover:border-coderx-elements-borderColorActive dark:hover:border-coderx-elements-borderColorActive transition-all duration-200',
-          className,
-        ),
+        className: classNames('group cursor-pointer transition-all duration-200', className),
       }
     : { className };
 
@@ -220,7 +217,7 @@ export function RepositoryCard({
             <h5
               className={classNames(
                 'text-sm font-medium text-coderx-elements-textPrimary',
-                onSelect && 'group-hover:text-coderx-elements-item-contentAccent transition-colors',
+                onSelect && ' transition-colors',
               )}
             >
               {repository.name}
@@ -343,12 +340,7 @@ export function RepositoryCard({
             )}
 
             {onSelect && (
-              <span
-                className={classNames(
-                  'flex items-center gap-1 ml-2 transition-colors',
-                  'group-hover:text-coderx-elements-item-contentAccent',
-                )}
-              >
+              <span className={classNames('flex items-center gap-1 ml-2 transition-colors', '')}>
                 <ExternalLink className="w-3.5 h-3.5" />
                 View
               </span>

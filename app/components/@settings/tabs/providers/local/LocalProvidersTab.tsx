@@ -348,7 +348,7 @@ export default function LocalProvidersTab() {
                 variant="outline"
                 size="sm"
                 onClick={() => setViewMode('guide')}
-                className="bg-coderx-elements-background-depth-2 hover:bg-coderx-elements-background-depth-3 border-coderx-elements-borderColor hover:border-blue-500/30 transition-all duration-200 gap-2"
+                className="bg-coderx-elements-background-depth-2 border-coderx-elements-borderColor transition-all duration-200 gap-2"
               >
                 <BookOpen className="w-4 h-4" />
                 Setup Guide
@@ -357,7 +357,7 @@ export default function LocalProvidersTab() {
                 variant="outline"
                 size="sm"
                 onClick={() => setViewMode('status')}
-                className="bg-coderx-elements-background-depth-2 hover:bg-coderx-elements-background-depth-3 border-coderx-elements-borderColor hover:border-blue-500/30 transition-all duration-200 gap-2"
+                className="bg-coderx-elements-background-depth-2 border-coderx-elements-borderColor transition-all duration-200 gap-2"
               >
                 <Activity className="w-4 h-4" />
                 Status
@@ -393,7 +393,7 @@ export default function LocalProvidersTab() {
                         size="sm"
                         onClick={fetchOllamaModels}
                         disabled={isLoadingModels}
-                        className="bg-transparent hover:bg-coderx-elements-background-depth-2"
+                        className="bg-transparent"
                       >
                         {isLoadingModels ? (
                           <Loader2 className="w-4 h-4 animate-spin mr-2" />
@@ -423,7 +423,7 @@ export default function LocalProvidersTab() {
                             href="https://ollama.com/library"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-blue-500 hover:underline inline-flex items-center gap-1"
+                            className="text-blue-500 inline-flex items-center gap-1"
                           >
                             ollama.com/library
                             <ExternalLink className="w-3 h-3" />
@@ -433,7 +433,7 @@ export default function LocalProvidersTab() {
                         <Button
                           variant="outline"
                           size="sm"
-                          className="bg-gradient-to-r from-blue-500/8 to-blue-600/8 hover:from-blue-500/15 hover:to-blue-600/15 border-blue-500/25 hover:border-blue-500/40 transition-all duration-300 gap-2 group shadow-sm hover:shadow-md font-medium"
+                          className="bg-gradient-to-r from-blue-500/8 to-blue-600/8 border-blue-500/25 transition-all duration-300 gap-2 group shadow-sm font-medium"
                           _asChild
                         >
                           <a
@@ -442,7 +442,7 @@ export default function LocalProvidersTab() {
                             rel="noopener noreferrer"
                             className="flex items-center justify-center gap-2"
                           >
-                            <ExternalLink className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300 flex-shrink-0" />
+                            <ExternalLink className="w-4 h-4 transition-all duration-300 flex-shrink-0" />
                             <span className="flex-1 text-center font-medium">Browse Models</span>
                           </a>
                         </Button>
@@ -477,7 +477,7 @@ export default function LocalProvidersTab() {
                         size="sm"
                         onClick={() => fetchLMStudioModels(provider.settings.baseUrl!)}
                         disabled={isLoadingLMStudioModels}
-                        className="bg-coderx-elements-background-depth-1 hover:bg-coderx-elements-background-depth-2 border-coderx-elements-borderColor transition-all"
+                        className="bg-coderx-elements-background-depth-1 border-coderx-elements-borderColor transition-all"
                       >
                         {isLoadingLMStudioModels ? (
                           <Loader2 className="w-4 h-4 animate-spin mr-2" />
@@ -507,7 +507,7 @@ export default function LocalProvidersTab() {
                         <Button
                           variant="outline"
                           size="sm"
-                          className="bg-gradient-to-r from-blue-500/8 to-blue-600/8 hover:from-blue-500/15 hover:to-blue-600/15 border-blue-500/25 hover:border-blue-500/40 transition-all duration-300 gap-2 group shadow-sm hover:shadow-md font-medium"
+                          className="bg-gradient-to-r from-blue-500/8 to-blue-600/8 border-blue-500/25 transition-all duration-300 gap-2 group shadow-sm font-medium"
                           _asChild
                         >
                           <a
@@ -516,7 +516,7 @@ export default function LocalProvidersTab() {
                             rel="noopener noreferrer"
                             className="flex items-center justify-center gap-2"
                           >
-                            <ExternalLink className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300 flex-shrink-0" />
+                            <ExternalLink className="w-4 h-4 transition-all duration-300 flex-shrink-0" />
                             <span className="flex-1 text-center font-medium">Get LM Studio</span>
                           </a>
                         </Button>

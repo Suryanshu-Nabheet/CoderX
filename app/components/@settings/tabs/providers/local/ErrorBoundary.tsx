@@ -45,7 +45,7 @@ export default class ErrorBoundary extends Component<Props, State> {
             className={classNames(
               'px-4 py-2 rounded-lg text-sm font-medium',
               'bg-red-500/10 text-red-500',
-              'hover:bg-red-500/20',
+              '',
               'transition-colors duration-200',
             )}
           >
@@ -53,7 +53,7 @@ export default class ErrorBoundary extends Component<Props, State> {
           </button>
           {process.env.NODE_ENV === 'development' && this.state.error && (
             <details className="mt-4 text-left">
-              <summary className="cursor-pointer text-sm text-red-400 hover:text-red-300">Error Details</summary>
+              <summary className="cursor-pointer text-sm text-red-400">Error Details</summary>
               <pre className="mt-2 p-2 bg-red-500/10 rounded text-xs text-red-300 overflow-auto">
                 {this.state.error.stack}
               </pre>

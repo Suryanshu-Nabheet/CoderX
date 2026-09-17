@@ -93,7 +93,7 @@ const NotificationsTab = () => {
       return {
         icon: 'i-ph:arrow-circle-up',
         color: 'text-blue-500 dark:text-blue-400',
-        bg: 'hover:bg-blue-500/10 dark:hover:bg-blue-500/20',
+        bg: '',
       };
     }
 
@@ -102,25 +102,25 @@ const NotificationsTab = () => {
         return {
           icon: 'i-ph:warning-circle',
           color: 'text-red-500 dark:text-red-400',
-          bg: 'hover:bg-red-500/10 dark:hover:bg-red-500/20',
+          bg: '',
         };
       case 'warning':
         return {
           icon: 'i-ph:warning',
           color: 'text-yellow-500 dark:text-yellow-400',
-          bg: 'hover:bg-yellow-500/10 dark:hover:bg-yellow-500/20',
+          bg: '',
         };
       case 'info':
         return {
           icon: 'i-ph:info',
           color: 'text-blue-500 dark:text-blue-400',
-          bg: 'hover:bg-blue-500/10 dark:hover:bg-blue-500/20',
+          bg: '',
         };
       default:
         return {
           icon: 'i-ph:bell',
           color: 'text-gray-500 dark:text-gray-400',
-          bg: 'hover:bg-gray-500/10 dark:hover:bg-gray-500/20',
+          bg: '',
         };
     }
   };
@@ -144,7 +144,7 @@ const NotificationsTab = () => {
               'bg-[#FAFAFA] dark:bg-[#0A0A0A]',
               'border border-[#E5E5E5] dark:border-[#1A1A1A]',
               'text-gray-900 dark:text-white',
-              'hover:bg-blue-500/10 dark:hover:bg-blue-500/20',
+              '',
               'transition-all duration-200',
             )}
           >
@@ -181,7 +181,7 @@ const NotificationsTab = () => {
                 'text-sm text-gray-900 dark:text-white',
                 'bg-[#FAFAFA] dark:bg-[#0A0A0A]',
                 'border border-[#E5E5E5] dark:border-[#1A1A1A]',
-                'hover:bg-blue-500/10 dark:hover:bg-blue-500/20',
+                '',
                 'transition-all duration-200',
               )}
             >
@@ -196,7 +196,7 @@ const NotificationsTab = () => {
 
           <DropdownMenu.Portal>
             <DropdownMenu.Content
-              className="min-w-[200px] bg-white dark:bg-[#0A0A0A] rounded-lg shadow-lg py-1 z-[250] animate-in fade-in-0 zoom-in-95 border border-[#E5E5E5] dark:border-[#1A1A1A]"
+              className="min-w-[200px] bg-coderx-elements-background-depth-2 rounded-lg shadow-lg py-1 z-[250] animate-in fade-in-0 zoom-in-95 border border-[#E5E5E5] dark:border-[#1A1A1A]"
               sideOffset={5}
               align="start"
               side="bottom"
@@ -204,16 +204,16 @@ const NotificationsTab = () => {
               {filterOptions.map((option) => (
                 <DropdownMenu.Item
                   key={option.id}
-                  className="group flex items-center px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-blue-500/10 dark:hover:bg-blue-500/20 cursor-pointer transition-colors"
+                  className="group flex items-center px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 cursor-pointer transition-colors"
                   onClick={() => handleFilterChange(option.id)}
                 >
                   <div className="mr-3 flex h-5 w-5 items-center justify-center">
                     <div
-                      className={classNames(option.icon, 'text-lg group-hover:text-blue-500 transition-colors')}
+                      className={classNames(option.icon, 'text-lg transition-colors')}
                       style={{ color: option.color }}
                     />
                   </div>
-                  <span className="group-hover:text-blue-500 transition-colors">{option.label}</span>
+                  <span className=" transition-colors">{option.label}</span>
                 </DropdownMenu.Item>
               ))}
             </DropdownMenu.Content>
@@ -228,11 +228,11 @@ const NotificationsTab = () => {
             'text-sm text-gray-900 dark:text-white',
             'bg-[#FAFAFA] dark:bg-[#0A0A0A]',
             'border border-[#E5E5E5] dark:border-[#1A1A1A]',
-            'hover:bg-blue-500/10 dark:hover:bg-blue-500/20',
+            '',
             'transition-all duration-200',
           )}
         >
-          <span className="i-ph:trash text-lg text-gray-500 dark:text-gray-400 group-hover:text-blue-500 transition-colors" />
+          <span className="i-ph:trash text-lg text-gray-500 dark:text-gray-400 transition-colors" />
           Clear All
         </button>
       </div>

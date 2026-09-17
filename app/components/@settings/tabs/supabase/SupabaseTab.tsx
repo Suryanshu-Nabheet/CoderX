@@ -295,7 +295,7 @@ export default function SupabaseTab() {
     return (
       <Collapsible open={isProjectsExpanded} onOpenChange={setIsProjectsExpanded}>
         <CollapsibleTrigger asChild>
-          <div className="flex items-center justify-between p-4 rounded-lg bg-coderx-elements-background dark:bg-coderx-elements-background-depth-2 border border-coderx-elements-borderColor dark:border-coderx-elements-borderColor hover:border-coderx-elements-borderColorActive/70 dark:hover:border-coderx-elements-borderColorActive/70 transition-all duration-200 cursor-pointer">
+          <div className="flex items-center justify-between p-4 rounded-lg bg-coderx-elements-background dark:bg-coderx-elements-background-depth-2 border border-coderx-elements-borderColor dark:border-coderx-elements-borderColor transition-all duration-200 cursor-pointer">
             <div className="flex items-center gap-2">
               <div className="i-ph:database w-4 h-4 text-coderx-elements-item-contentAccent" />
               <span className="text-sm font-medium text-coderx-elements-textPrimary">
@@ -354,7 +354,7 @@ export default function SupabaseTab() {
                       'p-4 rounded-lg border transition-colors bg-coderx-elements-background-depth-1 cursor-pointer',
                       selectedProjectId === project.id
                         ? 'border-coderx-elements-item-contentAccent bg-coderx-elements-item-backgroundActive/10'
-                        : 'border-coderx-elements-borderColor hover:border-coderx-elements-borderColorActive/70',
+                        : 'border-coderx-elements-borderColor',
                     )}
                     onClick={() => handleProjectSelect(project.id)}
                   >
@@ -630,7 +630,7 @@ export default function SupabaseTab() {
               disabled={connectionTest?.status === 'testing'}
               variant="outline"
               size="sm"
-              className="flex items-center gap-2 hover:bg-coderx-elements-item-backgroundActive/10 hover:text-coderx-elements-textPrimary dark:hover:bg-coderx-elements-item-backgroundActive/10 dark:hover:text-coderx-elements-textPrimary transition-colors"
+              className="flex items-center gap-2 transition-colors"
             >
               {connectionTest?.status === 'testing' ? (
                 <>
@@ -721,7 +721,7 @@ export default function SupabaseTab() {
                   placeholder="Enter your Supabase access token"
                   className={classNames(
                     'w-full px-3 py-2 rounded-lg text-sm',
-                    'bg-[#F8F8F8] dark:bg-[#1A1A1A]',
+                    'bg-coderx-elements-background-depth-1',
                     'border border-[#E5E5E5] dark:border-[#333333]',
                     'text-coderx-elements-textPrimary placeholder-coderx-elements-textTertiary',
                     'focus:outline-none focus:ring-1 focus:ring-coderx-elements-borderColorActive',
@@ -733,7 +733,7 @@ export default function SupabaseTab() {
                     href="https://supabase.com/dashboard/account/tokens"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-coderx-elements-borderColorActive hover:underline inline-flex items-center gap-1"
+                    className="text-coderx-elements-borderColorActive inline-flex items-center gap-1"
                   >
                     Get your token
                     <div className="i-ph:arrow-square-out w-4 h-4" />
@@ -747,7 +747,7 @@ export default function SupabaseTab() {
                 className={classNames(
                   'px-4 py-2 rounded-lg text-sm flex items-center gap-2',
                   'bg-[#303030] text-white',
-                  'hover:bg-[#5E41D0] hover:text-white',
+                  '',
                   'disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200',
                   'transform active:scale-95',
                 )}
@@ -774,7 +774,7 @@ export default function SupabaseTab() {
                     className={classNames(
                       'px-4 py-2 rounded-lg text-sm flex items-center gap-2',
                       'bg-red-500 text-white',
-                      'hover:bg-red-600',
+                      '',
                     )}
                   >
                     <div className="i-ph:plug w-4 h-4" />

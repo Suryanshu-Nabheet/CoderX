@@ -15,11 +15,7 @@ export const AvatarDropdown = ({ onSelectTab }: AvatarDropdownProps) => {
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
-        <motion.button
-          className="w-10 h-10 rounded-full bg-transparent flex items-center justify-center focus:outline-none"
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-        >
+        <motion.button className="w-10 h-10 rounded-full bg-transparent flex items-center justify-center focus:outline-none">
           {profile?.avatar ? (
             <img
               src={profile.avatar}
@@ -29,7 +25,7 @@ export const AvatarDropdown = ({ onSelectTab }: AvatarDropdownProps) => {
               decoding="sync"
             />
           ) : (
-            <div className="w-full h-full rounded-full flex items-center justify-center bg-white dark:bg-gray-800 text-gray-400 dark:text-gray-500">
+            <div className="w-full h-full rounded-full flex items-center justify-center bg-coderx-elements-background-depth-3 text-gray-400 dark:text-gray-500">
               <div className="i-ph:user w-6 h-6" />
             </div>
           )}
@@ -40,7 +36,7 @@ export const AvatarDropdown = ({ onSelectTab }: AvatarDropdownProps) => {
         <DropdownMenu.Content
           className={classNames(
             'min-w-[240px] z-[250]',
-            'bg-white dark:bg-[#141414]',
+            'bg-coderx-elements-background-depth-2',
             'rounded-lg shadow-lg',
             'border border-gray-200/50 dark:border-gray-800/50',
             'animate-in fade-in-0 zoom-in-95',
@@ -55,7 +51,7 @@ export const AvatarDropdown = ({ onSelectTab }: AvatarDropdownProps) => {
               'border-b border-gray-200/50 dark:border-gray-800/50',
             )}
           >
-            <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 bg-white dark:bg-gray-800 shadow-sm">
+            <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 bg-coderx-elements-background-depth-3 shadow-sm">
               {profile?.avatar ? (
                 <img
                   src={profile.avatar}
@@ -82,15 +78,15 @@ export const AvatarDropdown = ({ onSelectTab }: AvatarDropdownProps) => {
             className={classNames(
               'flex items-center gap-2 px-4 py-2.5',
               'text-sm text-gray-700 dark:text-gray-200',
-              'hover:bg-blue-50 dark:hover:bg-blue-500/10',
-              'hover:text-blue-500 dark:hover:text-blue-400',
+              '',
+              '',
               'cursor-pointer transition-all duration-200',
               'outline-none',
               'group',
             )}
             onClick={() => onSelectTab('profile')}
           >
-            <div className="i-ph:user-circle w-4 h-4 text-gray-400 group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors" />
+            <div className="i-ph:user-circle w-4 h-4 text-gray-400 transition-colors" />
             Edit Profile
           </DropdownMenu.Item>
 
@@ -98,15 +94,15 @@ export const AvatarDropdown = ({ onSelectTab }: AvatarDropdownProps) => {
             className={classNames(
               'flex items-center gap-2 px-4 py-2.5',
               'text-sm text-gray-700 dark:text-gray-200',
-              'hover:bg-blue-50 dark:hover:bg-blue-500/10',
-              'hover:text-blue-500 dark:hover:text-blue-400',
+              '',
+              '',
               'cursor-pointer transition-all duration-200',
               'outline-none',
               'group',
             )}
             onClick={() => onSelectTab('settings')}
           >
-            <div className="i-ph:gear-six w-4 h-4 text-gray-400 group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors" />
+            <div className="i-ph:gear-six w-4 h-4 text-gray-400 transition-colors" />
             Settings
           </DropdownMenu.Item>
 
@@ -116,15 +112,15 @@ export const AvatarDropdown = ({ onSelectTab }: AvatarDropdownProps) => {
             className={classNames(
               'flex items-center gap-2 px-4 py-2.5',
               'text-sm text-gray-700 dark:text-gray-200',
-              'hover:bg-blue-50 dark:hover:bg-blue-500/10',
-              'hover:text-blue-500 dark:hover:text-blue-400',
+              '',
+              '',
               'cursor-pointer transition-all duration-200',
               'outline-none',
               'group',
             )}
             onClick={() => window.open('https://github.com/Suryanshu-Nabheet/CoderX/issues/new', '_blank')}
           >
-            <div className="i-ph:bug w-4 h-4 text-gray-400 group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors" />
+            <div className="i-ph:bug w-4 h-4 text-gray-400 transition-colors" />
             Report Bug
           </DropdownMenu.Item>
 
@@ -132,8 +128,8 @@ export const AvatarDropdown = ({ onSelectTab }: AvatarDropdownProps) => {
             className={classNames(
               'flex items-center gap-2 px-4 py-2.5',
               'text-sm text-gray-700 dark:text-gray-200',
-              'hover:bg-blue-50 dark:hover:bg-blue-500/10',
-              'hover:text-blue-500 dark:hover:text-blue-400',
+              '',
+              '',
               'cursor-pointer transition-all duration-200',
               'outline-none',
               'group',
@@ -147,7 +143,7 @@ export const AvatarDropdown = ({ onSelectTab }: AvatarDropdownProps) => {
               }
             }}
           >
-            <div className="i-ph:download w-4 h-4 text-gray-400 group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors" />
+            <div className="i-ph:download w-4 h-4 text-gray-400 transition-colors" />
             Download Debug Log
           </DropdownMenu.Item>
 
@@ -155,15 +151,15 @@ export const AvatarDropdown = ({ onSelectTab }: AvatarDropdownProps) => {
             className={classNames(
               'flex items-center gap-2 px-4 py-2.5',
               'text-sm text-gray-700 dark:text-gray-200',
-              'hover:bg-blue-50 dark:hover:bg-blue-500/10',
-              'hover:text-blue-500 dark:hover:text-blue-400',
+              '',
+              '',
               'cursor-pointer transition-all duration-200',
               'outline-none',
               'group',
             )}
             onClick={() => window.open('https://github.com/Suryanshu-Nabheet/CoderX', '_blank')}
           >
-            <div className="i-ph:question w-4 h-4 text-gray-400 group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors" />
+            <div className="i-ph:question w-4 h-4 text-gray-400 transition-colors" />
             Help & Documentation
           </DropdownMenu.Item>
         </DropdownMenu.Content>

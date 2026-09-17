@@ -85,7 +85,7 @@ export function GitHubProgressiveLoader({
               {/* Steps toggle */}
               <button
                 onClick={handleToggleExpanded}
-                className="flex items-center justify-center gap-2 text-xs text-coderx-elements-textSecondary hover:text-coderx-elements-textPrimary transition-colors"
+                className="flex items-center justify-center gap-2 text-xs text-coderx-elements-textSecondary transition-colors"
               >
                 <span>Show details</span>
                 <ChevronDown

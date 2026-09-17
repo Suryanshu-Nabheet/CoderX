@@ -55,10 +55,7 @@ export function GitHubAuthDialog({ isOpen, onClose, onSuccess }: GitHubAuthDialo
             <div className="p-6 space-y-6">
               <div className="flex items-center justify-between">
                 <h2 className="text-lg font-semibold text-coderx-elements-textPrimary">Connect to GitHub</h2>
-                <button
-                  onClick={handleClose}
-                  className="p-1 rounded-md hover:bg-coderx-elements-item-backgroundActive/10"
-                >
+                <button onClick={handleClose} className="p-1 rounded-md">
                   <div className="i-ph:x w-4 h-4 text-coderx-elements-textSecondary" />
                 </button>
               </div>
@@ -118,7 +115,7 @@ export function GitHubAuthDialog({ isOpen, onClose, onSuccess }: GitHubAuthDialo
                       href={`https://github.com/settings/tokens${tokenType === 'fine-grained' ? '/beta' : '/new'}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-coderx-elements-borderColorActive hover:underline inline-flex items-center gap-1"
+                      className="text-coderx-elements-borderColorActive inline-flex items-center gap-1"
                     >
                       Get your token
                       <div className="i-ph:arrow-square-out w-4 h-4" />
@@ -136,7 +133,7 @@ export function GitHubAuthDialog({ isOpen, onClose, onSuccess }: GitHubAuthDialo
                   <button
                     type="button"
                     onClick={handleClose}
-                    className="px-4 py-2 text-sm text-coderx-elements-textSecondary hover:text-coderx-elements-textPrimary"
+                    className="px-4 py-2 text-sm text-coderx-elements-textSecondary"
                   >
                     Cancel
                   </button>
@@ -146,7 +143,7 @@ export function GitHubAuthDialog({ isOpen, onClose, onSuccess }: GitHubAuthDialo
                     className={classNames(
                       'px-4 py-2 rounded-lg text-sm flex items-center gap-2',
                       'bg-[#303030] text-white',
-                      'hover:bg-[#5E41D0] hover:text-white',
+                      '',
                       'disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200',
                     )}
                   >

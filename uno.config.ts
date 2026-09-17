@@ -122,6 +122,7 @@ export default defineConfig({
           borderColor: 'var(--coderx-elements-borderColor)',
           borderColorActive: 'var(--coderx-elements-borderColorActive)',
           background: {
+            DEFAULT: 'var(--coderx-elements-bg-depth-1)',
             depth: {
               1: 'var(--coderx-elements-bg-depth-1)',
               2: 'var(--coderx-elements-bg-depth-2)',
@@ -243,7 +244,7 @@ export default defineConfig({
       warn: true,
       collections: {
         ...customIconCollection,
-        ph: () => import('@iconify-json/ph').then(i => i.icons),
+        ph: () => import('@iconify-json/ph').then((i) => i.icons),
       },
       unit: 'em',
     }),
