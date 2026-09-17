@@ -31,6 +31,8 @@ export default function LocalProvidersTab() {
   const [lmStudioModels, setLMStudioModels] = useState<LMStudioModel[]>([]);
   const [isLoadingModels, setIsLoadingModels] = useState(false);
   const [isLoadingLMStudioModels, setIsLoadingLMStudioModels] = useState(false);
+  const [ollamaError, setOllamaError] = useState<string | null>(null);
+  const [lmStudioError, setLMStudioError] = useState<string | null>(null);
   const { toast } = useToast();
   const { startMonitoring, stopMonitoring } = useLocalModelHealth();
 
@@ -130,14 +132,17 @@ export default function LocalProvidersTab() {
       }
 
       const data = (await response.json()) as { models: OllamaModel[] };
+      setOllamaError(null);
       setOllamaModels(
         data.models.map((model) => ({
           ...model,
           status: 'idle' as const,
         })),
       );
-    } catch {
-      console.error('Error fetching Ollama models');
+    } catch (error) {
+      console.error('Error fetching Ollama models', error);
+      setOllamaError('Unable to reach Ollama. Confirm it is running and the endpoint is correct.');
+      setOllamaModels([]);
     } finally {
       setIsLoadingModels(false);
     }
@@ -154,9 +159,11 @@ export default function LocalProvidersTab() {
       }
 
       const data = (await response.json()) as { data: LMStudioModel[] };
+      setLMStudioError(null);
       setLMStudioModels(data.data || []);
-    } catch {
-      console.error('Error fetching LM Studio models');
+    } catch (error) {
+      console.error('Error fetching LM Studio models', error);
+      setLMStudioError('Unable to reach LM Studio. Start its local server and enable CORS.');
       setLMStudioModels([]);
     } finally {
       setIsLoadingLMStudioModels(false);
@@ -416,6 +423,10 @@ export default function LocalProvidersTab() {
                     <ModelCardSkeleton key={i} />
                   ))}
                 </div>
+              ) : ollamaError ? (
+                <div className="rounded-lg border border-amber-500/20 bg-amber-500/5 px-4 py-3 text-sm text-amber-200">
+                  {ollamaError}
+                </div>
               ) : ollamaModels.length === 0 ? (
                 <div className="text-center py-8">
                   <PackageOpen className="w-16 h-16 mx-auto text-coderx-elements-textTertiary mb-4" />
@@ -498,6 +509,10 @@ export default function LocalProvidersTab() {
                     <ModelCardSkeleton key={i} />
                   ))}
                 </div>
+              ) : lmStudioError ? (
+                <div className="rounded-lg border border-amber-500/20 bg-amber-500/5 px-4 py-3 text-sm text-amber-200">
+                  {lmStudioError}
+                </div>
               ) : lmStudioModels.length === 0 ? (
                 <div className="text-center py-8">
                   <Monitor className="w-16 h-16 mx-auto text-coderx-elements-textTertiary mb-4" />
@@ -525,18 +540,21 @@ export default function LocalProvidersTab() {
               ) : (
                 <div className="grid gap-2">
                   {lmStudioModels.map((model) => (
-                    <Card key={model.id} className="bg-coderx-elements-background-depth-3">
+                    <Card
+                      key={model.id}
+                      className="border border-coderx-elements-borderColor bg-coderx-elements-background-depth-3"
+                    >
                       <CardContent className="p-4">
-                        <div className="space-y-2">
-                          <div className="flex items-center gap-2">
-                            <h4 className="text-sm font-medium text-coderx-elements-textPrimary font-mono">
+                        <div className="space-y-2.5">
+                          <div className="flex flex-wrap items-center gap-2">
+                            <h4 className="truncate text-sm font-medium font-mono text-coderx-elements-textPrimary">
                               {model.id}
                             </h4>
-                            <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-blue-500/10 text-blue-500">
+                            <span className="rounded-full bg-blue-500/10 px-2 py-0.5 text-xs font-medium text-blue-500">
                               Available
                             </span>
                           </div>
-                          <div className="flex items-center gap-4 text-xs text-coderx-elements-textSecondary">
+                          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-coderx-elements-textSecondary">
                             <div className="flex items-center gap-1">
                               <Server className="w-3 h-3" />
                               <span>{model.object}</span>

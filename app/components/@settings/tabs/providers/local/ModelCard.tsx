@@ -16,10 +16,10 @@ function ModelCard({ model, onUpdate, onDelete }: ModelCardProps) {
   return (
     <Card className="border border-coderx-elements-borderColor bg-coderx-elements-background-depth-3 shadow-sm">
       <CardContent className="p-3">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="min-w-0 space-y-1.5">
             <div className="flex items-center gap-2">
-              <h4 className="text-sm font-medium text-coderx-elements-textPrimary font-mono">{model.name}</h4>
+              <h4 className="truncate text-sm font-medium font-mono text-coderx-elements-textPrimary">{model.name}</h4>
               {model.status && model.status !== 'idle' && (
                 <span
                   className={classNames('px-2 py-0.5 rounded-full text-xs font-medium', {
@@ -34,7 +34,7 @@ function ModelCard({ model, onUpdate, onDelete }: ModelCardProps) {
                 </span>
               )}
             </div>
-            <div className="flex items-center gap-4 text-xs text-coderx-elements-textSecondary">
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-coderx-elements-textSecondary">
               <div className="flex items-center gap-1">
                 <Code className="w-3 h-3" />
                 <span>{model.digest.substring(0, 8)}</span>
@@ -53,14 +53,14 @@ function ModelCard({ model, onUpdate, onDelete }: ModelCardProps) {
               )}
             </div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex shrink-0 items-center gap-2 self-end sm:self-center">
             <button
               onClick={onUpdate}
               disabled={model.status === 'updating'}
               className={classNames(
                 'flex items-center gap-2 rounded-lg px-3 py-2 text-xs',
                 'bg-blue-500/10 text-blue-500',
-                'disabled:opacity-50 disabled:cursor-not-allowed disabled:',
+                'disabled:cursor-not-allowed disabled:opacity-50',
               )}
             >
               {model.status === 'updating' ? (
@@ -81,7 +81,7 @@ function ModelCard({ model, onUpdate, onDelete }: ModelCardProps) {
               className={classNames(
                 'flex items-center gap-2 rounded-lg px-3 py-2 text-xs',
                 'bg-red-500/10 text-red-500',
-                'disabled:opacity-50 disabled:cursor-not-allowed disabled:',
+                'disabled:cursor-not-allowed disabled:opacity-50',
               )}
             >
               <Trash2 className="w-3 h-3" />

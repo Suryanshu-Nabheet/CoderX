@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Switch } from '~/components/ui/Switch';
 import { Card, CardContent } from '~/components/ui/Card';
 import { Link, Server, Monitor, Globe } from 'lucide-react';
@@ -24,6 +24,16 @@ function ProviderCard({
   onStartEditing,
   onStopEditing,
 }: ProviderCardProps) {
+  const [draftUrl, setDraftUrl] = useState(provider.settings.baseUrl ?? '');
+  const hasCommittedDraft = useRef(false);
+
+  useEffect(() => {
+    if (!isEditing) {
+      setDraftUrl(provider.settings.baseUrl ?? '');
+      hasCommittedDraft.current = false;
+    }
+  }, [isEditing, provider.settings.baseUrl]);
+
   const getIcon = (providerName: string) => {
     switch (providerName) {
       case 'Ollama':
@@ -78,21 +88,30 @@ function ProviderCard({
               {isEditing ? (
                 <input
                   type="text"
-                  defaultValue={provider.settings.baseUrl}
+                  value={draftUrl}
                   placeholder={`Enter ${provider.name} base URL`}
+                  aria-label={`${provider.name} API endpoint`}
                   className="w-full rounded-lg border border-blue-500/30 bg-coderx-elements-background-depth-4 px-3 py-2 text-sm text-coderx-elements-textPrimary placeholder-coderx-elements-textTertiary shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') {
-                      onUpdateBaseUrl(e.currentTarget.value);
+                      hasCommittedDraft.current = true;
+                      onUpdateBaseUrl(draftUrl.trim());
                       onStopEditing();
                     } else if (e.key === 'Escape') {
+                      hasCommittedDraft.current = true;
                       onStopEditing();
                     }
                   }}
                   onBlur={(e) => {
-                    onUpdateBaseUrl(e.target.value);
+                    if (hasCommittedDraft.current) {
+                      return;
+                    }
+
+                    hasCommittedDraft.current = true;
+                    onUpdateBaseUrl(e.target.value.trim());
                     onStopEditing();
                   }}
+                  onChange={(e) => setDraftUrl(e.target.value)}
                   autoFocus
                 />
               ) : (
