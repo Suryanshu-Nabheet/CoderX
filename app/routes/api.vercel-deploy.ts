@@ -1,5 +1,6 @@
 import { type ActionFunctionArgs, type LoaderFunctionArgs, json } from '@remix-run/node';
 import type { VercelProjectInfo } from '~/types/vercel';
+import { withSecurity } from '~/lib/security';
 
 // Function to detect framework from project files
 const detectFramework = (files: Record<string, string>): string => {
@@ -173,10 +174,11 @@ const detectFramework = (files: Record<string, string>): string => {
 };
 
 // Add loader function to handle GET requests
-export async function loader({ request }: LoaderFunctionArgs) {
+async function vercelDeployLoader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url);
   const projectId = url.searchParams.get('projectId');
-  const token = url.searchParams.get('token');
+  const authHeader = request.headers.get('Authorization');
+  const token = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : null;
 
   if (!projectId || !token) {
     return json({ error: 'Missing projectId or token' }, { status: 400 });
@@ -240,11 +242,11 @@ interface DeployRequestBody {
 }
 
 // Existing action function for POST requests
-export async function action({ request }: ActionFunctionArgs) {
+async function vercelDeployAction({ request }: ActionFunctionArgs) {
   try {
-    const { projectId, files, sourceFiles, token, chatId, framework } = (await request.json()) as DeployRequestBody & {
-      token: string;
-    };
+    const { projectId, files, sourceFiles, chatId, framework } = (await request.json()) as DeployRequestBody;
+    const authHeader = request.headers.get('Authorization');
+    const token = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : '';
 
     if (!token) {
       return json({ error: 'Not connected to Vercel' }, { status: 401 });
@@ -484,3 +486,13 @@ export async function action({ request }: ActionFunctionArgs) {
     return json({ error: 'Deployment failed' }, { status: 500 });
   }
 }
+
+export const loader = withSecurity(vercelDeployLoader, {
+  rateLimit: true,
+  allowedMethods: ['GET'],
+});
+
+export const action = withSecurity(vercelDeployAction, {
+  rateLimit: true,
+  allowedMethods: ['POST'],
+});

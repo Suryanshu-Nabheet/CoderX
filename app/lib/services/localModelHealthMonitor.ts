@@ -1,4 +1,6 @@
 // Simple EventEmitter implementation for browser compatibility
+import { normalizeOllamaBaseUrl } from '~/utils/localProviderUrls';
+
 class SimpleEventEmitter {
   private _events: Record<string, ((...args: any[]) => void)[]> = {};
 
@@ -219,10 +221,11 @@ export class LocalModelHealthMonitor extends SimpleEventEmitter {
    */
   private async _checkOllamaHealth(baseUrl: string, signal: AbortSignal): Promise<HealthCheckResult> {
     try {
-      console.log(`[Health Check] Checking Ollama at ${baseUrl}`);
+      const normalizedBaseUrl = normalizeOllamaBaseUrl(baseUrl);
+      console.log(`[Health Check] Checking Ollama at ${normalizedBaseUrl}`);
 
       // Check if Ollama is running
-      const response = await fetch(`${baseUrl}/api/tags`, {
+      const response = await fetch(`${normalizedBaseUrl}/api/tags`, {
         method: 'GET',
         signal,
       });
@@ -240,7 +243,7 @@ export class LocalModelHealthMonitor extends SimpleEventEmitter {
       let version: string | undefined;
 
       try {
-        const versionResponse = await fetch(`${baseUrl}/api/version`, { signal });
+        const versionResponse = await fetch(`${normalizedBaseUrl}/api/version`, { signal });
 
         if (versionResponse.ok) {
           const versionData = (await versionResponse.json()) as { version?: string };

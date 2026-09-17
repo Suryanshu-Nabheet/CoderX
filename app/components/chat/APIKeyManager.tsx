@@ -79,7 +79,7 @@ export const APIKeyManager: React.FC<APIKeyManagerProps> = ({ provider, apiKey, 
     // Save to cookies
     const currentKeys = getApiKeysFromCookies();
     const newKeys = { ...currentKeys, [provider.name]: tempKey };
-    Cookies.set('apiKeys', JSON.stringify(newKeys));
+    Cookies.set('apiKeys', JSON.stringify(newKeys), { sameSite: 'lax', secure: window.location.protocol === 'https:' });
 
     setIsEditing(false);
   };

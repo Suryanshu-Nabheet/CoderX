@@ -1,5 +1,6 @@
 import { json } from '@remix-run/node';
 import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
+import { withSecurity } from '~/lib/security';
 
 // Allowed headers to forward to the target server
 const ALLOW_HEADERS = [
@@ -42,14 +43,38 @@ const EXPOSE_HEADERS = [
   'x-redirected-url',
 ];
 
+const DEFAULT_ALLOWED_HOSTS = new Set(['github.com', 'gitlab.com', 'bitbucket.org']);
+
+function isAllowedGitHost(hostname: string): boolean {
+  const configuredHosts = process.env.CODERX_GIT_PROXY_ALLOWED_HOSTS?.split(',')
+    .map((host) => host.trim().toLowerCase())
+    .filter(Boolean);
+  const allowedHosts = configuredHosts?.length ? new Set(configuredHosts) : DEFAULT_ALLOWED_HOSTS;
+  const normalizedHost = hostname.toLowerCase().replace(/\.$/, '');
+
+  return [...allowedHosts].some(
+    (allowedHost) => normalizedHost === allowedHost || normalizedHost.endsWith(`.${allowedHost}`),
+  );
+}
+
 // Handle all HTTP methods
-export async function action({ request, params }: ActionFunctionArgs) {
+async function gitProxyAction({ request, params }: ActionFunctionArgs) {
   return handleProxyRequest(request, params['*']);
 }
 
-export async function loader({ request, params }: LoaderFunctionArgs) {
+async function gitProxyLoader({ request, params }: LoaderFunctionArgs) {
   return handleProxyRequest(request, params['*']);
 }
+
+export const action = withSecurity(gitProxyAction, {
+  rateLimit: true,
+  allowedMethods: ['POST', 'OPTIONS'],
+});
+
+export const loader = withSecurity(gitProxyLoader, {
+  rateLimit: true,
+  allowedMethods: ['GET', 'OPTIONS'],
+});
 
 async function handleProxyRequest(request: Request, path: string | undefined) {
   try {
@@ -80,6 +105,10 @@ async function handleProxyRequest(request: Request, path: string | undefined) {
 
     const domain = parts[1];
     const remainingPath = parts[2] || '';
+
+    if (!isAllowedGitHost(domain) || domain.includes('@') || domain.includes(':')) {
+      return json({ error: 'Git proxy host is not allowed' }, { status: 403 });
+    }
 
     // Reconstruct the target URL with query parameters
     const url = new URL(request.url);

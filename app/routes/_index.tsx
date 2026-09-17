@@ -16,7 +16,10 @@ export const meta: MetaFunction = () => {
     { name: 'description', content: description },
     { name: 'author', content: author },
     { name: 'copyright', content: copyright },
-    { name: 'keywords', content: 'CoderX, AI-Powered Development Platform, Suryanshu Nabheet, AI Coding, WebContainer, Fullstack' },
+    {
+      name: 'keywords',
+      content: 'CoderX, AI-Powered Development Platform, Suryanshu Nabheet, AI Coding, WebContainer, Fullstack',
+    },
     { property: 'og:title', content: title },
     { property: 'og:description', content: description },
     { property: 'og:image', content: '/social_preview_index.jpg' },

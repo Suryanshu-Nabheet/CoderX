@@ -11,8 +11,6 @@ import { HistoryItem } from './HistoryItem';
 import { binDates } from './date-binning';
 import { useSearchFilter } from '~/lib/hooks/useSearchFilter';
 import { classNames } from '~/utils/classNames';
-import { useStore } from '@nanostores/react';
-import { profileStore } from '~/lib/stores/profile';
 
 const menuVariants = {
   closed: {
@@ -51,7 +49,6 @@ export const Menu = () => {
   const [open, setOpen] = useState(false);
   const [dialogContent, setDialogContent] = useState<DialogContent>(null);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-  const profile = useStore(profileStore);
   const [selectionMode, setSelectionMode] = useState(false);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
@@ -320,11 +317,7 @@ export const Menu = () => {
           <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-600 to-transparent"></div>
           <div className="flex items-center gap-2">
             <a href="/" className="flex items-center justify-center cursor-pointer">
-              <img
-                src="/logo.png"
-                alt="CoderX Logo"
-                className="h-6 w-auto object-contain"
-              />
+              <img src="/logo.png" alt="CoderX Logo" className="h-6 w-auto object-contain" />
             </a>
           </div>
         </div>

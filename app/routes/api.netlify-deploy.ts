@@ -1,6 +1,7 @@
 import { type ActionFunctionArgs, json } from '@remix-run/node';
 import crypto from 'crypto';
 import type { NetlifySiteInfo } from '~/types/netlify';
+import { withSecurity } from '~/lib/security';
 
 interface DeployRequestBody {
   siteId?: string;
@@ -8,9 +9,11 @@ interface DeployRequestBody {
   chatId: string;
 }
 
-export async function action({ request }: ActionFunctionArgs) {
+async function netlifyDeployAction({ request }: ActionFunctionArgs) {
   try {
-    const { siteId, files, token, chatId } = (await request.json()) as DeployRequestBody & { token: string };
+    const { siteId, files, chatId } = (await request.json()) as DeployRequestBody;
+    const authHeader = request.headers.get('Authorization');
+    const token = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : '';
 
     if (!token) {
       return json({ error: 'Not connected to Netlify' }, { status: 401 });
@@ -227,3 +230,8 @@ export async function action({ request }: ActionFunctionArgs) {
     return json({ error: 'Deployment failed' }, { status: 500 });
   }
 }
+
+export const action = withSecurity(netlifyDeployAction, {
+  rateLimit: true,
+  allowedMethods: ['POST'],
+});

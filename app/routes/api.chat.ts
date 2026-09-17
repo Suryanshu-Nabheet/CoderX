@@ -16,10 +16,7 @@ import { MCPService } from '~/lib/services/mcpService';
 import { StreamRecoveryManager } from '~/lib/.server/llm/stream-recovery';
 import { loadApiKeysFromEnv } from '~/lib/utils/env-api-keys';
 import { generateDefaultResponse } from '~/lib/default-chatbot';
-
-export async function action(args: ActionFunctionArgs) {
-  return chatAction(args);
-}
+import { withSecurity } from '~/lib/security';
 
 const logger = createScopedLogger('api.chat');
 
@@ -734,3 +731,8 @@ async function chatAction({ request }: ActionFunctionArgs) {
     });
   }
 }
+
+export const action = withSecurity(chatAction, {
+  rateLimit: true,
+  allowedMethods: ['POST'],
+});

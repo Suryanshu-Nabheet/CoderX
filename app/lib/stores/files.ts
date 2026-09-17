@@ -1,5 +1,4 @@
 import type { PathWatcherEvent, WebContainer } from '@webcontainer/api';
-import { getEncoding } from 'istextorbinary';
 import { map, type MapStore } from 'nanostores';
 import { Buffer } from 'node:buffer';
 import { path } from '~/utils/path';
@@ -937,15 +936,18 @@ function isBinaryFile(buffer: Uint8Array | undefined) {
     return false;
   }
 
-  return getEncoding(convertToBuffer(buffer), { chunkLength: 100 }) === 'binary';
-}
+  // Keep detection browser-native so the client bundle does not pull in a
+  // Node-oriented binary inspection package.
+  for (const byte of buffer) {
+    if (byte === 0 || (byte < 32 && byte !== 9 && byte !== 10 && byte !== 13)) {
+      return true;
+    }
+  }
 
-/**
- * Converts a `Uint8Array` into a Node.js `Buffer` by copying the prototype.
- * The goal is to  avoid expensive copies. It does create a new typed array
- * but that's generally cheap as long as it uses the same underlying
- * array buffer.
- */
-function convertToBuffer(view: Uint8Array): Buffer {
-  return Buffer.from(view.buffer, view.byteOffset, view.byteLength);
+  try {
+    utf8TextDecoder.decode(buffer);
+    return false;
+  } catch {
+    return true;
+  }
 }

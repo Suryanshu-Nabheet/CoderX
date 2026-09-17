@@ -1,13 +1,16 @@
-import { json, type ActionFunction } from '@remix-run/node';
+import { json, type ActionFunctionArgs } from '@remix-run/node';
 import type { SupabaseProject } from '~/types/supabase';
+import { withSecurity } from '~/lib/security';
 
-export const action: ActionFunction = async ({ request }) => {
+async function supabaseAction({ request }: ActionFunctionArgs) {
   if (request.method !== 'POST') {
     return json({ error: 'Method not allowed' }, { status: 405 });
   }
 
   try {
-    const { token } = (await request.json()) as any;
+    await request.json().catch(() => ({}));
+    const authHeader = request.headers.get('Authorization');
+    const token = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : '';
 
     const projectsResponse = await fetch('https://api.supabase.com/v1/projects', {
       headers: {
@@ -53,4 +56,9 @@ export const action: ActionFunction = async ({ request }) => {
       { status: 401 },
     );
   }
-};
+}
+
+export const action = withSecurity(supabaseAction, {
+  rateLimit: true,
+  allowedMethods: ['POST'],
+});

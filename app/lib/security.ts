@@ -14,9 +14,8 @@ const RATE_LIMITS = {
   // GitHub API endpoints
   '/api/github-*': { windowMs: 60 * 1000, maxRequests: 30 }, // 30 requests per minute
 
-  // Template and export endpoints
+  // Template endpoint
   '/api/template': { windowMs: 60 * 1000, maxRequests: 30 },
-  '/api/export-api-keys': { windowMs: 60 * 1000, maxRequests: 10 },
 
   // Netlify API endpoints
   '/api/netlify-*': { windowMs: 60 * 1000, maxRequests: 20 }, // 20 requests per minute
@@ -177,7 +176,6 @@ export function sanitizeErrorMessage(error: unknown, isDevelopment = false): str
 export function withSecurity<T extends (args: ActionFunctionArgs | LoaderFunctionArgs) => Promise<Response>>(
   handler: T,
   options: {
-    requireAuth?: boolean;
     rateLimit?: boolean;
     allowedMethods?: string[];
   } = {},

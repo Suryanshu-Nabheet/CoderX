@@ -149,7 +149,15 @@ export class MCPService {
     }
 
     try {
-      return mcpServerConfigSchema.parse(config);
+      const validatedConfig = mcpServerConfigSchema.parse(config);
+
+      if (validatedConfig.type === 'stdio' && process.env.CODERX_ALLOW_MCP_STDIO !== 'true') {
+        throw new Error(
+          `stdio MCP servers are disabled by default. Set CODERX_ALLOW_MCP_STDIO=true only in a trusted local environment.`,
+        );
+      }
+
+      return validatedConfig;
     } catch (validationError) {
       if (validationError instanceof z.ZodError) {
         const errorMessages = validationError.errors.map((err) => `${err.path.join('.')}: ${err.message}`).join('; ');

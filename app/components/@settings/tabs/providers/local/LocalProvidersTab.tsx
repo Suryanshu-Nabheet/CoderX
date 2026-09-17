@@ -9,6 +9,7 @@ import { logStore } from '~/lib/stores/logs';
 import { providerBaseUrlEnvKeys } from '~/utils/constants';
 import { useToast } from '~/components/ui/use-toast';
 import { useLocalModelHealth } from '~/lib/hooks/useLocalModelHealth';
+import { normalizeOllamaBaseUrl } from '~/utils/localProviderUrls';
 import ErrorBoundary from './ErrorBoundary';
 import { ModelCardSkeleton } from './LoadingSkeleton';
 import SetupGuide from './SetupGuide';
@@ -111,7 +112,9 @@ export default function LocalProvidersTab() {
   }, [filteredProviders]);
 
   const getOllamaBaseUrl = useCallback(() => {
-    return filteredProviders.find((provider) => provider.name === 'Ollama')?.settings.baseUrl || OLLAMA_API_URL;
+    return normalizeOllamaBaseUrl(
+      filteredProviders.find((provider) => provider.name === 'Ollama')?.settings.baseUrl || OLLAMA_API_URL,
+    );
   }, [filteredProviders]);
 
   const fetchOllamaModels = async () => {

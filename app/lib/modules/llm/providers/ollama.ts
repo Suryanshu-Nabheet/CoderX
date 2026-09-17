@@ -5,6 +5,7 @@ import type { LanguageModelV1 } from 'ai';
 import { createOllama } from 'ollama-ai-provider';
 import { createOllamaCompatibleFetch } from '~/lib/modules/llm/providers/ollama-compatible-fetch';
 import { logger } from '~/utils/logger';
+import { normalizeOllamaBaseUrl } from '~/utils/localProviderUrls';
 
 interface OllamaModelDetails {
   parent_model: string;
@@ -78,8 +79,20 @@ export default class OllamaProvider extends BaseProvider {
       throw new Error('No baseUrl found for OLLAMA provider');
     }
 
-    const response = await fetch(`${baseUrl}/api/tags`);
-    const data = (await response.json()) as OllamaApiResponse;
+    const normalizedBaseUrl = normalizeOllamaBaseUrl(baseUrl);
+    const response = await fetch(`${normalizedBaseUrl}/api/tags`, {
+      signal: AbortSignal.timeout(10000),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Ollama returned HTTP ${response.status}. Is Ollama running and reachable?`);
+    }
+
+    const data = (await response.json()) as Partial<OllamaApiResponse>;
+
+    if (!Array.isArray(data.models)) {
+      throw new Error('Ollama returned an invalid model list. Expected a models array.');
+    }
 
     // console.log({ ollamamodels: data.models });
 
@@ -115,7 +128,7 @@ export default class OllamaProvider extends BaseProvider {
     logger.debug('Ollama Base Url used: ', baseUrl);
 
     const ollamaProvider = createOllama({
-      baseURL: `${baseUrl}/api`,
+      baseURL: `${normalizeOllamaBaseUrl(baseUrl)}/api`,
       fetch: createOllamaCompatibleFetch(),
     });
 

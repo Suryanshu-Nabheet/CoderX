@@ -2,10 +2,10 @@
 
 ## Supported versions
 
-| Version | Supported |
-| --- | --- |
-| 1.x.x | Yes |
-| &lt; 1.0 | No |
+| Version  | Supported |
+| -------- | --------- |
+| 1.x.x    | Yes       |
+| &lt; 1.0 | No        |
 
 ## Reporting a vulnerability
 
@@ -35,7 +35,7 @@ This policy covers the CoderX application repository, including:
 1. **Secrets** — Never commit API keys, tokens, or `.env.local`. Use environment variables or the in-app Settings UI.
 2. **Dependencies** — Keep `pnpm-lock.yaml` up to date and review dependency changes in PRs.
 3. **Production** — Serve CoderX over HTTPS when exposed beyond localhost.
-4. **API keys in the browser** — Keys configured in Settings are stored in cookies; treat shared machines and exported settings files as sensitive.
+4. **API keys in the browser** — Keys configured in Settings are stored in browser-readable cookies; treat shared machines and exported settings files as sensitive. Server environment keys are not exportable through the application.
 
 ## Built-in protections
 
@@ -43,6 +43,8 @@ This policy covers the CoderX application repository, including:
 - Security headers on wrapped API responses
 - Server-side proxying for selected third-party APIs (GitHub, GitLab, etc.) to avoid exposing tokens in client code where proxied
 - Input sanitization and error message redaction in production
+- MCP `stdio` command execution is disabled unless `CODERX_ALLOW_MCP_STDIO=true` is explicitly set in a trusted local environment
+- Git proxy requests are restricted to an explicit host allowlist
 
 ## Contact
 

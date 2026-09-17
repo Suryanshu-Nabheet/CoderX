@@ -146,7 +146,7 @@ export const ApiKeySetupModal: React.FC<ApiKeySetupModalProps> = ({ open, onClos
     const currentKeys = Cookies.get('apiKeys');
     const apiKeys = currentKeys ? JSON.parse(currentKeys) : {};
     apiKeys[providerName] = tempApiKey;
-    Cookies.set('apiKeys', JSON.stringify(apiKeys));
+    Cookies.set('apiKeys', JSON.stringify(apiKeys), { sameSite: 'lax', secure: window.location.protocol === 'https:' });
 
     setProviders((prev) => prev.map((p) => (p.name === providerName ? { ...p, apiKey: tempApiKey } : p)));
 
@@ -159,7 +159,7 @@ export const ApiKeySetupModal: React.FC<ApiKeySetupModalProps> = ({ open, onClos
     const currentKeys = Cookies.get('apiKeys');
     const apiKeys = currentKeys ? JSON.parse(currentKeys) : {};
     delete apiKeys[providerName];
-    Cookies.set('apiKeys', JSON.stringify(apiKeys));
+    Cookies.set('apiKeys', JSON.stringify(apiKeys), { sameSite: 'lax', secure: window.location.protocol === 'https:' });
 
     setProviders((prev) => prev.map((p) => (p.name === providerName ? { ...p, apiKey: '' } : p)));
 

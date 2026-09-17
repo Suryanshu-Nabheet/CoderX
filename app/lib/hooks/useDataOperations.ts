@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 import { ImportExportService } from '~/lib/services/importExportService';
 import { useIndexedDB } from '~/lib/hooks/useIndexedDB';
 import { generateId } from 'ai';
+import Cookies from 'js-cookie';
 
 interface UseDataOperationsProps {
   /**
@@ -728,8 +729,11 @@ export function useDataOperations({
         showProgress('Applying API keys', 80);
 
         const newKeys = ImportExportService.importAPIKeys(importedData);
-        const apiKeysJson = JSON.stringify(newKeys);
-        document.cookie = `apiKeys=${apiKeysJson}; path=/; max-age=31536000`;
+        Cookies.set('apiKeys', JSON.stringify(newKeys), {
+          sameSite: 'lax',
+          secure: window.location.protocol === 'https:',
+          expires: 365,
+        });
 
         // Step 5: Complete
         showProgress('Completing import', 100);
@@ -989,14 +993,9 @@ export function useDataOperations({
       // Step 1: Get API keys from all sources
       showProgress('Retrieving API keys', 25);
 
-      // Create a fetch request to get API keys from server
-      const response = await fetch('/api/export-api-keys');
-
-      if (!response.ok) {
-        throw new Error('Failed to retrieve API keys from server');
-      }
-
-      const apiKeys = await response.json();
+      // Export only browser-configured keys. Server environment keys must never
+      // be sent back through an API endpoint or included in a download.
+      const apiKeys = JSON.parse(Cookies.get('apiKeys') || '{}') as Record<string, string>;
 
       // Step 2: Create blob
       showProgress('Creating file', 50);
@@ -1173,8 +1172,11 @@ export function useDataOperations({
           // Restore previous API keys
           const previousAPIKeys = lastOperation.data.previous;
           const newKeys = ImportExportService.importAPIKeys(previousAPIKeys);
-          const apiKeysJson = JSON.stringify(newKeys);
-          document.cookie = `apiKeys=${apiKeysJson}; path=/; max-age=31536000`;
+          Cookies.set('apiKeys', JSON.stringify(newKeys), {
+            sameSite: 'lax',
+            secure: window.location.protocol === 'https:',
+            expires: 365,
+          });
 
           // Dismiss progress toast before showing success toast
           toast.dismiss('progress-toast');

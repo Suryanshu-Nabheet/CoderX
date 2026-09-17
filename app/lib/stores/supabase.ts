@@ -155,10 +155,9 @@ export async function fetchSupabaseStats(token: string) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({
-        token,
-      }),
+      body: JSON.stringify({}),
     });
 
     if (!response.ok) {
@@ -187,10 +186,10 @@ export async function fetchProjectApiKeys(projectId: string, token: string) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         projectId,
-        token,
       }),
     });
 

@@ -5,10 +5,7 @@ import type { ProviderInfo } from '~/types/model';
 import { getApiKeysFromCookie, getProviderSettingsFromCookie } from '~/lib/api/cookies';
 import { loadApiKeysFromEnv } from '~/lib/utils/env-api-keys';
 import { createScopedLogger } from '~/utils/logger';
-
-export async function action(args: ActionFunctionArgs) {
-  return enhancerAction(args);
-}
+import { withSecurity } from '~/lib/security';
 
 const logger = createScopedLogger('api.enhancher');
 
@@ -245,3 +242,8 @@ async function enhancerAction({ request }: ActionFunctionArgs) {
     });
   }
 }
+
+export const action = withSecurity(enhancerAction, {
+  rateLimit: true,
+  allowedMethods: ['POST'],
+});

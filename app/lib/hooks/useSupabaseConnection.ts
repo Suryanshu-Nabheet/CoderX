@@ -71,10 +71,9 @@ export function useSupabaseConnection() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${cleanToken}`,
         },
-        body: JSON.stringify({
-          token: cleanToken,
-        }),
+        body: JSON.stringify({}),
       });
 
       const data = (await response.json()) as any;

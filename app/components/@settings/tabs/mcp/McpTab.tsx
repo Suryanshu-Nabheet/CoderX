@@ -8,20 +8,8 @@ import McpServerList from '~/components/@settings/tabs/mcp/McpServerList';
 const EXAMPLE_MCP_CONFIG: MCPConfig = {
   mcpServers: {
     everything: {
-      type: 'stdio',
-      command: 'npx',
-      args: ['-y', '@modelcontextprotocol/server-everything'],
-    },
-    deepwiki: {
       type: 'streamable-http',
       url: 'https://mcp.deepwiki.com/mcp',
-    },
-    'local-sse': {
-      type: 'sse',
-      url: 'http://localhost:8000/sse',
-      headers: {
-        Authorization: 'Bearer mytoken123',
-      },
     },
   },
 };

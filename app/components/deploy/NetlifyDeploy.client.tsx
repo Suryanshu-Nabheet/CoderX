@@ -143,11 +143,11 @@ export function useNetlifyDeploy() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${netlifyConn.token}`,
         },
         body: JSON.stringify({
           siteId: existingSiteId || undefined,
           files: fileContents,
-          token: netlifyConn.token,
           chatId: currentChatId,
         }),
       });

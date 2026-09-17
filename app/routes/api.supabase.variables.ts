@@ -1,10 +1,12 @@
 import { json, type ActionFunctionArgs } from '@remix-run/node';
+import { withSecurity } from '~/lib/security';
 
-export async function action({ request }: ActionFunctionArgs) {
+async function supabaseVariablesAction({ request }: ActionFunctionArgs) {
   try {
-    // Add proper type assertion for the request body
-    const body = (await request.json()) as { projectId?: string; token?: string };
-    const { projectId, token } = body;
+    const body = (await request.json()) as { projectId?: string };
+    const projectId = body.projectId;
+    const authHeader = request.headers.get('Authorization');
+    const token = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : null;
 
     if (!projectId || !token) {
       return json({ error: 'Project ID and token are required' }, { status: 400 });
@@ -30,3 +32,8 @@ export async function action({ request }: ActionFunctionArgs) {
     return json({ error: error instanceof Error ? error.message : 'Unknown error occurred' }, { status: 500 });
   }
 }
+
+export const action = withSecurity(supabaseVariablesAction, {
+  rateLimit: true,
+  allowedMethods: ['POST'],
+});

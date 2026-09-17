@@ -9,10 +9,7 @@ import type { ModelInfo } from '~/lib/modules/llm/types';
 import { getApiKeysFromCookie, getProviderSettingsFromCookie } from '~/lib/api/cookies';
 import { createScopedLogger } from '~/utils/logger';
 import { loadApiKeysFromEnv } from '~/lib/utils/env-api-keys';
-
-export async function action(args: ActionFunctionArgs) {
-  return llmCallAction(args);
-}
+import { withSecurity } from '~/lib/security';
 
 async function getModelList(options: {
   apiKeys?: Record<string, string>;
@@ -386,3 +383,8 @@ async function llmCallAction({ request }: ActionFunctionArgs) {
     }
   }
 }
+
+export const action = withSecurity(llmCallAction, {
+  rateLimit: true,
+  allowedMethods: ['POST'],
+});
