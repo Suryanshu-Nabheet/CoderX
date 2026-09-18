@@ -1,5 +1,5 @@
 import { type ActionFunctionArgs } from '@remix-run/node';
-import { createDataStream, generateId } from 'ai';
+import { createDataStream, formatDataStreamPart, generateId } from 'ai';
 import { MAX_RESPONSE_SEGMENTS, MAX_TOKENS, type FileMap } from '~/lib/.server/llm/constants';
 import { CONTINUE_PROMPT } from '~/lib/common/prompts/prompts';
 import { streamText, type Messages, type StreamingOptions } from '~/lib/.server/llm/stream-text';
@@ -8,7 +8,7 @@ import type { IProviderSetting } from '~/types/model';
 import { createScopedLogger } from '~/utils/logger';
 import { getFilePaths, selectContext } from '~/lib/.server/llm/select-context';
 import type { ContextAnnotation, ProgressAnnotation } from '~/types/context';
-import { WORK_DIR } from '~/utils/constants';
+import { DEFAULT_PROVIDER, WORK_DIR } from '~/utils/constants';
 import { createSummary } from '~/lib/.server/llm/create-summary';
 import { extractPropertiesFromMessage, extractTextContent } from '~/lib/.server/llm/utils';
 import type { DesignScheme } from '~/types/design-scheme';
@@ -17,6 +17,7 @@ import { StreamRecoveryManager } from '~/lib/.server/llm/stream-recovery';
 import { loadApiKeysFromEnv } from '~/lib/utils/env-api-keys';
 import { generateDefaultResponse } from '~/lib/default-chatbot';
 import { withSecurity } from '~/lib/security';
+import { LOCAL_PROVIDERS } from '~/lib/stores/settings';
 
 const logger = createScopedLogger('api.chat');
 
@@ -171,6 +172,12 @@ async function chatAction({ request }: ActionFunctionArgs) {
     const mcpService = MCPService.getInstance();
     const totalMessageContent = messages.reduce((acc, message) => acc + message.content, '');
     logger.debug(`Total message length: ${totalMessageContent.split(' ').length}, words`);
+
+    // Extract selected provider from the latest user message
+    const lastUserMessage = messages.filter((x) => x.role === 'user').slice(-1)[0];
+    const { provider: currentProvider } = lastUserMessage
+      ? extractPropertiesFromMessage(lastUserMessage)
+      : { provider: DEFAULT_PROVIDER.name };
 
     let lastChunk: string | undefined = undefined;
 
@@ -391,32 +398,32 @@ async function chatAction({ request }: ActionFunctionArgs) {
           message: 'Generating Response',
         } satisfies ProgressAnnotation);
 
-        // Check if we have an API key - only use default responses if NO API key is available
-        const hasApiKey =
+        const isLocalProvider = LOCAL_PROVIDERS.includes(currentProvider);
+        const hasProviderApiKey = Boolean(apiKeys[currentProvider]?.trim());
+        const hasAnyApiKey =
           Object.keys(apiKeys).length > 0 &&
           Object.values(apiKeys).some((key) => key && typeof key === 'string' && key.trim() !== '');
 
+        const canUseLLM = isLocalProvider || hasProviderApiKey || hasAnyApiKey;
+
         /**
-         * Only use default chatbot if NO API key is available (fallback mode).
-         * ALL queries with API keys will go through the LLM, including founder questions.
+         * Only use default chatbot if NO API key is available AND not using a local provider (fallback mode).
+         * ALL queries with local providers or configured API keys will go through the LLM.
          */
-        if (!hasApiKey) {
+        if (!canUseLLM) {
           const lastMessage = processedMessages[processedMessages.length - 1];
           const messageText = lastMessage ? extractTextContent(lastMessage) : '';
           const defaultResponse = generateDefaultResponse(messageText);
 
           if (defaultResponse && typeof defaultResponse === 'string' && defaultResponse.trim().length > 0) {
-            // Write response in word chunks for fallback mode
+            // Write response in word chunks for fallback mode as text stream parts
             const words = defaultResponse.split(/(\s+)/);
 
             for (let i = 0; i < words.length; i++) {
               const chunk = words[i];
 
               if (chunk.length > 0) {
-                dataStream.writeData({
-                  type: 'text-delta',
-                  textDelta: chunk,
-                });
+                dataStream.write(formatDataStreamPart('text', chunk));
 
                 if (i % 5 === 0) {
                   await new Promise((resolve) => setTimeout(resolve, 0));
@@ -494,11 +501,8 @@ async function chatAction({ request }: ActionFunctionArgs) {
             const fallbackMessageText = fallbackLastMessage ? extractTextContent(fallbackLastMessage) : '';
             const defaultResponse = generateDefaultResponse(fallbackMessageText);
 
-            // Write the response as a single chunk
-            dataStream.writeData({
-              type: 'text-delta',
-              textDelta: defaultResponse,
-            });
+            // Write the response as text stream part
+            dataStream.write(formatDataStreamPart('text', defaultResponse));
 
             dataStream.writeData({
               type: 'progress',
@@ -576,6 +580,14 @@ async function chatAction({ request }: ActionFunctionArgs) {
 
         if (errorMessage.includes('rate limit') || errorMessage.includes('429') || errorCode === 429) {
           return `Rate Limit Error: Too many requests to the AI service. Please wait a moment before trying again. Consider upgrading your API plan if this persists.`;
+        }
+
+        if (
+          lowerErrorMessage.includes('econnrefused') ||
+          lowerErrorMessage.includes('fetch failed') ||
+          (lowerErrorMessage.includes('ollama') && lowerErrorMessage.includes('connect'))
+        ) {
+          return `Connection Error: Unable to connect to local provider (${currentProvider}). Please ensure the service is running (e.g., 'ollama serve' or LM Studio local server) and reachable at its configured base URL.`;
         }
 
         if (errorMessage.includes('network') || errorMessage.includes('timeout') || errorCode === 'NETWORK_ERROR') {
@@ -709,7 +721,7 @@ async function chatAction({ request }: ActionFunctionArgs) {
 
       const stream = new ReadableStream({
         start(controller) {
-          controller.enqueue(encoder.encode(`0: ${defaultResponse}\n`));
+          controller.enqueue(encoder.encode(formatDataStreamPart('text', defaultResponse)));
           controller.close();
         },
       });

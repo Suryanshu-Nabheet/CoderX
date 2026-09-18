@@ -6,6 +6,7 @@ import { getApiKeysFromCookie, getProviderSettingsFromCookie } from '~/lib/api/c
 import { loadApiKeysFromEnv } from '~/lib/utils/env-api-keys';
 import { createScopedLogger } from '~/utils/logger';
 import { withSecurity } from '~/lib/security';
+import { LOCAL_PROVIDERS } from '~/lib/stores/settings';
 
 const logger = createScopedLogger('api.enhancher');
 
@@ -85,13 +86,16 @@ async function enhancerAction({ request }: ActionFunctionArgs) {
   const envApiKeys = loadApiKeysFromEnv(process.env as any);
   const apiKeys = { ...envApiKeys, ...cookieApiKeys };
 
-  // Check if we have any API keys available
-  const hasApiKey =
+  const isLocalProvider = LOCAL_PROVIDERS.includes(providerName);
+  const hasProviderApiKey = Boolean(apiKeys[providerName]?.trim());
+  const hasAnyApiKey =
     Object.keys(apiKeys).length > 0 &&
     Object.values(apiKeys).some((key) => key && typeof key === 'string' && key.trim() !== '');
 
-  // If no API keys are available, provide a simple enhancement fallback
-  if (!hasApiKey) {
+  const canUseLLM = isLocalProvider || hasProviderApiKey || hasAnyApiKey;
+
+  // If no API keys are available and not a local provider, provide a simple enhancement fallback
+  if (!canUseLLM) {
     const enhancedPrompt = enhancePromptFallback(message);
     return new Response(enhancedPrompt, {
       status: 200,
